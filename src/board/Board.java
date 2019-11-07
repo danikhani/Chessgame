@@ -63,11 +63,22 @@ public class Board {
             Highly recommended to use same template!
          */
         // rooks
+        /*
         Iterator<Piece> whiteRooksIterator = PieceSet.getPieces(Piece.Color.WHITE, Piece.Type.ROOK).iterator();
         Iterator<Piece> blackRooksIterator = PieceSet.getPieces(Piece.Color.BLACK, Piece.Type.ROOK).iterator();
         getSquare('a', 1).setCurrentPiece(whiteRooksIterator.next());
         getSquare('h', 1).setCurrentPiece(whiteRooksIterator.next());
         getSquare('a', 8).setCurrentPiece(blackRooksIterator.next());
         getSquare('h', 8).setCurrentPiece(blackRooksIterator.next());
+
+        // king
+        Iterator<Piece> whiteKingIterator = PieceSet.getPieces(Piece.Color.WHITE, Piece.Type.PAWN).iterator();
+        Iterator<Piece> blackKingIterator = PieceSet.getPieces(Piece.Color.BLACK, Piece.Type.PAWN).iterator();
+        getSquare('b', 2).setCurrentPiece(whiteKingIterator.next());
+        getSquare('d', 2).setCurrentPiece(whiteKingIterator.next());
+        getSquare('b', 7).setCurrentPiece(blackKingIterator.next());
+        getSquare('d', 7).setCurrentPiece(blackKingIterator.next());
+
+         */
     }
 }

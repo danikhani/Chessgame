@@ -80,6 +80,7 @@ public class PieceSet {
         Map<Piece.Type, List<Piece>> whitePieces = new LinkedHashMap<Piece.Type, List<Piece>>();
         Map<Piece.Type, List<Piece>> blackPieces = new LinkedHashMap<Piece.Type, List<Piece>>();
 
+        //rooks
         List<Piece> whiteRooks = new ArrayList<Piece>();
         List<Piece> blackRooks = new ArrayList<Piece>();
         for (int i = 0; i < 2; i++) {
@@ -88,6 +89,16 @@ public class PieceSet {
         }
         whitePieces.put(Piece.Type.ROOK, whiteRooks);
         blackPieces.put(Piece.Type.ROOK, blackRooks);
+
+        //knights
+        List<Piece> whiteKnights = new ArrayList<Piece>();
+        List<Piece> blackKnights = new ArrayList<Piece>();
+        for (int i = 0; i < 2; i++) {
+            whiteKnights.add(new Knight(Piece.Color.WHITE));
+            blackKnights.add(new Knight(Piece.Color.BLACK));
+        }
+        whitePieces.put(Piece.Type.KNIGHT, whiteKnights);
+        blackPieces.put(Piece.Type.KNIGHT, blackKnights);
 
         pieceSet.put(Piece.Color.WHITE, whitePieces);
         pieceSet.put(Piece.Color.BLACK, blackPieces);

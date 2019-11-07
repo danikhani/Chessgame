@@ -123,6 +123,13 @@ public class BoardPanel extends JPanel implements Observer {
         getSquarePanel('h', 1).add(getPieceImageLabel(whiteRooksIterator.next()));
         getSquarePanel('a', 8).add(getPieceImageLabel(blackRooksIterator.next()));
         getSquarePanel('h', 8).add(getPieceImageLabel(blackRooksIterator.next()));
+        // Knight
+        Iterator<Piece> whiteKnightsIterator = PieceSet.getPieces(Piece.Color.WHITE, Piece.Type.KNIGHT).iterator();
+        Iterator<Piece> blackKnightsIterator = PieceSet.getPieces(Piece.Color.BLACK, Piece.Type.KNIGHT).iterator();
+        getSquarePanel('b', 1).add(getPieceImageLabel(whiteKnightsIterator.next()));
+        getSquarePanel('g', 1).add(getPieceImageLabel(whiteKnightsIterator.next()));
+        getSquarePanel('b', 8).add(getPieceImageLabel(blackKnightsIterator.next()));
+        getSquarePanel('g', 8).add(getPieceImageLabel(blackKnightsIterator.next()));
     }
 
     private void initializeBoardLayeredPane() {
