@@ -89,7 +89,6 @@ public class PieceSet {
         }
         whitePieces.put(Piece.Type.ROOK, whiteRooks);
         blackPieces.put(Piece.Type.ROOK, blackRooks);
-
         //knights
         List<Piece> whiteKnights = new ArrayList<Piece>();
         List<Piece> blackKnights = new ArrayList<Piece>();
@@ -99,7 +98,40 @@ public class PieceSet {
         }
         whitePieces.put(Piece.Type.KNIGHT, whiteKnights);
         blackPieces.put(Piece.Type.KNIGHT, blackKnights);
+        //Bishop
+        List<Piece> whiteBishops = new ArrayList<Piece>();
+        List<Piece> blackBishops = new ArrayList<Piece>();
+        for (int i = 0; i < 2; i++) {
+            whiteBishops.add(new Bishop(Piece.Color.WHITE));
+            blackBishops.add(new Bishop(Piece.Color.BLACK));
+        }
+        whitePieces.put(Piece.Type.BISHOP, whiteBishops);
+        blackPieces.put(Piece.Type.BISHOP, blackBishops);
+        //Queen
+        List<Piece> whiteQueen = new ArrayList<Piece>();
+        List<Piece> blackQueen = new ArrayList<Piece>();
+        whiteQueen.add(new Queen(Piece.Color.WHITE));
+        blackQueen.add(new Queen(Piece.Color.BLACK));
+        whitePieces.put(Piece.Type.QUEEN, whiteQueen);
+        blackPieces.put(Piece.Type.QUEEN, blackQueen);
+        //King
+        List<Piece> whiteKing = new ArrayList<Piece>();
+        List<Piece> blackKing = new ArrayList<Piece>();
+        whiteKing.add(new King(Piece.Color.WHITE));
+        blackKing.add(new King(Piece.Color.BLACK));
+        whitePieces.put(Piece.Type.KING, whiteKing);
+        blackPieces.put(Piece.Type.KING, blackKing);
+        //Pawns
+        List<Piece> whitePawns = new ArrayList<Piece>();
+        List<Piece> blackPawns = new ArrayList<Piece>();
+        for (int i = 0; i < 8; i++) {
+            whitePawns.add(new Pawn(Piece.Color.WHITE));
+            blackPawns.add(new Pawn(Piece.Color.BLACK));
+        }
+        whitePieces.put(Piece.Type.PAWN, whitePawns);
+        blackPieces.put(Piece.Type.PAWN, blackPawns);
 
+        //black and white
         pieceSet.put(Piece.Color.WHITE, whitePieces);
         pieceSet.put(Piece.Color.BLACK, blackPieces);
     }

@@ -3,6 +3,7 @@ package util;
 import board.Board;
 import pieces.Piece;
 import pieces.PieceSet;
+import ui.BoardPanel;
 
 import java.util.List;
 
@@ -73,6 +74,7 @@ public class MoveValidator {
     }
 
     private static boolean validateClearPath(Move move) {
+        //ui.PieceDragAndDropListener mv = new ui.PieceDragAndDropListener();
         // TODO-movement
         return false;
     }
