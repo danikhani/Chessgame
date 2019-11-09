@@ -15,6 +15,8 @@ public class Queen extends Piece {
         if ((move.getCapturedPiece() == null)
                 || (move.getCapturedPiece() != null
                 && !move.getPiece().getColor().equals(move.getCapturedPiece().getColor()))) {
+            return true;
+            /*
             // along file
             if (move.getDestinationFile() == move.getOriginFile()
                     && move.getDestinationRank() != move.getOriginRank()) {
@@ -24,7 +26,7 @@ public class Queen extends Piece {
             if (move.getDestinationFile() != move.getOriginFile()
                     && move.getDestinationRank() == move.getOriginRank()) {
                 return true;
-            }
+            }*/
         }
 
         // all other cases

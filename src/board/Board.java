@@ -63,14 +63,12 @@ public class Board {
             Highly recommended to use same template!
          */
         // rooks
-
         Iterator<Piece> whiteRooksIterator = PieceSet.getPieces(Piece.Color.WHITE, Piece.Type.ROOK).iterator();
         Iterator<Piece> blackRooksIterator = PieceSet.getPieces(Piece.Color.BLACK, Piece.Type.ROOK).iterator();
         getSquare('a', 1).setCurrentPiece(whiteRooksIterator.next());
         getSquare('h', 1).setCurrentPiece(whiteRooksIterator.next());
         getSquare('a', 8).setCurrentPiece(blackRooksIterator.next());
         getSquare('h', 8).setCurrentPiece(blackRooksIterator.next());
-
         // Knight
         Iterator<Piece> whiteKnightsIterator = PieceSet.getPieces(Piece.Color.WHITE, Piece.Type.KNIGHT).iterator();
         Iterator<Piece> blackKnightsIterator = PieceSet.getPieces(Piece.Color.BLACK, Piece.Type.KNIGHT).iterator();
@@ -106,7 +104,6 @@ public class Board {
         getSquare('f', 2).setCurrentPiece(whitePawnsIterator.next());
         getSquare('g', 2).setCurrentPiece(whitePawnsIterator.next());
         getSquare('h', 2).setCurrentPiece(whitePawnsIterator.next());
-
         getSquare('a', 7).setCurrentPiece(blackPawnsIterator.next());
         getSquare('b', 7).setCurrentPiece(blackPawnsIterator.next());
         getSquare('c', 7).setCurrentPiece(blackPawnsIterator.next());

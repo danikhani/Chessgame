@@ -1,6 +1,7 @@
 package util;
 
 import board.Board;
+import pieces.Pawn;
 import pieces.Piece;
 import pieces.PieceSet;
 import ui.BoardPanel;
@@ -74,7 +75,56 @@ public class MoveValidator {
     }
 
     private static boolean validateClearPath(Move move) {
-        //ui.PieceDragAndDropListener mv = new ui.PieceDragAndDropListener();
+        int path = move.getDestinationRank()-move.getOriginRank();
+        int positions = move.getOriginRank();
+        for(int i = 0; i< path; i++){
+            positions =+ i;
+            move.getCapturedPiece() != null
+
+
+
+
+        }
+        move.getDestinationFile() < 'a';
+
+
+        switch (move.getPiece().getType()) {
+            case PAWN:
+                //Basic movement
+                if(move.getOriginRank()==2 &&
+                        (move.getPiece().getColor() == Piece.Color.WHITE) &&
+                        (move.getDestinationRank()-move.getOriginRank() == 2)){
+                    return true;
+                }
+                else if(move.getOriginRank()==7 &&
+                        (move.getPiece().getColor() == Piece.Color.BLACK) &&
+                        (move.getDestinationRank()-move.getOriginRank() == -2)) {
+                    return true;
+                }
+                else if((move.getPiece().getColor() == Piece.Color.WHITE) &&
+                        (move.getDestinationRank()-move.getOriginRank() == 1)) {
+                        return true;
+                }
+                else if((move.getPiece().getColor() == Piece.Color.BLACK) &&
+                        (move.getDestinationRank()-move.getOriginRank() == -1)) {
+                    return true;
+                }
+                return false;
+
+
+            case KING:
+                if(Math.abs(move.getDestinationRank()-move.getOriginRank()) == 1) {
+                    return true;
+                }
+                return false;
+            case BISHOP:
+                return true;
+            case QUEEN:
+                return true;
+        }
+
+
+
         // TODO-movement
         return false;
     }
