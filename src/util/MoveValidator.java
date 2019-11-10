@@ -82,8 +82,26 @@ public class MoveValidator {
                 switch (move.getPiece().getColor()) {
                     case WHITE:
                         //check if diagonally
-                        if (move.getDestinationFile() != move.getOriginFile()
-                                && move.getDestinationRank() != move.getOriginRank()) {
+                        if (Math.abs( move.getDestinationFile() -  move.getOriginFile()) ==
+                                Math.abs( move.getDestinationRank() - move.getOriginRank())) {
+                            if(move.getOriginRank() > move.getDestinationRank()){
+                                if(move.getOriginFile() > move.getDestinationFile()){
+
+                                    //
+                                }
+                                if(move.getOriginFile() < move.getDestinationFile()){
+                                    //
+                                }
+                            }
+                            if(move.getOriginRank() < move.getDestinationRank()){
+                                if(move.getOriginFile() > move.getDestinationFile()){
+                                    //
+                                }
+                                if(move.getOriginFile() < move.getDestinationFile()){
+                                    //
+                                }
+                            }
+
                         }
                         // only for movements along rank
                         else {
@@ -120,8 +138,6 @@ public class MoveValidator {
                                     }
                                 }
                             }
-                            return true;
-
 
                         }
                     case BLACK:

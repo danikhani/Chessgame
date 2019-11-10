@@ -15,10 +15,13 @@ public class Queen extends Piece {
         if ((move.getCapturedPiece() == null)
                 || (move.getCapturedPiece() != null
                 && !move.getPiece().getColor().equals(move.getCapturedPiece().getColor()))) {
-            // along file
+            // diagonal movement
             if (move.getDestinationFile() != move.getOriginFile()
                     && move.getDestinationRank() != move.getOriginRank()) {
-                return true;
+                if (Math.abs( move.getDestinationFile() -  move.getOriginFile()) ==
+                        Math.abs( move.getDestinationRank() - move.getOriginRank())) {
+                    return true;
+                }
             }
             if (move.getDestinationFile() == move.getOriginFile()
                     && move.getDestinationRank() != move.getOriginRank()) {

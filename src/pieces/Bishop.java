@@ -18,16 +18,12 @@ public class Bishop extends Piece {
             // along file
             if (move.getDestinationFile() != move.getOriginFile()
                     && move.getDestinationRank() != move.getOriginRank()) {
-                return true;
+                if (Math.abs( move.getDestinationFile() -  move.getOriginFile()) ==
+                        Math.abs( move.getDestinationRank() - move.getOriginRank())) {
+                    return true;
+                }
             }
-            // along rank
-            /* if (move.getDestinationFile() != move.getOriginFile()
-                    && move.getDestinationRank() == move.getOriginRank()) {
-                return true;
-            }
-            */
         }
-
         // all other cases
         return false;
     }
