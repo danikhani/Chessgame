@@ -15,7 +15,9 @@ public class King extends Piece {
         if ((move.getCapturedPiece() == null)
                 || (move.getCapturedPiece() != null
                 && !move.getPiece().getColor().equals(move.getCapturedPiece().getColor()))) {
-            return true;
+            if (specialMove(move)) {
+                return true;
+            }
             /*
             // along file
             if (move.getDestinationFile() == move.getOriginFile()
@@ -30,6 +32,13 @@ public class King extends Piece {
         }
 
         // all other cases
+        return false;
+    }
+    @Override
+    public boolean specialMove(Move move) {
+        if (Math.abs(move.getDestinationRank() - move.getOriginRank()) == 1) {
+            return true;
+        }
         return false;
     }
 

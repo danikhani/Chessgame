@@ -25,6 +25,7 @@ public abstract class Piece {
     }
 
     public abstract boolean validateMove(Move move);
+    public abstract boolean specialMove(Move move);
 
     public String getImageFileName() {
         String fileName = "/pieces/";

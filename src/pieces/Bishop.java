@@ -31,5 +31,9 @@ public class Bishop extends Piece {
         // all other cases
         return false;
     }
+    @Override
+    public boolean specialMove(Move move) {
+        return true;
+    }
 
 }

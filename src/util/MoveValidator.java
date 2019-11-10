@@ -1,6 +1,8 @@
 package util;
 
 import board.Board;
+import board.Square;
+import pieces.Knight;
 import pieces.Pawn;
 import pieces.Piece;
 import pieces.PieceSet;
@@ -75,6 +77,110 @@ public class MoveValidator {
     }
 
     private static boolean validateClearPath(Move move) {
+        if(move.getPiece().getType() == Piece.Type.KNIGHT){ return true;}
+            else{
+                switch (move.getPiece().getColor()) {
+                    case WHITE:
+                        //check if diagonally
+                        if (move.getDestinationFile() != move.getOriginFile()
+                                && move.getDestinationRank() != move.getOriginRank()) {
+                        }
+                        // only for movements along rank and
+                        else {
+                            if (move.getOriginRank() > move.getDestinationRank()) {
+                                for (int i = move.getOriginRank() - 1; i > move.getDestinationRank(); i--) {
+                                    Square currentSquare = board.Board.getSquare(move.getOriginFile(), i);
+                                    if (currentSquare.getCurrentPiece() != null) {
+                                        return false;
+                                    }
+                                }
+                            }
+                            if (move.getOriginRank() < move.getDestinationRank()) {
+                                for (int i = move.getOriginRank() + 1; i < move.getDestinationRank(); i++) {
+                                    Square currentSquare = board.Board.getSquare(move.getOriginFile(), i);
+                                    if (currentSquare.getCurrentPiece() != null) {
+                                        return false;
+                                    }
+                                }
+                            }
+
+                        }
+                    case BLACK:
+                }
+            }
+
+
+    /*
+
+
+
+
+        switch (move.getPiece().getType()) {
+            case ROOK:
+                if((!validateClearFile(move) || !validateClearRank(move)){
+                    return false;
+                }
+            case PAWN:
+                if(!validateClearRank(move)){
+                    return false;
+                }
+            case BISHOP:
+                if(!validateClearDiagnoally(move)){
+                    return false;
+                }
+            case QUEEN:
+                if(!validateClearDiagnoally(move) ||) {
+                    return false;
+                }
+        }
+        return true;
+    }
+        if( Math.abs(move.getDestinationRank()-move.getOriginRank()) > 1) {
+            if (move.getDestinationFile() != move.getOriginFile()
+                    && move.getDestinationRank() == move.getOriginRank()) {
+                if (move.getOriginRank() < move.getDestinationRank()){
+
+                    for(int i= move.getOriginRank() ; i > move.getDestinationRank(); i--){
+                        if (move.getCurrentPiece() != null){return false;}
+
+                    }
+                }
+
+
+            }
+            else{
+                return true;
+            }
+        }
+        else{
+            return true;
+
+    }
+
+
+
+        if(move.getDestinationRank()-move.getOriginRank() > 1) {
+            if (move.getDestinationFile() != move.getOriginFile()
+                    && move.getDestinationRank() == move.getOriginRank()) {
+                return true;
+            }
+            // along file
+        }
+        if(move.getDestinationFile() - move.getOriginFile() > 1){
+            if (move.getDestinationFile() == move.getOriginFile()
+                    && move.getDestinationRank() != move.getOriginRank()) {
+                return true;
+            }
+            // along rank
+
+        }
+
+
+
+
+        int[][] history = new int[7][7];
+
+
         int path = move.getDestinationRank()-move.getOriginRank();
         int positions = move.getOriginRank();
         for(int i = 0; i< path; i++){
@@ -88,45 +194,30 @@ public class MoveValidator {
         move.getDestinationFile() < 'a';
 
 
+
         switch (move.getPiece().getType()) {
             case PAWN:
                 //Basic movement
-                if(move.getOriginRank()==2 &&
-                        (move.getPiece().getColor() == Piece.Color.WHITE) &&
-                        (move.getDestinationRank()-move.getOriginRank() == 2)){
-                    return true;
-                }
-                else if(move.getOriginRank()==7 &&
-                        (move.getPiece().getColor() == Piece.Color.BLACK) &&
-                        (move.getDestinationRank()-move.getOriginRank() == -2)) {
-                    return true;
-                }
-                else if((move.getPiece().getColor() == Piece.Color.WHITE) &&
-                        (move.getDestinationRank()-move.getOriginRank() == 1)) {
-                        return true;
-                }
-                else if((move.getPiece().getColor() == Piece.Color.BLACK) &&
-                        (move.getDestinationRank()-move.getOriginRank() == -1)) {
-                    return true;
-                }
-                return false;
+
 
 
             case KING:
-                if(Math.abs(move.getDestinationRank()-move.getOriginRank()) == 1) {
-                    return true;
-                }
+
                 return false;
             case BISHOP:
                 return true;
             case QUEEN:
                 return true;
         }
+        return false;
+        */
 
 
 
         // TODO-movement
-        return false;
+
+    return true;
     }
+
 
 }
