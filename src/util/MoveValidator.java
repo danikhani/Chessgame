@@ -85,20 +85,51 @@ public class MoveValidator {
                         if (Math.abs( move.getDestinationFile() -  move.getOriginFile()) ==
                                 Math.abs( move.getDestinationRank() - move.getOriginRank())) {
                             if(move.getOriginRank() > move.getDestinationRank()){
+                                int rankDif = move.getOriginRank() - move.getDestinationRank();
+                                int j = 1;
                                 if(move.getOriginFile() > move.getDestinationFile()){
-
-                                    //
+                                    //1
+                                    while(j <= rankDif ){
+                                        Square currentSquare = board.Board.getSquare((char)(move.getOriginFile()-j), move.getOriginRank()-j);
+                                        if (currentSquare.getCurrentPiece() != null) {
+                                            return false;
+                                        }
+                                        j++;
+                                    }
                                 }
                                 if(move.getOriginFile() < move.getDestinationFile()){
-                                    //
+                                    //2
+                                    while(j <= rankDif){
+                                        Square currentSquare = board.Board.getSquare((char)(move.getOriginFile()+j), move.getOriginRank()-j);
+                                        if (currentSquare.getCurrentPiece() != null) {
+                                            return false;
+                                        }
+                                        j++;
+                                    }
                                 }
                             }
                             if(move.getOriginRank() < move.getDestinationRank()){
+                                int rankDif = move.getDestinationRank() - move.getOriginRank();
+                                int j = 1;
                                 if(move.getOriginFile() > move.getDestinationFile()){
-                                    //
+                                    //3
+                                    while(j <= rankDif ){
+                                        Square currentSquare = board.Board.getSquare((char)(move.getOriginFile()-j), move.getOriginRank()+j);
+                                        if (currentSquare.getCurrentPiece() != null) {
+                                            return false;
+                                        }
+                                        j++;
+                                    }
                                 }
                                 if(move.getOriginFile() < move.getDestinationFile()){
-                                    //
+                                    //4
+                                    while(j <= rankDif ) {
+                                        Square currentSquare = board.Board.getSquare((char) (move.getOriginFile() + j), move.getOriginRank() + j);
+                                        if (currentSquare.getCurrentPiece() != null) {
+                                            return false;
+                                        }
+                                        j++;
+                                    }
                                 }
                             }
 
