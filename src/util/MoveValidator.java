@@ -77,7 +77,7 @@ public class MoveValidator {
     }
 
     private static boolean validateClearPath(Move move) {
-        if(move.getPiece().getType() == Piece.Type.KNIGHT){ return true;}
+        if(move.getPiece().getType() == Piece.Type.KNIGHT){return true;}
             else{
                 switch (move.getPiece().getColor()) {
                     case WHITE:
@@ -85,10 +85,10 @@ public class MoveValidator {
                         if (move.getDestinationFile() != move.getOriginFile()
                                 && move.getDestinationRank() != move.getOriginRank()) {
                         }
-                        // only for movements along rank and
+                        // only for movements along rank
                         else {
                             if (move.getOriginRank() > move.getDestinationRank()) {
-                                for (int i = move.getOriginRank() - 1; i > move.getDestinationRank(); i--) {
+                                for (int i = move.getOriginRank() -1; i > move.getDestinationRank(); i--) {
                                     Square currentSquare = board.Board.getSquare(move.getOriginFile(), i);
                                     if (currentSquare.getCurrentPiece() != null) {
                                         return false;
@@ -96,13 +96,32 @@ public class MoveValidator {
                                 }
                             }
                             if (move.getOriginRank() < move.getDestinationRank()) {
-                                for (int i = move.getOriginRank() + 1; i < move.getDestinationRank(); i++) {
+                                for (int i = move.getOriginRank() +1 ; i < move.getDestinationRank(); i++) {
                                     Square currentSquare = board.Board.getSquare(move.getOriginFile(), i);
                                     if (currentSquare.getCurrentPiece() != null) {
                                         return false;
                                     }
                                 }
                             }
+                            //only for movements along file
+                            if (move.getOriginFile() > move.getDestinationFile()) {
+                                for (int i = move.getOriginFile() -1 ; i > (int)move.getDestinationFile(); i--) {
+                                    Square currentSquare = board.Board.getSquare((char)i, move.getOriginRank());
+                                    if (currentSquare.getCurrentPiece() != null) {
+                                        return false;
+                                    }
+                                }
+                            }
+                            if (move.getOriginFile() < move.getDestinationFile()) {
+                                for (int i = move.getOriginFile() +1 ; i < (int)move.getDestinationFile(); i++) {
+                                    Square currentSquare = board.Board.getSquare((char)i, move.getOriginRank());
+                                    if (currentSquare.getCurrentPiece() != null) {
+                                        return false;
+                                    }
+                                }
+                            }
+                            return true;
+
 
                         }
                     case BLACK:
