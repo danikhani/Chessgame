@@ -91,7 +91,7 @@ public class MoveValidator {
                                     //1
                                     while(j <= rankDif ){
                                         Square currentSquare = board.Board.getSquare((char)(move.getOriginFile()-j), move.getOriginRank()-j);
-                                        if (currentSquare.getCurrentPiece() != null) {
+                                        if (checkClearPath(move,currentSquare)) {
                                             return false;
                                         }
                                         j++;
@@ -101,7 +101,7 @@ public class MoveValidator {
                                     //2
                                     while(j <= rankDif){
                                         Square currentSquare = board.Board.getSquare((char)(move.getOriginFile()+j), move.getOriginRank()-j);
-                                        if (currentSquare.getCurrentPiece() != null) {
+                                        if (checkClearPath(move,currentSquare)) {
                                             return false;
                                         }
                                         j++;
@@ -115,7 +115,7 @@ public class MoveValidator {
                                     //3
                                     while(j <= rankDif ){
                                         Square currentSquare = board.Board.getSquare((char)(move.getOriginFile()-j), move.getOriginRank()+j);
-                                        if (currentSquare.getCurrentPiece() != null) {
+                                        if (checkClearPath(move,currentSquare)) {
                                             return false;
                                         }
                                         j++;
@@ -125,7 +125,7 @@ public class MoveValidator {
                                     //4
                                     while(j <= rankDif ) {
                                         Square currentSquare = board.Board.getSquare((char) (move.getOriginFile() + j), move.getOriginRank() + j);
-                                        if (currentSquare.getCurrentPiece() != null) {
+                                        if (checkClearPath(move,currentSquare)) {
                                             return false;
                                         }
                                         j++;
@@ -142,7 +142,7 @@ public class MoveValidator {
                                 int j = 1;
                                 while (j <= rankDif) {
                                     Square currentSquare = board.Board.getSquare(move.getOriginFile(), move.getDestinationRank() + j);
-                                    if (currentSquare.getCurrentPiece() != null) {
+                                    if (checkClearPath(move,currentSquare)) {
                                         return false;
                                     }
                                     j++;
@@ -154,7 +154,7 @@ public class MoveValidator {
                                 int j = 1;
                                 while (j <= rankDif) {
                                     Square currentSquare = board.Board.getSquare(move.getOriginFile(), move.getOriginRank() + j);
-                                    if (currentSquare.getCurrentPiece() != null) {
+                                    if (checkClearPath(move,currentSquare)) {
                                         return false;
                                     }
                                     j++;
@@ -167,7 +167,7 @@ public class MoveValidator {
                                 int j = 1;
                                 while (j <= fileDif) {
                                     Square currentSquare = board.Board.getSquare((char)(move.getDestinationFile() + j), move.getOriginRank());
-                                    if (currentSquare.getCurrentPiece() != null) {
+                                    if (checkClearPath(move,currentSquare)) {
                                         return false;
                                     }
                                     j++;
@@ -179,7 +179,7 @@ public class MoveValidator {
                                 int j = 1;
                                 while (j <= fileDif) {
                                     Square currentSquare = board.Board.getSquare((char)(move.getOriginFile() + j), move.getOriginRank());
-                                    if (currentSquare.getCurrentPiece() != null) {
+                                    if (checkClearPath(move,currentSquare)) {
                                         return false;
                                     }
                                     j++;
@@ -302,7 +302,9 @@ public class MoveValidator {
     }
     private static boolean checkClearPath(Move move, Square currentSquare) {
         if(
-        (currentSquare.getCurrentPiece() != null || !move.getPiece().getColor().equals(move.getCapturedPiece().getColor()))){
+        (currentSquare.getCurrentPiece() != null
+               // || !move.getPiece().getColor().equals(move.getCapturedPiece().getColor()))
+        )){
             return true;
         }
         return false;
