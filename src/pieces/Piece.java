@@ -18,6 +18,7 @@ public abstract class Piece {
     protected Color color;
     protected Type type;
     protected boolean capture;
+    protected boolean inDanger;
 
     public Piece(Color color) {
         this.color = color;

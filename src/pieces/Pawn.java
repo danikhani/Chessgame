@@ -11,12 +11,13 @@ public class Pawn extends Piece {
 
     @Override
     public boolean validateMove(Move move) {
-        // executeMove or capture
+        // executeMove
         if ((move.getCapturedPiece() == null)) {
             if (specialMove(move)) {
                 return true;
             }
         }
+        //capture
         if (move.getDestinationFile() != move.getOriginFile()
                 && move.getDestinationRank() != move.getOriginRank()) {
             if (Math.abs( move.getDestinationFile() -  move.getOriginFile()) ==

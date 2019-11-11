@@ -149,5 +149,13 @@ public class PieceSet {
         whiteKingRank = 1;
         blackKingRank = 8;
     }
+    public static void initializeBlackKingCoordinates(int currentRank, char currentFile) {
+        blackKingFile = currentFile;
+        blackKingRank = currentRank;
+    }
+    public static void initializeWhiteKingCoordinates(int currentRank, char currentFile) {
+        whiteKingFile = currentFile;
+        whiteKingRank = currentRank;
+    }
 
 }
