@@ -2,10 +2,7 @@ package util;
 
 import board.Board;
 import board.Square;
-import pieces.Knight;
-import pieces.Pawn;
-import pieces.Piece;
-import pieces.PieceSet;
+import pieces.*;
 import ui.BoardPanel;
 
 import java.util.List;
@@ -23,6 +20,7 @@ public class MoveValidator {
     }
 
     private static Piece.Color currentMoveColor;
+
 
     public static boolean validateMove(Move move) {
         return validateMove(move, false);
@@ -61,26 +59,44 @@ public class MoveValidator {
         if (!validateClearPath(move)) {
             return false;
         }
-
         currentMoveColor = currentMoveColor.equals(Piece.Color.WHITE) ? Piece.Color.BLACK : Piece.Color.WHITE;
+
         //isCheckMove(move);
-        System.out.println("is check?");
+       /* System.out.println("is check?");
         char a = pieces.PieceSet.getOpponentKingFile(currentMoveColor);
         int b = pieces.PieceSet.getOpponentKingRank(currentMoveColor);
         System.out.println(a);
         System.out.println(b);
+        System.out.println(currentMoveColor + "is current color");
+        System.out.println("all pieces are:");
+        System.out.println(pieces.PieceSet.getPieces(Piece.Color.WHITE));
+        System.out.println("these are available:");
+        System.out.println(pieces.PieceSet.getAvailablePieces(Piece.Color.WHITE,Piece.Type.BISHOP));
+        System.out.println("these got captured:");
+        System.out.println(pieces.PieceSet.getAvailablePieces(Piece.Color.WHITE));
+        getAvailablePieces
+        pieces.PieceSet.getPieces(currentMoveColor);
+        */
+        System.out.println("all pieces are:");
+        System.out.println(pieces.PieceSet.getPieces(Piece.Color.WHITE));
+        System.out.println("these are available:");
+        System.out.println(pieces.PieceSet.getAvailablePieces(Piece.Color.WHITE));
+        System.out.println("these got captured:");
+        System.out.println(pieces.PieceSet.getCapturedPieces(Piece.Color.WHITE));
         return true;
     }
 
     public static boolean isCheckMove(Move move) {
+        /*
+        char KingCurrentFile = pieces.PieceSet.getOpponentKingFile(currentMoveColor);
+        int KingCurrentRank = pieces.PieceSet.getOpponentKingRank(currentMoveColor);
 
-/*
         switch (move.getPiece().getType()) {
-
 
             //move.getCapturedPiece().
             case PAWN:
                 int j = 1;
+                if ((char)(move.getDestinationFile()+1) == KingCurrentFile &&  )
                 Square destinationSquare = board.Board.getSquare((move.getDestinationFile()), move.getDestinationRank());
                 Square attackPoint1 = board.Board.getSquare((char)(move.getDestinationFile()+1), move.getDestinationRank()+1);
                 Square attackPoint2 = board.Board.getSquare((char)(move.getDestinationFile()-1), move.getDestinationRank()+1);
@@ -102,7 +118,9 @@ public class MoveValidator {
 
         //white king test
 
- */
+
+
+         */
 
 
 
@@ -274,7 +292,7 @@ public class MoveValidator {
                                 int rankDif = move.getOriginRank() - move.getDestinationRank();
                                 int j = 1;
                                 if(move.getOriginFile() > move.getDestinationFile()){
-                                    //1
+                                    //
                                     while(j < rankDif ){
                                         Square currentSquare = board.Board.getSquare((char)(move.getOriginFile()-j), move.getOriginRank()-j);
                                         if (!checkClearPath(move,currentSquare)) {

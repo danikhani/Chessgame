@@ -6,6 +6,7 @@ public class PieceSet {
 
     private static Map<Piece.Color, Map<Piece.Type, List<Piece>>> pieceSet = null;
     private static Map<Piece.Color, Stack<Piece>> capturedPieceSet;
+    private static Map<Piece.Color, Stack<Piece>> availablePieceSet;
 
     private static char whiteKingFile;
     private static int whiteKingRank;
@@ -17,6 +18,9 @@ public class PieceSet {
     public static PieceSet getInstance() {
         return pieceSetInstance;
     }
+    private static List<Piece> availableRequestedColorPieces = new ArrayList<Piece>();
+/*    private static List<Piece> availablePieces = new ArrayList<Piece>();
+    private static List<Piece> emptyList = new ArrayList<Piece>();*/
 
     private PieceSet() {
         initialize();
@@ -26,6 +30,7 @@ public class PieceSet {
         initializePieceSet();
         initializeCapturedPieceSet();
         initializeKingsCoordinates();
+        //initializeAvailablePieceSet();
     }
 
     public static List<Piece> getPieces(Piece.Color color) {
@@ -38,6 +43,21 @@ public class PieceSet {
         return piecesSameColor;
     }
 
+    public static List<Piece> getAvailablePieces(Piece.Color color, Piece.Type type) {
+        return pieceSet.get(color).get(type);
+    }
+    public static List<Piece> getAvailablePieces(Piece.Color color) {
+        List<Piece> availablePiecesSameColor = new ArrayList<Piece>();
+        for (Map.Entry<Piece.Type, List<Piece>> availablePiecesEntry : pieceSet.get(color).entrySet()) {
+            for (Piece piece : availablePiecesEntry.getValue()) {
+                if (!piece.getCapture()) {
+                    availablePiecesSameColor.add(piece);
+                }
+            }
+        }
+        return availablePiecesSameColor;
+    }
+
     public static List<Piece> getPieces(Piece.Color color, Piece.Type type) {
         return pieceSet.get(color).get(type);
     }
@@ -46,6 +66,57 @@ public class PieceSet {
         piece.setCapture(true);
         capturedPieceSet.get(piece.getColor()).push(piece);
     }
+
+
+
+    /*
+    private static void initializeAvailablePieceSet() {
+        availablePieceSet = new LinkedHashMap<Piece.Color, Stack<Piece>>();
+        Stack<Piece> whiteAvailablePieces = new Stack<Piece>();
+        Stack<Piece> blackAvailablePieces = new Stack<Piece>();
+        availablePieceSet.put(Piece.Color.WHITE, whiteAvailablePieces);
+        availablePieceSet.put(Piece.Color.BLACK, blackAvailablePieces);
+    }
+    public static void addAvailablePiece(Piece piece) {
+        if (!piece.getCapture()) {
+            availablePieceSet.get(piece.getColor()).push(piece);
+        }
+    }
+    public static List<Piece> getAvailablePieces(Piece.Color color) {
+        return availablePieceSet.get(color);
+    }
+    public static List<Piece> getAvailablePieces(Piece.Color color, Piece.Type type) {
+        return availablePieceSet.get(color);
+    }
+
+
+    public static List<Piece> getAvailablePieces(Piece.Color color, Piece.Type type) {
+
+        //trying to remove the piece from the pieceSet.
+        availablePieces.clear();
+        availablePieces = null;
+        for (Piece startingPiece : getPieces(color)) {
+            for (Piece capturedPiece : getCapturedPieces(color)) {
+                if (startingPiece != capturedPiece) {
+                    availablePieces.add(startingPiece);
+                }
+            }
+        }
+        availableRequestedColorPieces.clear();
+        availableRequestedColorPieces = null;
+        for (Piece availablePiece : availablePieces){
+            if(availablePiece.getColor() == color) {
+                availableRequestedColorPieces.add(availablePiece);
+            }
+        }
+        try {
+            return availableRequestedColorPieces;
+        }
+        catch(NullPointerException e) {
+            return emptyList;
+        }
+    }
+*/
 
     public static List<Piece> getCapturedPieces(Piece.Color color) {
         return capturedPieceSet.get(color);
@@ -157,5 +228,7 @@ public class PieceSet {
         whiteKingFile = currentFile;
         whiteKingRank = currentRank;
     }
+
+
 
 }

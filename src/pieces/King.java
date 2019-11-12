@@ -56,7 +56,7 @@ public class King extends Piece {
         }
         return false;
     }
-    //to get the kings coordinate.
+    //to refresh the kings coordinate.
     private void refreshCoordinates(Move move){
         if(move.getPiece().getColor() == Color.BLACK){
             PieceSet.initializeBlackKingCoordinates(move.getDestinationRank(),move.getDestinationFile());
