@@ -1,5 +1,6 @@
 package pieces;
 
+import board.Square;
 import util.Move;
 
 /**
@@ -19,6 +20,8 @@ public abstract class Piece {
     protected Type type;
     protected boolean capture;
     protected boolean inDanger;
+    protected char file;
+    protected int rank;
 
     public Piece(Color color) {
         this.color = color;
@@ -76,6 +79,19 @@ public abstract class Piece {
 
     public boolean getCapture() {
         return this.capture;
+    }
+
+    public int getRank(){
+        return this.rank;
+    }
+    public char getFile(){
+        return this.file;
+    }
+    public void setRank(int rank){
+        this.rank = rank;
+    }
+    public void setFile(char file){
+        this.file = file;
     }
 
 }

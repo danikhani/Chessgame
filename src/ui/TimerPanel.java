@@ -14,6 +14,7 @@ public class TimerPanel extends JPanel implements Observer {
     private Time whiteTime;
     private Time blackTime;
 
+
     private JPanel displayPanel;
     private JPanel whiteTimerPanel;
     private JPanel whiteTimerDigitsPanel;
@@ -39,17 +40,19 @@ public class TimerPanel extends JPanel implements Observer {
     }
 
     public void whiteTimerTikTok() {
-        /*
-        TODO-timer
-            Update whiteTime
-            Update whiteDigitsLabel
-            Show whiteTimerStatusPanel
-            Blind blackTimerStatusPanel
-         */
+        whiteTimerStatusPanel.setVisible(true);
+        blackTimerStatusPanel.setVisible(false);
+        Long addedWhiteTime = whiteTime.getTime() + 1000;
+        whiteTime.setTime(addedWhiteTime);
+        whiteTimerDigitsLabel.setText(whiteTime.toString());
     }
 
     public void blackTimerTikTok() {
-        // TODO-timer: same with whiteTimerTikTok
+        whiteTimerStatusPanel.setVisible(false);
+        blackTimerStatusPanel.setVisible(true);
+        Long addedBlackTime = blackTime.getTime() + 1000;
+        blackTime.setTime(addedBlackTime);
+        blackTimerDigitsLabel.setText(blackTime.toString());
     }
 
     private void initialize() {

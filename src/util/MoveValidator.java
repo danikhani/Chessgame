@@ -26,6 +26,10 @@ public class MoveValidator {
         return validateMove(move, false);
     }
 
+    public static Piece.Color getCurrentMoveColor(){
+        return currentMoveColor;
+    }
+
     public static boolean validateMove(Move move, boolean ignoreColorCheck) {
         // check for out of bounds
         if (move.getDestinationFile() < 'a' || move.getDestinationFile() > 'h'
@@ -77,14 +81,21 @@ public class MoveValidator {
         getAvailablePieces
         pieces.PieceSet.getPieces(currentMoveColor);
         */
-        System.out.println("all pieces are:");
+        /*System.out.println("all pieces are:");
         System.out.println(pieces.PieceSet.getPieces(Piece.Color.WHITE));
         System.out.println("these are available:");
         System.out.println(pieces.PieceSet.getAvailablePieces(Piece.Color.WHITE));
         System.out.println("these got captured:");
         System.out.println(pieces.PieceSet.getCapturedPieces(Piece.Color.WHITE));
+        System.out.println("these white bishops are available");
+        System.out.println(pieces.PieceSet.getAvailablePieces(Piece.Color.WHITE, Piece.Type.BISHOP));*/
+        //inDanger.getallavailalbe();
+        System.out.println(getCurrentMoveColor());
+
+
         return true;
     }
+
 
     public static boolean isCheckMove(Move move) {
         /*
