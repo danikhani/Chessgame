@@ -23,7 +23,6 @@ public class MoveValidator {
     }
 
     private static Piece.Color currentMoveColor;
-    private static Piece.Color otherColor;
     private static Piece dangerousPiece;
 
 
@@ -65,7 +64,8 @@ public class MoveValidator {
             return false;
         }
         currentMoveColor = currentMoveColor.equals(Piece.Color.WHITE) ? Piece.Color.BLACK : Piece.Color.WHITE;
-        otherColor = currentMoveColor.equals(Piece.Color.WHITE) ? Piece.Color.BLACK :Piece.Color.WHITE;
+
+
 
         return true;
 
@@ -74,8 +74,9 @@ public class MoveValidator {
 // and if they are free it will be saved in rooks array as dangered. TODO: make a new class and add all methods for checking in all destinations
     public static void setDangeredSquares(){
         for(Piece piece: getAvailablePieces()) {
+            piece.clearDangered();
             if (piece.getType() == Piece.Type.ROOK && piece.getColor() == Piece.Color.WHITE) {
-                System.out.println(piece);
+                //System.out.println(piece);
                 /*System.out.println(piece.getRank());
                 System.out.println(piece.getFile());*/
                 int a = piece.getRank()+1;
@@ -83,7 +84,7 @@ public class MoveValidator {
                while (a <= 8) {
                     Square currentSquare = Board.getSquare(b, a);
                     piece.setDangered(currentSquare);
-                   System.out.println("Rook has followign squares under control:"+currentSquare);
+                    System.out.println(a);
                     if (currentSquare.getCurrentPiece() != null) {
                         break;
                     }
@@ -97,15 +98,21 @@ public class MoveValidator {
 
 
     public static boolean isCheckMove(Move move) {
-        System.out.println("current move color is " + currentMoveColor);
-        System.out.println("other move color is " + otherColor);
+        System.out.println("Rook has followign squares under control:");
+        for(Piece piece: getAvailablePieces()) {
+            if (piece.getType() == Piece.Type.ROOK && piece.getColor() == Piece.Color.WHITE) {
+                piece.getDangered();
+            }
+        }
+        System.out.println("current move color is " + move.getPiece().getColor());
+        System.out.println("other move color is " + currentMoveColor);
         Square kingSquare;
-        for (Piece piece : getAvailablePieces(otherColor)) {
+        for (Piece piece : getAvailablePieces(currentMoveColor)) {
             if (piece.getType() == Piece.Type.KING) {
                 kingSquare = Board.getSquare(piece.getFile(), piece.getRank());
                 System.out.println("king square of other color is " + kingSquare);
-                for (Piece ourPiece : getAvailablePieces(currentMoveColor)) {
-                    if( ourPiece.hasDangered(kingSquare)){
+                for (Piece ourPiece : getAvailablePieces(move.getPiece().getColor())) {
+                    if(ourPiece.hasDangered(kingSquare)){
                         dangerousPiece = ourPiece;
                         return true;
                     }

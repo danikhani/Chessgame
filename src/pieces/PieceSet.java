@@ -47,7 +47,7 @@ public class PieceSet {
         return pieceSet.get(color).get(type);
     }
     //It sets all the rankes and files of the peices
-    public static void setRankAndFile(){
+    /*public static void setRankAndFile(){
         for(int i =1 ; i<=8 ; i++) {
             for (char j = 'a'; j <= 'h'; j++) {
                 Square currentSquare = board.Board.getSquare(j, i);
@@ -57,14 +57,26 @@ public class PieceSet {
                 }
             }
         }
-    }
+    }*/
     //This method will get all the pieces on the board and adds them to an array.
     public static ArrayList<Piece> getAvailablePieces(){
+        for(int i =1 ; i<=8 ; i++) {
+            for (char j = 'a'; j <= 'h'; j++) {
+                Square currentSquare = board.Board.getSquare(j, i);
+                if (currentSquare.getCurrentPiece() != null) {
+                    currentSquare.getCurrentPiece().setRank(i);
+                    currentSquare.getCurrentPiece().setFile(j);
+                }
+            }
+        }
+
+
         ArrayList<Piece> availablePieces = new ArrayList<Piece>();
         for(int i =1 ; i<=8 ; i++){
             for (char j = 'a'; j <= 'h' ; j++ ){
                 Square currentSquare = board.Board.getSquare(j, i);
                 if(currentSquare.getCurrentPiece()!=null){
+                    //addes the piece to the available list
                     availablePieces.add(currentSquare.getCurrentPiece());
                 }
             }
@@ -73,11 +85,23 @@ public class PieceSet {
         return availablePieces;
     }
     public static ArrayList<Piece> getAvailablePieces(Piece.Color color){
+        for(int i =1 ; i<=8 ; i++) {
+            for (char j = 'a'; j <= 'h'; j++) {
+                Square currentSquare = board.Board.getSquare(j, i);
+                if (currentSquare.getCurrentPiece() != null) {
+                    currentSquare.getCurrentPiece().setRank(i);
+                    currentSquare.getCurrentPiece().setFile(j);
+                }
+            }
+        }
+
+
         ArrayList<Piece> availablePieces = new ArrayList<Piece>();
         for(int i =1 ; i<=8 ; i++){
             for (char j = 'a'; j <= 'h' ; j++ ){
                 Square currentSquare = board.Board.getSquare(j, i);
                 if(currentSquare.getCurrentPiece()!=null && currentSquare.getCurrentPiece().getColor() == color){
+                    //addes the piece to the available list
                     availablePieces.add(currentSquare.getCurrentPiece());
                 }
             }

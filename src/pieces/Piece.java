@@ -98,8 +98,10 @@ public abstract class Piece {
     public void setFile(char file){
         this.file = file;
     }
+    public void clearDangered(){
+        dangeredSquares.clear();
+    }
     public void setDangered(Square square){
-        //dangeredSquares.clear();
         dangeredSquares.add(square);
     }
     public void getDangered(){

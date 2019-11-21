@@ -37,7 +37,6 @@ public class Rook extends Piece {
         return true;
     }
     public void setDangered(Square square){
-        //dangeredSquares.clear();
         dangeredSquares.add(square);
     }
     public void getDangered(){

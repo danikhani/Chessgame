@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Observable;
 
-import static pieces.PieceSet.setRankAndFile;
+
 
 public class GameModel extends Observable {
 
@@ -51,12 +51,13 @@ public class GameModel extends Observable {
         moveHistoryPanel.printMove(move);
         boardPanel.executeMove(move);
         switchTimer(move);
-        //This method sets all ranks and files of pieces.
-        PieceSet.setRankAndFile();
         //This method returns an array of all available pieces
         PieceSet.getAvailablePieces();
+        //This method sets all ranks and files of pieces.
+        //  PieceSet.setRankAndFile();
         //This is just a test setDangered
         MoveValidator.setDangeredSquares();
+
         if (MoveValidator.isCheckMove(move)) {
             if (MoveValidator.isCheckMate(move)) {
                 stopTimer();
