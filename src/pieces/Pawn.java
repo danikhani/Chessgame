@@ -1,6 +1,8 @@
 package pieces;
 
+import board.Square;
 import util.Move;
+
 
 public class Pawn extends Piece {
 

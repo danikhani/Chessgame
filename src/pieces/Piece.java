@@ -3,6 +3,8 @@ package pieces;
 import board.Square;
 import util.Move;
 
+import java.util.ArrayList;
+
 /**
  * Abstract class for chess piece.
  */
@@ -22,6 +24,9 @@ public abstract class Piece {
     protected boolean inDanger;
     protected char file;
     protected int rank;
+
+    protected Square square;
+    protected ArrayList<Square> dangeredSquares = new ArrayList<Square>();
 
     public Piece(Color color) {
         this.color = color;
@@ -93,5 +98,14 @@ public abstract class Piece {
     public void setFile(char file){
         this.file = file;
     }
-
+    public void setDangered(Square square){
+        //dangeredSquares.clear();
+        dangeredSquares.add(square);
+    }
+    public void getDangered(){
+        for (Square square: dangeredSquares) {
+            System.out.println(square);
+        }
+    }
+    public void dangered(){}
 }
