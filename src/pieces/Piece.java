@@ -107,5 +107,11 @@ public abstract class Piece {
             System.out.println(square);
         }
     }
-    public void dangered(){}
+    public boolean hasDangered(Square square){
+        boolean itHas = false;
+        if(dangeredSquares.contains(square)){
+            itHas = true;
+        }
+        return itHas;
+    }
 }
