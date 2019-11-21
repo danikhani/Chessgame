@@ -1,5 +1,7 @@
 package pieces;
 
+import board.Board;
+import board.Square;
 import util.Move;
 
 public class Rook extends Piece {
@@ -34,5 +36,26 @@ public class Rook extends Piece {
     public boolean specialMove(Move move) {
         return true;
     }
-
+    public void setDangered(Square square){
+        //dangeredSquares.clear();
+        dangeredSquares.add(square);
+    }
+    public void getDangered(){
+        for (Square square: dangeredSquares) {
+            System.out.println(square);
+        }
+    }
+    /*public void dangered(){
+        int a = getRank()+1;
+        while (a<=8){
+                Square currentSquare = Board.getSquare(getFile(), a);
+                setDangered(currentSquare);
+                if (currentSquare.getCurrentPiece() != null) {
+                    break;
+                }
+                a++;
+            getDangered();
+            }
+        }
+*/
 }

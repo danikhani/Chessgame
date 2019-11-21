@@ -1,5 +1,7 @@
 package pieces;
 
+import board.Square;
+
 import java.util.*;
 
 public class PieceSet {
@@ -30,7 +32,6 @@ public class PieceSet {
         initializePieceSet();
         initializeCapturedPieceSet();
         initializeKingsCoordinates();
-        //initializeAvailablePieceSet();
     }
 
     public static List<Piece> getPieces(Piece.Color color) {
@@ -45,6 +46,46 @@ public class PieceSet {
     public static List<Piece> getPieces(Piece.Color color, Piece.Type type) {
         return pieceSet.get(color).get(type);
     }
+    //It sets all the rankes and files of the peices
+    public static void setRankAndFile(){
+        for(int i =1 ; i<=8 ; i++) {
+            for (char j = 'a'; j <= 'h'; j++) {
+                Square currentSquare = board.Board.getSquare(j, i);
+                if (currentSquare.getCurrentPiece() != null) {
+                    currentSquare.getCurrentPiece().setRank(i);
+                    currentSquare.getCurrentPiece().setFile(j);
+                }
+            }
+        }
+    }
+    //This method will get all the pieces on the board and adds them to an array.
+    public static ArrayList<Piece> getAvailablePieces(){
+        ArrayList<Piece> availablePieces = new ArrayList<Piece>();
+        for(int i =1 ; i<=8 ; i++){
+            for (char j = 'a'; j <= 'h' ; j++ ){
+                Square currentSquare = board.Board.getSquare(j, i);
+                if(currentSquare.getCurrentPiece()!=null){
+                    availablePieces.add(currentSquare.getCurrentPiece());
+                }
+            }
+        }
+        //System.out.println(availablePieces.size());
+        return availablePieces;
+    }
+    public static ArrayList<Piece> getAvailablePieces(Piece.Color color){
+        ArrayList<Piece> availablePieces = new ArrayList<Piece>();
+        for(int i =1 ; i<=8 ; i++){
+            for (char j = 'a'; j <= 'h' ; j++ ){
+                Square currentSquare = board.Board.getSquare(j, i);
+                if(currentSquare.getCurrentPiece()!=null && currentSquare.getCurrentPiece().getColor() == color){
+                    availablePieces.add(currentSquare.getCurrentPiece());
+                }
+            }
+        }
+        //System.out.println(availablePieces.size());
+        return availablePieces;
+    }
+    /*
     public static List<Piece> getAvailablePieces(Piece.Color color) {
         List<Piece> availablePiecesSameColor = new ArrayList<Piece>();
         for (Map.Entry<Piece.Type, List<Piece>> availablePiecesEntry : pieceSet.get(color).entrySet()) {
@@ -67,6 +108,8 @@ public class PieceSet {
         }
         return availablePiecesSameType;
     }
+
+     */
 
     public static void addCapturedPiece(Piece piece) {
         piece.setCapture(true);

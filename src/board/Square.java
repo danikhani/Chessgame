@@ -12,6 +12,8 @@ public class Square {
 
     public void setCurrentPiece(Piece piece) {
         this.currentPiece = piece;
+
+
     }
 
     public Piece getCurrentPiece() {
