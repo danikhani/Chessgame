@@ -65,42 +65,13 @@ public class MoveValidator {
             return false;
         }
         currentMoveColor = currentMoveColor.equals(Piece.Color.WHITE) ? Piece.Color.BLACK : Piece.Color.WHITE;
-
-
-
         return true;
-
     }
-//this method only works for white rooks now. but it gives checks the pieces on top of the rook
-// and if they are free it will be saved in rooks array as dangered. TODO: make a new class and add all methods for checking in all destinations
-    /*public static void setDangeredSquares(){
-        for(Piece piece: getAvailablePieces()) {
-            piece.clearDangered();
-            if (piece.getType() == Piece.Type.ROOK && piece.getColor() == Piece.Color.WHITE) {
-                //System.out.println(piece);
-                *//*System.out.println(piece.getRank());
-                System.out.println(piece.getFile());*//*
-                int a = piece.getRank()+1;
-                char b = piece.getFile();
-               while (a <= 8) {
-                    Square currentSquare = Board.getSquare(b, a);
-                    piece.setDangered(currentSquare);
-                    System.out.println(a);
-                    if (currentSquare.getCurrentPiece() != null) {
-                        break;
-                    }
-                    a++;
-                }
-
-            }
-        }
-
-    }*/
 
 
     public static boolean isCheckMove(Move move) {
-        for(Piece piece: getAvailablePieces()) {
-            if (piece.getType() == Piece.Type.KING && piece.getColor()== Piece.Color.WHITE) {
+        for (Piece piece : getAvailablePieces()) {
+            if (piece.getType() == Piece.Type.KING && piece.getColor() == Piece.Color.WHITE) {
                 //System.out.println(piece.getColor()+" White soldires has followign squares under control:");
                 //System.out.println(piece.getDangered());
             }
@@ -110,7 +81,7 @@ public class MoveValidator {
                 kingSquare = Board.getSquare(piece.getFile(), piece.getRank());
                 //System.out.println("king square of other color is " + kingSquare);
                 for (Piece ourPiece : getAvailablePieces(move.getPiece().getColor())) {
-                    if(ourPiece.hasDangered(kingSquare)){
+                    if (ourPiece.hasDangered(kingSquare)) {
                         dangerousPiece = ourPiece;
                         return true;
                     }
@@ -121,15 +92,14 @@ public class MoveValidator {
     }
 
 
-
     public static boolean isCheckMate(Move move) {
-        //if king can move.(WORKS)
         Piece kingPiece = null;
         for (Piece piece : getAvailablePieces(currentMoveColor, Piece.Type.KING)) {
             kingPiece = piece;
         }
+        //if king can move.(WORKS)
         for (Square kingsAccessibleSquare : kingPiece.getDangered()) {
-            boolean squareIsFine= true;
+            boolean squareIsFine = true;
             //System.out.println("new square" + kingsAccessibleSquare);
             if (kingsAccessibleSquare.getCurrentPiece() == null ||
                     kingsAccessibleSquare.getCurrentPiece().getColor() != currentMoveColor) {
@@ -150,172 +120,168 @@ public class MoveValidator {
 
             }
         }
-
-
-
-
-
-        //select king
-        /*
-        for(Piece checkedTeamPiece: getAvailablePieces(currentMoveColor)){
-            if(checkedTeamPiece.getType()== Piece.Type.KING){
-                //get dangered list of king. (where king can move to)
-                for(Square kingsReachableSquares :checkedTeamPiece.getDangered()){
-                    if(kingsReachableSquares.getCurrentPiece() == null){
-                    //every square looks if it has another piece square.
-                    //goes into every square from other team:
-                    for(Piece attackingTeamPiece : getAvailablePieces(dangerousPiece.getColor())) {
-                        if (!attackingTeamPiece.hasDangered(kingsReachableSquares)) {
-                            System.out.println("king can get moved");
-                            return false;
-                        }
-                    }
-                    }
-                }
-
-            }
-        }
-        */
-        //if dangerouspice can get captured (WORKS!!!)
+        //if dangerous piece can get captured (WORKS!!!)
         Square dangerousSquare = Board.getSquare(dangerousPiece.getFile(), dangerousPiece.getRank());
         for (Piece piece : getAvailablePieces(currentMoveColor)) {
-            if(piece.hasDangered(dangerousSquare)){
+            if (piece.hasDangered(dangerousSquare)) {
                 System.out.println("attacker can get captured");
                 return false;
             }
         }
-        //if dangerous path can get blocked
-        /*
-        for (Piece pieceOtherTeam : getAvailablePieces(currentMoveColor)) {
-            if(pieceOtherTeam.getType() != Piece.Type.KING){
-            for(Square dangeredSquares: dangerousPiece.getDangered()) {
-                if (pieceOtherTeam.hasDangered(dangeredSquares)) {
-                    System.out.println("way can get blocked");
-                    return false;
+        //checking if the way can get blocked (WORKS!)
+        //here you get to save the path between the attacking piece and king.
+        if (dangerousPiece.getType() == Piece.Type.QUEEN) {
+            DangerPaths.setKingsRookPath(kingPiece, dangerousPiece);
+            DangerPaths.setKingsBishopsPath(kingPiece, dangerousPiece);
+        }
+        if (dangerousPiece.getType() == Piece.Type.ROOK) {
+            DangerPaths.setKingsRookPath(kingPiece, dangerousPiece);
+        }
+        if (dangerousPiece.getType() == Piece.Type.BISHOP) {
+            DangerPaths.setKingsBishopsPath(kingPiece, dangerousPiece);
+        }
+        //actual checking for the blocking
+        for (Square mustGetBlockedSquares : kingPiece.getReachable()) {
+            for (Piece ourColorPieces : getAvailablePieces(currentMoveColor)) {
+                //it doesnt matter if king can move itself to block the way.
+                // so every piece other than king should get checked if they can block
+                if(ourColorPieces.getType() != Piece.Type.KING) {
+                    if (ourColorPieces.hasDangered(mustGetBlockedSquares)) {
+                        System.out.println("path can get blocked");
+                        System.out.println(kingPiece.getReachable());
+                        return false;
+                    }
+                }
+                //because pawn has extra movement rule, it should be checked if pawn can block the way.
+                if(ourColorPieces.getType() == Piece.Type.PAWN) {
+                    if (ourColorPieces.hasReachable(mustGetBlockedSquares)) {
+                        System.out.println("path can get blocked");
+                        System.out.println(kingPiece.getReachable());
+                        return false;
+                    }
                 }
             }
-            }
-            }
-         */
-        // TODO-check
+        }
         return true;
     }
 
     private static boolean validateClearPath(Move move) {
-        if(move.getPiece().getType() == Piece.Type.KNIGHT){return true;}
-            else{
-                //king cant go into check.
-                //check if diagonally
-                        if (Math.abs( move.getDestinationFile() -  move.getOriginFile()) ==
-                                Math.abs( move.getDestinationRank() - move.getOriginRank())) {
-                            if(move.getOriginRank() > move.getDestinationRank()){
-                                int rankDif = move.getOriginRank() - move.getDestinationRank();
-                                int j = 1;
-                                if(move.getOriginFile() > move.getDestinationFile()){
-                                    //
-                                    while(j < rankDif ){
-                                        Square currentSquare = board.Board.getSquare((char)(move.getOriginFile()-j), move.getOriginRank()-j);
-                                        if (!checkClearPath(move,currentSquare)) {
-                                            return false;
-                                        }
-                                        j++;
-                                    }
-                                }
-                                if(move.getOriginFile() < move.getDestinationFile()){
-                                    //2
-                                    while(j < rankDif){
-                                        Square currentSquare = board.Board.getSquare((char)(move.getOriginFile()+j), move.getOriginRank()-j);
-                                        if (!checkClearPath(move,currentSquare)) {
-                                            return false;
-                                        }
-                                        j++;
-                                    }
-                                }
+        if (move.getPiece().getType() == Piece.Type.KNIGHT) {
+            return true;
+        } else {
+            //king cant go into check.
+            //check if diagonally
+            if (Math.abs(move.getDestinationFile() - move.getOriginFile()) ==
+                    Math.abs(move.getDestinationRank() - move.getOriginRank())) {
+                if (move.getOriginRank() > move.getDestinationRank()) {
+                    int rankDif = move.getOriginRank() - move.getDestinationRank();
+                    int j = 1;
+                    if (move.getOriginFile() > move.getDestinationFile()) {
+                        //
+                        while (j < rankDif) {
+                            Square currentSquare = board.Board.getSquare((char) (move.getOriginFile() - j), move.getOriginRank() - j);
+                            if (!checkClearPath(move, currentSquare)) {
+                                return false;
                             }
-                            if(move.getOriginRank() < move.getDestinationRank()){
-                                int rankDif = move.getDestinationRank() - move.getOriginRank();
-                                int j = 1;
-                                if(move.getOriginFile() > move.getDestinationFile()){
-                                    //3
-                                    while(j < rankDif ){
-                                        Square currentSquare = board.Board.getSquare((char)(move.getOriginFile()-j), move.getOriginRank()+j);
-                                        if (!checkClearPath(move,currentSquare)) {
-                                            return false;
-                                        }
-                                        j++;
-                                    }
-                                }
-                                if(move.getOriginFile() < move.getDestinationFile()){
-                                    //4
-                                    while(j < rankDif ) {
-                                        Square currentSquare = board.Board.getSquare((char) (move.getOriginFile() + j), move.getOriginRank() + j);
-                                        if (!checkClearPath(move,currentSquare)) {
-                                            return false;
-                                        }
-                                        j++;
-                                    }
-                                }
+                            j++;
+                        }
+                    }
+                    if (move.getOriginFile() < move.getDestinationFile()) {
+                        //2
+                        while (j < rankDif) {
+                            Square currentSquare = board.Board.getSquare((char) (move.getOriginFile() + j), move.getOriginRank() - j);
+                            if (!checkClearPath(move, currentSquare)) {
+                                return false;
                             }
+                            j++;
+                        }
+                    }
+                }
+                if (move.getOriginRank() < move.getDestinationRank()) {
+                    int rankDif = move.getDestinationRank() - move.getOriginRank();
+                    int j = 1;
+                    if (move.getOriginFile() > move.getDestinationFile()) {
+                        //3
+                        while (j < rankDif) {
+                            Square currentSquare = board.Board.getSquare((char) (move.getOriginFile() - j), move.getOriginRank() + j);
+                            if (!checkClearPath(move, currentSquare)) {
+                                return false;
+                            }
+                            j++;
+                        }
+                    }
+                    if (move.getOriginFile() < move.getDestinationFile()) {
+                        //4
+                        while (j < rankDif) {
+                            Square currentSquare = board.Board.getSquare((char) (move.getOriginFile() + j), move.getOriginRank() + j);
+                            if (!checkClearPath(move, currentSquare)) {
+                                return false;
+                            }
+                            j++;
+                        }
+                    }
+                }
 
-                        }
-                        // only for movements along rank
-                        else {
-                            if (move.getOriginRank() > move.getDestinationRank()) {
-                                //when ranks get smaller
-                                int rankDif = move.getOriginRank() - move.getDestinationRank() ;
-                                int j = 1;
-                                while (j < rankDif) {
-                                    Square currentSquare = board.Board.getSquare(move.getOriginFile(), move.getDestinationRank() + j);
-                                    if (!checkClearPath(move,currentSquare)) {
-                                        return false;
-                                    }
-                                    j++;
-                                }
-                            }
-                            if (move.getOriginRank() < move.getDestinationRank()) {
-                                //when ranks get bigger
-                                int rankDif = move.getDestinationRank() - move.getOriginRank();
-                                int j = 1;
-                                while (j < rankDif) {
-                                    Square currentSquare = board.Board.getSquare(move.getOriginFile(), move.getOriginRank() + j);
-                                    if (!checkClearPath(move,currentSquare)) {
-                                        return false;
-                                    }
-                                    j++;
-                                }
-                            }
-                            //only for movements along file
-                            if (move.getOriginFile() > move.getDestinationFile()) {
-                                //when file gets smaller
-                                int fileDif = move.getOriginFile() - move.getDestinationFile();
-                                int j = 1;
-                                while (j < fileDif) {
-                                    Square currentSquare = board.Board.getSquare((char)(move.getDestinationFile() + j), move.getOriginRank());
-                                    if (!checkClearPath(move,currentSquare)) {
-                                        return false;
-                                    }
-                                    j++;
-                                }
-                            }
-                            if (move.getOriginFile() < move.getDestinationFile()) {
-                                //when file gets bigger
-                                int fileDif = move.getDestinationFile() - move.getOriginFile();
-                                int j = 1;
-                                while (j < fileDif) {
-                                    Square currentSquare = board.Board.getSquare((char)(move.getOriginFile() + j), move.getOriginRank());
-                                    if (!checkClearPath(move,currentSquare)) {
-                                        return false;
-                                    }
-                                    j++;
-                                }
-                            }
-                        }
             }
+            // only for movements along rank
+            else {
+                if (move.getOriginRank() > move.getDestinationRank()) {
+                    //when ranks get smaller
+                    int rankDif = move.getOriginRank() - move.getDestinationRank();
+                    int j = 1;
+                    while (j < rankDif) {
+                        Square currentSquare = board.Board.getSquare(move.getOriginFile(), move.getDestinationRank() + j);
+                        if (!checkClearPath(move, currentSquare)) {
+                            return false;
+                        }
+                        j++;
+                    }
+                }
+                if (move.getOriginRank() < move.getDestinationRank()) {
+                    //when ranks get bigger
+                    int rankDif = move.getDestinationRank() - move.getOriginRank();
+                    int j = 1;
+                    while (j < rankDif) {
+                        Square currentSquare = board.Board.getSquare(move.getOriginFile(), move.getOriginRank() + j);
+                        if (!checkClearPath(move, currentSquare)) {
+                            return false;
+                        }
+                        j++;
+                    }
+                }
+                //only for movements along file
+                if (move.getOriginFile() > move.getDestinationFile()) {
+                    //when file gets smaller
+                    int fileDif = move.getOriginFile() - move.getDestinationFile();
+                    int j = 1;
+                    while (j < fileDif) {
+                        Square currentSquare = board.Board.getSquare((char) (move.getDestinationFile() + j), move.getOriginRank());
+                        if (!checkClearPath(move, currentSquare)) {
+                            return false;
+                        }
+                        j++;
+                    }
+                }
+                if (move.getOriginFile() < move.getDestinationFile()) {
+                    //when file gets bigger
+                    int fileDif = move.getDestinationFile() - move.getOriginFile();
+                    int j = 1;
+                    while (j < fileDif) {
+                        Square currentSquare = board.Board.getSquare((char) (move.getOriginFile() + j), move.getOriginRank());
+                        if (!checkClearPath(move, currentSquare)) {
+                            return false;
+                        }
+                        j++;
+                    }
+                }
+            }
+        }
         return true;
     }
+
     private static boolean checkClearPath(Move move, Square currentSquare) {
-        if(
-        (currentSquare.getCurrentPiece() != null)){
+        if (
+                (currentSquare.getCurrentPiece() != null)) {
             return false;
         }
         return true;
