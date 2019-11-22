@@ -17,6 +17,7 @@ public class DangerPaths {
             piece.clearReachable();
             switch (piece.getType()) {
                 case KING:
+                    setKingPath(piece);
                     break;
                 case ROOK:
                     setRookPath(piece);
@@ -263,16 +264,91 @@ public class DangerPaths {
     }
 
     private static void setKingPath(Piece piece) {
-        int currentRank = piece.getRank();
-        char currentFile = (char) (piece.getFile());
+        int currentRank;
+        char currentFile;
         Square currentSquare;
-
-        while (isInBarriers(currentRank, currentFile)) {
+        //north
+        currentRank = piece.getRank() + 1;
+        currentFile = (char) (piece.getFile());
+        if (isInBarriers(currentRank, currentFile)) {
             currentSquare = Board.getSquare(currentFile, currentRank);
+            piece.setDangered(currentSquare);
+        }
+        //south
+        currentRank = piece.getRank() - 1;
+        currentFile = (char) (piece.getFile());
+        if (isInBarriers(currentRank, currentFile)) {
+            currentSquare = Board.getSquare(currentFile, currentRank);
+            piece.setDangered(currentSquare);
+        }
+        //west
+        currentRank = piece.getRank();
+        currentFile = (char) (piece.getFile() - 1);
+        if (isInBarriers(currentRank, currentFile)) {
+            currentSquare = Board.getSquare(currentFile, currentRank);
+            piece.setDangered(currentSquare);
+        }
+        //east
+        currentRank = piece.getRank();
+        currentFile = (char) (piece.getFile() + 1);
+        if (isInBarriers(currentRank, currentFile)) {
+            currentSquare = Board.getSquare(currentFile, currentRank);
+            piece.setDangered(currentSquare);
+        }
+        //north east
+        currentRank = piece.getRank() + 1;
+        currentFile = (char) (piece.getFile() + 1);
+        if (isInBarriers(currentRank, currentFile)) {
+            currentSquare = Board.getSquare(currentFile, currentRank);
+            piece.setDangered(currentSquare);
+        }
+        //north west
+        currentRank = piece.getRank() + 1;
+        currentFile = (char) (piece.getFile() - 1);
+        if (isInBarriers(currentRank, currentFile)) {
+            currentSquare = Board.getSquare(currentFile, currentRank);
+            piece.setDangered(currentSquare);
+        }
+        //south east
+        currentRank = piece.getRank() - 1;
+        currentFile = (char) (piece.getFile() + 1);
+        if (isInBarriers(currentRank, currentFile)) {
+            currentSquare = Board.getSquare(currentFile, currentRank);
+            piece.setDangered(currentSquare);
+        }
+        //south west
+        currentRank = piece.getRank() - 1;
+        currentFile = (char) (piece.getFile() - 1);
+        if (isInBarriers(currentRank, currentFile)) {
+            currentSquare = Board.getSquare(currentFile, currentRank);
+            piece.setDangered(currentSquare);
         }
     }
-
 }
+
+    /*public static boolean getLookAroundKing(Piece piece, Piece.Color color){
+        int currentRank;
+        char currentFile;
+        Square currentSquare;
+        //north
+        currentRank = piece.getRank() + 1 ;
+        currentFile = (char) (piece.getFile() );
+
+
+        if (isInBarriers(currentRank, currentFile)) {
+            //checks from now on for one square.
+            currentSquare = Board.getSquare(currentFile, currentRank);
+            if(currentSquare.getCurrentPiece().getColor() != currentmovecolor){
+                for(Piece otherColorPieces : getAvailablePieces(color)){
+                    if(!otherColorPieces.hasDangered(currentSquare)){
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+}*/
 /*
  //white pawn attack move
       if (piece.getColor() == Piece.Color.WHITE) {

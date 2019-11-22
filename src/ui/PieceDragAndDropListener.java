@@ -1,5 +1,7 @@
 package ui;
 
+import board.Board;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -22,6 +24,7 @@ public class PieceDragAndDropListener implements MouseListener, MouseMotionListe
     public void mousePressed(MouseEvent e) {
         originFile = calculateFile(e);
         originRank = calculateRank(e);
+
         if (boardPanel.isBoardReversed()) {
             dragOffsetX = e.getPoint().x - boardPanel.SQUARE_DIMENSION * ('h' - calculateFile(e));
             dragOffsetY = e.getPoint().y - boardPanel.SQUARE_DIMENSION * (calculateRank(e) - 1);

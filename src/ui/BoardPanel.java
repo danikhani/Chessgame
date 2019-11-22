@@ -108,6 +108,13 @@ public class BoardPanel extends JPanel implements Observer {
         squarePanels[f][r].setBackground(f % 2 == r % 2 ? Color.GRAY : Color.WHITE);
         boardPanel.add(squarePanels[f][r]);
     }
+    public void changeSingleSquarePanel(int f, int r){
+        squarePanels[f][r] = new JPanel(new GridLayout(1, 1));
+        squarePanels[f][r].setPreferredSize(new Dimension(SQUARE_DIMENSION, SQUARE_DIMENSION));
+        squarePanels[f][r].setSize(new Dimension(SQUARE_DIMENSION, SQUARE_DIMENSION));
+        squarePanels[f][r].setBackground(Color.GREEN);
+        boardPanel.add(squarePanels[f][r]);
+    }
 
     private void initializePieces() {
         /*

@@ -100,11 +100,9 @@ public class MoveValidator {
 
     public static boolean isCheckMove(Move move) {
         for(Piece piece: getAvailablePieces()) {
-            if (piece.getType() == Piece.Type.PAWN && piece.getColor()== Piece.Color.WHITE) {
-                System.out.println(piece.getColor()+" White soldires has followign squares under control:");
-                System.out.println(piece.getDangered());
-                System.out.println(piece.getColor()+" White soldires can reach following squares:");
-                System.out.println(piece.getReachable());
+            if (piece.getType() == Piece.Type.KING && piece.getColor()== Piece.Color.WHITE) {
+                //System.out.println(piece.getColor()+" White soldires has followign squares under control:");
+                //System.out.println(piece.getDangered());
             }
         }
         for (Piece piece : getAvailablePieces(currentMoveColor)) {
@@ -125,22 +123,82 @@ public class MoveValidator {
 
 
     public static boolean isCheckMate(Move move) {
-        //if dangerouspiece block geschmissen werden kann:
+        //if king can move.(WORKS)
+        Piece kingPiece = null;
+        for (Piece piece : getAvailablePieces(currentMoveColor, Piece.Type.KING)) {
+            kingPiece = piece;
+        }
+        for (Square kingsAccessibleSquare : kingPiece.getDangered()) {
+            boolean squareIsFine= true;
+            //System.out.println("new square" + kingsAccessibleSquare);
+            if (kingsAccessibleSquare.getCurrentPiece() == null ||
+                    kingsAccessibleSquare.getCurrentPiece().getColor() != currentMoveColor) {
+                //System.out.println("free square" + kingsAccessibleSquare);
+                for (Piece otherColorPieces : getAvailablePieces(move.getPiece().getColor())) {
+                    //System.out.println("we are available" + otherColorPieces);
+                    if (otherColorPieces.hasDangered(kingsAccessibleSquare)) {
+                        //System.out.println(otherColorPieces + " can attack this square: " + kingsAccessibleSquare);
+                        squareIsFine = false;
+                        break;
+                    }
+                }
+                if (squareIsFine) {
+                    //System.out.println(kingsAccessibleSquare + " this square had no attackers");
+                    System.out.println("king could run away");
+                    return false;
+                }
+
+            }
+        }
+
+
+
+
+
+        //select king
+        /*
+        for(Piece checkedTeamPiece: getAvailablePieces(currentMoveColor)){
+            if(checkedTeamPiece.getType()== Piece.Type.KING){
+                //get dangered list of king. (where king can move to)
+                for(Square kingsReachableSquares :checkedTeamPiece.getDangered()){
+                    if(kingsReachableSquares.getCurrentPiece() == null){
+                    //every square looks if it has another piece square.
+                    //goes into every square from other team:
+                    for(Piece attackingTeamPiece : getAvailablePieces(dangerousPiece.getColor())) {
+                        if (!attackingTeamPiece.hasDangered(kingsReachableSquares)) {
+                            System.out.println("king can get moved");
+                            return false;
+                        }
+                    }
+                    }
+                }
+
+            }
+        }
+        */
+        //if dangerouspice can get captured (WORKS!!!)
         Square dangerousSquare = Board.getSquare(dangerousPiece.getFile(), dangerousPiece.getRank());
         for (Piece piece : getAvailablePieces(currentMoveColor)) {
             if(piece.hasDangered(dangerousSquare)){
-                return true;
+                System.out.println("attacker can get captured");
+                return false;
             }
         }
-        for(Square dangeredSquares: dangerousPiece.getDangered()){
-
-        }
-
-
-
-        System.out.println("dangerrouuus"+ dangerousPiece);
+        //if dangerous path can get blocked
+        /*
+        for (Piece pieceOtherTeam : getAvailablePieces(currentMoveColor)) {
+            if(pieceOtherTeam.getType() != Piece.Type.KING){
+            for(Square dangeredSquares: dangerousPiece.getDangered()) {
+                if (pieceOtherTeam.hasDangered(dangeredSquares)) {
+                    System.out.println("way can get blocked");
+                    return false;
+                }
+            }
+            }
+            }
+         */
         // TODO-check
-        return false;
+        return true;
     }
 
     private static boolean validateClearPath(Move move) {

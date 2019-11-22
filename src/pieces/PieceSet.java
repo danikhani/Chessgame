@@ -82,6 +82,7 @@ public class PieceSet {
             }
         }
         //System.out.println(availablePieces.size());
+        //System.out.println("without any filter"+availablePieces.size());
         return availablePieces;
     }
     public static ArrayList<Piece> getAvailablePieces(Piece.Color color){
@@ -94,8 +95,6 @@ public class PieceSet {
                 }
             }
         }
-
-
         ArrayList<Piece> availablePieces = new ArrayList<Piece>();
         for(int i =1 ; i<=8 ; i++){
             for (char j = 'a'; j <= 'h' ; j++ ){
@@ -106,7 +105,31 @@ public class PieceSet {
                 }
             }
         }
-        //System.out.println(availablePieces.size());
+        //System.out.println("with color filter"+availablePieces.size());
+        return availablePieces;
+    }
+    public static ArrayList<Piece> getAvailablePieces(Piece.Color color , Piece.Type type){
+        for(int i =1 ; i<=8 ; i++) {
+            for (char j = 'a'; j <= 'h'; j++) {
+                Square currentSquare = board.Board.getSquare(j, i);
+                if (currentSquare.getCurrentPiece() != null) {
+                    currentSquare.getCurrentPiece().setRank(i);
+                    currentSquare.getCurrentPiece().setFile(j);
+                }
+            }
+        }
+        ArrayList<Piece> availablePieces = new ArrayList<Piece>();
+        for(int i =1 ; i<=8 ; i++){
+            for (char j = 'a'; j <= 'h' ; j++ ){
+                Square currentSquare = board.Board.getSquare(j, i);
+                if(currentSquare.getCurrentPiece()!=null && currentSquare.getCurrentPiece().getColor() == color
+                && currentSquare.getCurrentPiece().getType() == type){
+                    //addes the piece to the available list
+                    availablePieces.add(currentSquare.getCurrentPiece());
+                }
+            }
+        }
+        //System.out.println("with color and typ filter"+availablePieces.size());
         return availablePieces;
     }
     /*
