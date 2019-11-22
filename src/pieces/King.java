@@ -54,6 +54,7 @@ public class King extends Piece {
             return true;
 
         }
+
         return false;
     }
     //to refresh the kings coordinate.

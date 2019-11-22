@@ -24,6 +24,7 @@ public class MoveValidator {
 
     private static Piece.Color currentMoveColor;
     private static Piece dangerousPiece;
+    private static Square kingSquare;
 
 
     public static boolean validateMove(Move move) {
@@ -72,13 +73,13 @@ public class MoveValidator {
     }
 //this method only works for white rooks now. but it gives checks the pieces on top of the rook
 // and if they are free it will be saved in rooks array as dangered. TODO: make a new class and add all methods for checking in all destinations
-    public static void setDangeredSquares(){
+    /*public static void setDangeredSquares(){
         for(Piece piece: getAvailablePieces()) {
             piece.clearDangered();
             if (piece.getType() == Piece.Type.ROOK && piece.getColor() == Piece.Color.WHITE) {
                 //System.out.println(piece);
-                /*System.out.println(piece.getRank());
-                System.out.println(piece.getFile());*/
+                *//*System.out.println(piece.getRank());
+                System.out.println(piece.getFile());*//*
                 int a = piece.getRank()+1;
                 char b = piece.getFile();
                while (a <= 8) {
@@ -94,23 +95,22 @@ public class MoveValidator {
             }
         }
 
-    }
+    }*/
 
 
     public static boolean isCheckMove(Move move) {
-        System.out.println("Rook has followign squares under control:");
         for(Piece piece: getAvailablePieces()) {
-            if (piece.getType() == Piece.Type.ROOK && piece.getColor() == Piece.Color.WHITE) {
-                piece.getDangered();
+            if (piece.getType() == Piece.Type.PAWN && piece.getColor()== Piece.Color.WHITE) {
+                System.out.println(piece.getColor()+" White soldires has followign squares under control:");
+                System.out.println(piece.getDangered());
+                System.out.println(piece.getColor()+" White soldires can reach following squares:");
+                System.out.println(piece.getReachable());
             }
         }
-        System.out.println("current move color is " + move.getPiece().getColor());
-        System.out.println("other move color is " + currentMoveColor);
-        Square kingSquare;
         for (Piece piece : getAvailablePieces(currentMoveColor)) {
             if (piece.getType() == Piece.Type.KING) {
                 kingSquare = Board.getSquare(piece.getFile(), piece.getRank());
-                System.out.println("king square of other color is " + kingSquare);
+                //System.out.println("king square of other color is " + kingSquare);
                 for (Piece ourPiece : getAvailablePieces(move.getPiece().getColor())) {
                     if(ourPiece.hasDangered(kingSquare)){
                         dangerousPiece = ourPiece;
@@ -125,7 +125,19 @@ public class MoveValidator {
 
 
     public static boolean isCheckMate(Move move) {
-        //works fine but too late.
+        //if dangerouspiece block geschmissen werden kann:
+        Square dangerousSquare = Board.getSquare(dangerousPiece.getFile(), dangerousPiece.getRank());
+        for (Piece piece : getAvailablePieces(currentMoveColor)) {
+            if(piece.hasDangered(dangerousSquare)){
+                return true;
+            }
+        }
+        for(Square dangeredSquares: dangerousPiece.getDangered()){
+
+        }
+
+
+
         System.out.println("dangerrouuus"+ dangerousPiece);
         // TODO-check
         return false;
@@ -134,6 +146,7 @@ public class MoveValidator {
     private static boolean validateClearPath(Move move) {
         if(move.getPiece().getType() == Piece.Type.KNIGHT){return true;}
             else{
+                //king cant go into check.
                 //check if diagonally
                         if (Math.abs( move.getDestinationFile() -  move.getOriginFile()) ==
                                 Math.abs( move.getDestinationRank() - move.getOriginRank())) {

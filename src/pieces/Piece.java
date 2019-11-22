@@ -27,6 +27,8 @@ public abstract class Piece {
 
     protected Square square;
     protected ArrayList<Square> dangeredSquares = new ArrayList<Square>();
+    protected ArrayList<Square> reachableSquares = new ArrayList<Square>();
+
 
     public Piece(Color color) {
         this.color = color;
@@ -104,14 +106,30 @@ public abstract class Piece {
     public void setDangered(Square square){
         dangeredSquares.add(square);
     }
-    public void getDangered(){
-        for (Square square: dangeredSquares) {
-            System.out.println(square);
-        }
+    public ArrayList<Square> getDangered(){
+        //System.out.println(dangeredSquares);
+        return dangeredSquares;
     }
     public boolean hasDangered(Square square){
         boolean itHas = false;
         if(dangeredSquares.contains(square)){
+            itHas = true;
+        }
+        return itHas;
+    }
+    public void clearReachable(){
+        reachableSquares.clear();
+    }
+    public void setReachable(Square square){
+        reachableSquares.add(square);
+    }
+    public ArrayList<Square> getReachable(){
+        //System.out.println(dangeredSquares);
+        return reachableSquares;
+    }
+    public boolean hasReachable(Square square){
+        boolean itHas = false;
+        if(reachableSquares.contains(square)){
             itHas = true;
         }
         return itHas;

@@ -1,6 +1,7 @@
 package util;
 
 import board.Board;
+import pieces.DangerPaths;
 import pieces.Piece;
 import pieces.PieceSet;
 import ui.*;
@@ -56,7 +57,7 @@ public class GameModel extends Observable {
         //This method sets all ranks and files of pieces.
         //  PieceSet.setRankAndFile();
         //This is just a test setDangered
-        MoveValidator.setDangeredSquares();
+        DangerPaths.setDangeredSquares();
 
         if (MoveValidator.isCheckMove(move)) {
             if (MoveValidator.isCheckMate(move)) {

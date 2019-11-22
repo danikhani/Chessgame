@@ -36,6 +36,7 @@ public class Rook extends Piece {
     public boolean specialMove(Move move) {
         return true;
     }
+    /*
     public void setDangered(Square square){
         dangeredSquares.add(square);
     }
@@ -44,7 +45,7 @@ public class Rook extends Piece {
             System.out.println(square);
         }
     }
-    /*public void dangered(){
+    public void dangered(){
         int a = getRank()+1;
         while (a<=8){
                 Square currentSquare = Board.getSquare(getFile(), a);
