@@ -31,6 +31,7 @@ public class GameFrame extends JFrame implements Observer{
     private JPanel timerPanel;
     private JPanel controlPanel;
     private JPanel moveHistoryPanel;
+    public static int selectedPromotionValue;
 
     public GameFrame(GameModel gameModel) {
         super("CSI2102 at YSU | InGame");
@@ -54,6 +55,18 @@ public class GameFrame extends JFrame implements Observer{
 
     public void showCheckmateDialog() {
         JOptionPane.showMessageDialog(this, "That's a Checkmate!", "Checkmate", JOptionPane.WARNING_MESSAGE);
+    }
+    private static String[] promotionOptions = { "Queen", "Knight", "Rook", "Bishop" };
+    public static void showPromotionDialog() {
+        selectedPromotionValue = JOptionPane.showOptionDialog(null,
+                "Please promote your Pawn to following: ",
+                "Promotion",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                promotionOptions,
+                promotionOptions[3]);
+        System.out.println(selectedPromotionValue);
     }
 
     private void loadInterface() {

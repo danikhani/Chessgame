@@ -1,16 +1,20 @@
 package util;
 
 import board.Board;
+import board.Square;
 import pieces.DangerPaths;
 import pieces.Piece;
 import pieces.PieceSet;
+import pieces.Queen;
 import ui.*;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
 import java.util.Observable;
 
+import static board.Board.initializePromotion;
 
 
 public class GameModel extends Observable {
@@ -58,6 +62,9 @@ public class GameModel extends Observable {
         //  PieceSet.setRankAndFile();
         //This is just a test setDangered
         DangerPaths.setDangeredSquares();
+        //check for promotions
+        blackPawnPromotionable();
+
 
         if (MoveValidator.isCheckMove(move)) {
             if (MoveValidator.isCheckMate(move)) {
@@ -98,10 +105,10 @@ public class GameModel extends Observable {
 
     private void switchTimer(Move move) {
         Piece.Color currentColor = move.getPiece().getColor();
-        if(move.getPiece().getColor()== Piece.Color.WHITE){
+        if (move.getPiece().getColor() == Piece.Color.WHITE) {
             whiteTimer.stop();
             blackTimer.start();
-        }else{
+        } else {
             whiteTimer.start();
             blackTimer.stop();
         }
@@ -127,6 +134,30 @@ public class GameModel extends Observable {
 
     public MoveHistoryPanel getMoveHistoryPanel() {
         return moveHistoryPanel;
+    }
+
+    public void blackPawnPromotionable() {
+        for (Piece blackPawn : PieceSet.getAvailablePieces(Piece.Color.BLACK, Piece.Type.PAWN)) {
+            if (blackPawn.getRank() == 6) {
+                GameFrame.showPromotionDialog();
+                changePawn(blackPawn);
+            }
+        }
+    }
+    private void changePawn(Piece piece){
+        //Queen", "Knight", "Rook", "Bishop"
+
+        piece.getColor();
+        Square currentSquare = board.Board.getSquare( piece.getFile(), piece.getRank());
+
+        switch(GameFrame.selectedPromotionValue){
+            case 0:
+                System.out.println("we want a queen");
+                PieceSet.addCapturedPiece(currentSquare.getCurrentPiece());
+                currentSquare.setCurrentPiece(null);
+                Iterator<Piece> whiteRooksIterator = PieceSet.getPieces(Piece.Color.BLACK, Piece.Type.ROOK).iterator();
+                currentSquare.setCurrentPiece(whiteRooksIterator.next());
+        }
     }
 
 }

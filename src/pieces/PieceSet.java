@@ -1,6 +1,8 @@
 package pieces;
 
 import board.Square;
+import ui.GameFrame;
+import util.GameModel;
 
 import java.util.*;
 
@@ -10,18 +12,18 @@ public class PieceSet {
     private static Map<Piece.Color, Stack<Piece>> capturedPieceSet;
     private static Map<Piece.Color, Stack<Piece>> availablePieceSet;
 
-    private static char whiteKingFile;
+    /*private static char whiteKingFile;
     private static int whiteKingRank;
     private static char blackKingFile;
-    private static int blackKingRank;
+    private static int blackKingRank;*/
 
     private static PieceSet pieceSetInstance = new PieceSet();
 
     public static PieceSet getInstance() {
         return pieceSetInstance;
     }
-    private static List<Piece> availableRequestedColorPieces = new ArrayList<Piece>();
-/*    private static List<Piece> availablePieces = new ArrayList<Piece>();
+    /*private static List<Piece> availableRequestedColorPieces = new ArrayList<Piece>();
+*//*    private static List<Piece> availablePieces = new ArrayList<Piece>();
     private static List<Piece> emptyList = new ArrayList<Piece>();*/
 
     private PieceSet() {
@@ -31,7 +33,7 @@ public class PieceSet {
     private static void initialize() {
         initializePieceSet();
         initializeCapturedPieceSet();
-        initializeKingsCoordinates();
+        //initializeKingsCoordinates();
     }
 
     public static List<Piece> getPieces(Piece.Color color) {
@@ -167,7 +169,7 @@ public class PieceSet {
         return capturedPieceSet.get(color);
     }
 
-    public static char getOpponentKingFile(Piece.Color color) {
+    /*public static char getOpponentKingFile(Piece.Color color) {
         if (color.equals(Piece.Color.WHITE)) {
             return blackKingFile;
         } else {
@@ -181,7 +183,7 @@ public class PieceSet {
         } else {
             return whiteKingRank;
         }
-    }
+    }*/
 
     private static void initializePieceSet() {
         /*
@@ -251,6 +253,9 @@ public class PieceSet {
         pieceSet.put(Piece.Color.WHITE, whitePieces);
         pieceSet.put(Piece.Color.BLACK, blackPieces);
     }
+    private static void initializePromotionPieceSet() {
+
+    }
 
     private static void initializeCapturedPieceSet() {
         capturedPieceSet = new LinkedHashMap<Piece.Color, Stack<Piece>>();
@@ -260,7 +265,7 @@ public class PieceSet {
         capturedPieceSet.put(Piece.Color.BLACK, blackCapturedPieces);
     }
 
-    private static void initializeKingsCoordinates() {
+    /*private static void initializeKingsCoordinates() {
         whiteKingFile = blackKingFile = 'e';
         whiteKingRank = 1;
         blackKingRank = 8;
@@ -272,7 +277,8 @@ public class PieceSet {
     public static void initializeWhiteKingCoordinates(int currentRank, char currentFile) {
         whiteKingFile = currentFile;
         whiteKingRank = currentRank;
-    }
+    }*/
+
 
 
 

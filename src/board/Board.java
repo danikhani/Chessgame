@@ -112,6 +112,10 @@ public class Board {
         getSquare('f', 7).setCurrentPiece(blackPawnsIterator.next());
         getSquare('g', 7).setCurrentPiece(blackPawnsIterator.next());
         getSquare('h', 7).setCurrentPiece(blackPawnsIterator.next());
-
+    }
+    public static void initializePromotion() {
+        Iterator<Piece> blackKnightsIterator = PieceSet.getPieces(Piece.Color.BLACK, Piece.Type.KNIGHT).iterator();
+        Iterator<Piece> whiteKnightsIterator = PieceSet.getPieces(Piece.Color.WHITE, Piece.Type.KNIGHT).iterator();
+        getSquare('b', 5).setCurrentPiece(whiteKnightsIterator.next());
     }
 }

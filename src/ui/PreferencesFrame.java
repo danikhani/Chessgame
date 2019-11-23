@@ -72,6 +72,11 @@ public class PreferencesFrame extends JFrame {
             case ONLINE:
                 onlineRadioButton.setSelected(true);
                 setNetworkSettingsEnabled(true);
+
+                /*customPiecesCheckBox.setEnabled(true);
+                customPiecesPanel.setEnabled(true);
+                aboutCustomPiecesButton.setEnabled(true);*/
+
                 switch (preferences.getNetworkMode()) {
                     case HOST:
                         hostGameRadioButton.setSelected(true);
@@ -104,6 +109,7 @@ public class PreferencesFrame extends JFrame {
         customPiecesCheckBox.setSelected(preferences.isUsingCustomPieces());
         reverseBoardCheckBox.setSelected(preferences.isBoardReversed());
 
+
         if (Core.isInGame()) {
             setNetworkSettingsEnabled(false);
             customPiecesCheckBox.setEnabled(false);
@@ -126,15 +132,21 @@ public class PreferencesFrame extends JFrame {
         this.setVisible(true);
         this.setResizable(false);
         this.setLocationRelativeTo(Core.getLaunchFrame());
+        offlineRadioButton.setSelected(true);
+        stopwatchRadioButton.setSelected(true);
+        customPiecesCheckBox.setEnabled(false);
+        customPiecesPanel.setEnabled(false);
+        aboutCustomPiecesButton.setEnabled(false);
+        setNetworkSettingsEnabled(false);
 
-        disableAndSelectForLecture();
+        //disableAndSelectForLecture();
     }
 
     private void disableAndSelectForLecture() {
         // Network
         offlineRadioButton.setSelected(true);
-        offlineRadioButton.setEnabled(false);
-        onlineRadioButton.setEnabled(false);
+        offlineRadioButton.setEnabled(true);
+        onlineRadioButton.setEnabled(true);
         setNetworkSettingsEnabled(false);
         // Timer
         stopwatchRadioButton.setSelected(true);
@@ -151,6 +163,7 @@ public class PreferencesFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 setGameSettingsEnabled(!joinGameRadioButton.isSelected());
                 setNetworkSettingsEnabled(true);
+                settingsMyGameDoesntHave();
             }
         });
         offlineRadioButton = new JRadioButton("Offline");
@@ -159,6 +172,7 @@ public class PreferencesFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 setGameSettingsEnabled(true);
                 setNetworkSettingsEnabled(false);
+                settingsMyGameDoesntHave();
             }
         });
         ButtonGroup gameModeButtonGroup = new ButtonGroup();
@@ -267,10 +281,11 @@ public class PreferencesFrame extends JFrame {
         joinGameRadioButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                reverseBoardCheckBox.setSelected(true);
+                //reverseBoardCheckBox.setSelected(true);
                 setGameSettingsEnabled(false);
                 hostIPTextField.setEnabled(true);
                 onlineRadioButton.setSelected(true);
+
             }
         });
         hostGameRadioButton = new JRadioButton("Host");
@@ -282,6 +297,7 @@ public class PreferencesFrame extends JFrame {
                 hostIPTextField.setText(Core.getLocalIPAddress());
                 hostIPTextField.setEnabled(false);
                 onlineRadioButton.setSelected(true);
+                settingsMyGameDoesntHave();
             }
         });
         ButtonGroup networkModeButtonGroup = new ButtonGroup();
@@ -351,6 +367,19 @@ public class PreferencesFrame extends JFrame {
         buttonsSubPanel.add(okButton);
         buttonsPanel = new JPanel(new BorderLayout());
         buttonsPanel.add(buttonsSubPanel, BorderLayout.EAST);
+    }
+
+    private void settingsMyGameDoesntHave(){
+        // Timer
+        //timerModeLabel.setEnabled(false);
+        countdownRadioButton.setEnabled(false);
+
+        //stopwatchRadioButton.setSelected(true);
+        // Custom Pieces
+        reverseBoardCheckBox.setEnabled(false);
+        customPiecesCheckBox.setEnabled(false);
+        customPiecesPanel.setEnabled(false);
+        aboutCustomPiecesButton.setEnabled(false);
     }
 
     private void setGameSettingsEnabled(boolean b) {

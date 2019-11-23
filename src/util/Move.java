@@ -38,6 +38,10 @@ public class Move {
         this.destinationFile = destinationFile;
         this.destinationRank = destinationRank;
     }
+    public Move(Piece piece, Piece capturedPiece){
+        this.piece = piece;
+        this.capturedPiece = capturedPiece;
+    }
 
     public Piece getPiece() {
         return piece;
