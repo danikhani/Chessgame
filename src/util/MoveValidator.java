@@ -27,11 +27,13 @@ public class MoveValidator {
     public static Piece dangerousPiece;
     public static Square kingSquare;
     public static Square otherKingSquare;
-    public static Piece kingPiece = null;
-
+    public static Piece kingPiece;
 
     public static boolean validateMove(Move move) {
         return validateMove(move, false);
+    }
+    public void gethelperon(Move move){
+
     }
 
     public static boolean validateMove(Move move, boolean ignoreColorCheck) {
@@ -75,6 +77,8 @@ public class MoveValidator {
         }
         currentMoveColor = currentMoveColor.equals(Piece.Color.WHITE) ? Piece.Color.BLACK : Piece.Color.WHITE;
         notCurrentMoveColor = move.getPiece().getColor() == Piece.Color.WHITE? Piece.Color.WHITE: Piece.Color.BLACK;
+
+
         return true;
     }
     public static boolean isStillChecked(Move move){

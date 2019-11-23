@@ -33,7 +33,6 @@ public class PieceSet {
     private static void initialize() {
         initializePieceSet();
         initializeCapturedPieceSet();
-        //initializeKingsCoordinates();
     }
 
     public static List<Piece> getPieces(Piece.Color color) {

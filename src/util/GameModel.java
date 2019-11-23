@@ -2,10 +2,7 @@ package util;
 
 import board.Board;
 import board.Square;
-import pieces.DangerPaths;
-import pieces.Piece;
-import pieces.PieceSet;
-import pieces.Queen;
+import pieces.*;
 import ui.*;
 
 import javax.swing.*;
@@ -14,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.Observable;
 
-import static board.Board.initializePromotion;
+//import static board.Board.initializePromotion;
 
 
 public class GameModel extends Observable {
@@ -35,6 +32,10 @@ public class GameModel extends Observable {
     private void initialize() {
         initializeTimers();
         initializeUIComponents();
+        //This method returns an array of all available pieces and sets all ranks and files of pieces.
+        PieceSet.getAvailablePieces();
+        //this sets all dangered paths.
+        DangerPaths.setDangeredSquares();
     }
 
     public void onMoveRequest(char originFile, int originRank, char destinationFile, int destinationRank) {
@@ -56,16 +57,14 @@ public class GameModel extends Observable {
         moveHistoryPanel.printMove(move);
         boardPanel.executeMove(move);
         switchTimer(move);
-        //This method returns an array of all available pieces
+        //This method returns an array of all available pieces and sets all ranks and files of pieces.
         PieceSet.getAvailablePieces();
         //This method sets all ranks and files of pieces.
         //  PieceSet.setRankAndFile();
-        //This is just a test setDangered
+        //this sets all dangered paths.
         DangerPaths.setDangeredSquares();
         //check for promotions
         blackPawnPromotionable();
-
-
         if (MoveValidator.isCheckMove(move)) {
             if (MoveValidator.isCheckMate(move)) {
                 stopTimer();
@@ -146,7 +145,7 @@ public class GameModel extends Observable {
     }
     private void changePawn(Piece piece){
         //Queen", "Knight", "Rook", "Bishop"
-
+//TODO: Promotion graphic should get passed
         piece.getColor();
         Square currentSquare = board.Board.getSquare( piece.getFile(), piece.getRank());
 
@@ -154,9 +153,25 @@ public class GameModel extends Observable {
             case 0:
                 System.out.println("we want a queen");
                 PieceSet.addCapturedPiece(currentSquare.getCurrentPiece());
+                BoardPanel board = new BoardPanel(this);
+                JPanel destinationSquarePanel = board.getSquarePanel(piece.getFile(), piece.getRank());
+                //destinationSquarePanel.getComponent(0).setVisible(false);
+                piece.setCapture(true);
                 currentSquare.setCurrentPiece(null);
-                Iterator<Piece> whiteRooksIterator = PieceSet.getPieces(Piece.Color.BLACK, Piece.Type.ROOK).iterator();
-                currentSquare.setCurrentPiece(whiteRooksIterator.next());
+                destinationSquarePanel.removeAll();
+                System.out.println(currentSquare.getCurrentPiece());
+                currentSquare.setCurrentPiece(new Rook(Piece.Color.BLACK));
+                System.out.println(currentSquare.getCurrentPiece());
+
+                //JPanel originSquarePanel = board.getSquarePanel(piece.getFile(), piece.getRank());
+
+                //destinationSquarePanel.add(getPieceImageLabel(bl()));
+
+                //destinationSquarePanel.add();
+                destinationSquarePanel.repaint();
+                /*Iterator<Piece> whiteRooksIterator = PieceSet.getPieces(Piece.Color.BLACK, Piece.Type.ROOK).iterator();
+                currentSquare.setCurrentPiece(whiteRooksIterator.next());*/
+
         }
     }
 

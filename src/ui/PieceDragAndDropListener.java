@@ -15,6 +15,8 @@ public class PieceDragAndDropListener implements MouseListener, MouseMotionListe
     private int originRank;
     private int dragOffsetX;
     private int dragOffsetY;
+    private char enteredFile;
+    private int enteredRank;
 
     public PieceDragAndDropListener(BoardPanel boardPanel) {
         this.boardPanel = boardPanel;
@@ -60,9 +62,13 @@ public class PieceDragAndDropListener implements MouseListener, MouseMotionListe
 
     @Override
     public void mouseEntered(MouseEvent e) {
+        enteredFile = calculateFile(e);
+        enteredRank = calculateRank(e);
+        System.out.println("file is "+enteredFile + " rank is " + enteredRank);
+        //boardPanel.putHelperColor(enteredFile,enteredRank);
         // nothing
-    }
 
+    }
     @Override
     public void mouseExited(MouseEvent e) {
         // nothing

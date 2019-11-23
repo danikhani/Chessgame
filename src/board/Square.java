@@ -2,8 +2,11 @@ package board;
 
 import pieces.Piece;
 import ui.BoardPanel;
+import util.Move;
 
 public class Square {
+    private int rank;
+    private char file;
 
     private Piece currentPiece;
 
@@ -17,9 +20,22 @@ public class Square {
     public Piece getCurrentPiece() {
         return this.currentPiece;
     }
-    public void changeColor(){
-        //BoardPanel.changeSingleSquarePanel
+    public int getRank(){
+        return this.rank;
+    }
+    public char getFile(){
+        return this.file;
+    }
+    public void setRank(int rank){
+        this.rank = rank;
+    }
+    public void setFile(char file){
+        this.file = file;
+    }
+    /*public void switchIndicator(Move move){
+        for (Square dangered : move.getPiece().getDangered()){
+            if(dangered.getFile(). )
+        }
+    }*/
 
     }
-
-}

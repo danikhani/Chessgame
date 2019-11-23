@@ -1,5 +1,6 @@
 package ui;
 
+import board.Square;
 import pieces.Piece;
 import pieces.PieceSet;
 import util.Core;
@@ -35,9 +36,14 @@ public class BoardPanel extends JPanel implements Observer {
     }
 
     public void submitMoveRequest(char originFile, int originRank, char destinationFile, int destinationRank) {
-        if (getSquarePanel(originFile, originRank).getComponent(0) != null ) {
-            getSquarePanel(originFile, originRank).getComponent(0).setVisible(true);
-            gameModel.onMoveRequest(originFile, originRank, destinationFile, destinationRank);
+        try {
+            if (getSquarePanel(originFile, originRank).getComponent(0) != null) {
+                getSquarePanel(originFile, originRank).getComponent(0).setVisible(true);
+                gameModel.onMoveRequest(originFile, originRank, destinationFile, destinationRank);
+            }
+        }
+        catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("Empty Field");
         }
     }
 
@@ -59,20 +65,31 @@ public class BoardPanel extends JPanel implements Observer {
             draggedPieceImageLabel.setLocation(dragX, dragY);
             draggedPieceImageLabel.setSize(SQUARE_DIMENSION, SQUARE_DIMENSION);
             boardLayeredPane.add(draggedPieceImageLabel, JLayeredPane.DRAG_LAYER);
+            putHelperColor(originPiece);
         }
     }
 
     public void executeDrag(int dragX, int dragY) {
+        try{
         JLabel draggedPieceImageLabel = (JLabel) boardLayeredPane.getComponentsInLayer(JLayeredPane.DRAG_LAYER)[0];
         if (draggedPieceImageLabel != null) {
             draggedPieceImageLabel.setLocation(dragX, dragY);
+            //System.out.println(draggedPieceImageLabel.getLabelFor());
+        }
+        }catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("Empty Drag");
         }
     }
 
     public void postDrag() {
-        JLabel draggedPieceImageLabel = (JLabel) boardLayeredPane.getComponentsInLayer(JLayeredPane.DRAG_LAYER)[0];
-        boardLayeredPane.remove(draggedPieceImageLabel);
-        boardLayeredPane.repaint();
+        try {
+            JLabel draggedPieceImageLabel = (JLabel) boardLayeredPane.getComponentsInLayer(JLayeredPane.DRAG_LAYER)[0];
+            boardLayeredPane.remove(draggedPieceImageLabel);
+            boardLayeredPane.repaint();
+            removeHelperColor();
+        }catch(ArrayIndexOutOfBoundsException e){
+            System.out.println("Empty Drag");
+        }
     }
 
     public JPanel getSquarePanel(char file, int rank) {
@@ -108,12 +125,48 @@ public class BoardPanel extends JPanel implements Observer {
         squarePanels[f][r].setBackground(f % 2 == r % 2 ? Color.GRAY : Color.WHITE);
         boardPanel.add(squarePanels[f][r]);
     }
-    public void changeSingleSquarePanel(int f, int r){
-        squarePanels[f][r] = new JPanel(new GridLayout(1, 1));
-        squarePanels[f][r].setPreferredSize(new Dimension(SQUARE_DIMENSION, SQUARE_DIMENSION));
-        squarePanels[f][r].setSize(new Dimension(SQUARE_DIMENSION, SQUARE_DIMENSION));
-        squarePanels[f][r].setBackground(Color.GREEN);
-        boardPanel.add(squarePanels[f][r]);
+
+    public void putHelperColor(Piece piece) {
+        //TODO: Problem here is that new Square is not like the current one existing. Should find a way to use the static method or find the piece within the square.
+        if (piece != null) {
+            for (Square dangered : piece.getDangered()) {
+                System.out.println(dangered);
+                getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.GREEN);
+            }
+        } else {
+            System.out.println("bro its empty");
+        }
+    }
+
+    /*public void putHelperColor(char originFile, int originRank){
+        //TODO: Problem here is that new Square is not like the current one existing. Should find a way to use the static method or find the piece within the square.
+        Square selectedSquare = new Square();
+        selectedSquare.setFile(originFile);
+        selectedSquare.setRank(originRank);
+        if(selectedSquare.getCurrentPiece() != null) {
+            for (Square dangered : selectedSquare.getCurrentPiece().getDangered()) {
+                getSquarePanel(originFile, originRank).setBackground(Color.GREEN);
+            }
+        }else{
+                System.out.println("bro its empty");
+            }
+        //getSquarePanel(originFile,originRank).setBackground(Color.GREEN);
+        //squarePanels[originFile][originRank].setBackground(Color.GREEN);
+    }*/
+    public void removeHelperColor(){
+        if (boardReversed) {
+            for (int r = 0; r < 8; r ++) {
+                for (int f = 7; f >= 0; f--) {
+                    squarePanels[f][r].setBackground(f % 2 == r % 2 ? Color.GRAY : Color.WHITE);
+                }
+            }
+        } else {
+            for (int r = 7; r >= 0; r --) {
+                for (int f = 0; f < 8; f++) {
+                    squarePanels[f][r].setBackground(f % 2 == r % 2 ? Color.GRAY : Color.WHITE);
+                }
+            }
+        }
     }
 
     private void initializePieces() {
