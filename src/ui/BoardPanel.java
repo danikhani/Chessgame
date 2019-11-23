@@ -127,32 +127,22 @@ public class BoardPanel extends JPanel implements Observer {
     }
 
     public void putHelperColor(Piece piece) {
-        //TODO: Problem here is that new Square is not like the current one existing. Should find a way to use the static method or find the piece within the square.
-        if (piece != null) {
-            for (Square dangered : piece.getDangered()) {
-                System.out.println(dangered);
+        for (Square dangered : piece.getDangered()) {
+            if (dangered.getCurrentPiece() == null) {
                 getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.GREEN);
+            } else if (dangered.getCurrentPiece().getColor() != piece.getColor()) {
+                getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.RED);
             }
-        } else {
-            System.out.println("bro its empty");
+        }
+        if (piece.getType() == Piece.Type.PAWN) {
+            for (Square reachable : piece.getReachable()) {
+                if (reachable.getCurrentPiece() == null) {
+                    getSquarePanel(reachable.getFile(), reachable.getRank()).setBackground(Color.GREEN);
+                }
+            }
         }
     }
 
-    /*public void putHelperColor(char originFile, int originRank){
-        //TODO: Problem here is that new Square is not like the current one existing. Should find a way to use the static method or find the piece within the square.
-        Square selectedSquare = new Square();
-        selectedSquare.setFile(originFile);
-        selectedSquare.setRank(originRank);
-        if(selectedSquare.getCurrentPiece() != null) {
-            for (Square dangered : selectedSquare.getCurrentPiece().getDangered()) {
-                getSquarePanel(originFile, originRank).setBackground(Color.GREEN);
-            }
-        }else{
-                System.out.println("bro its empty");
-            }
-        //getSquarePanel(originFile,originRank).setBackground(Color.GREEN);
-        //squarePanels[originFile][originRank].setBackground(Color.GREEN);
-    }*/
     public void removeHelperColor(){
         if (boardReversed) {
             for (int r = 0; r < 8; r ++) {

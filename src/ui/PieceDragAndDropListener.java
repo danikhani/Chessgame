@@ -62,11 +62,9 @@ public class PieceDragAndDropListener implements MouseListener, MouseMotionListe
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        enteredFile = calculateFile(e);
+        /*enteredFile = calculateFile(e);
         enteredRank = calculateRank(e);
-        System.out.println("file is "+enteredFile + " rank is " + enteredRank);
-        //boardPanel.putHelperColor(enteredFile,enteredRank);
-        // nothing
+        System.out.println("file is "+enteredFile + " rank is " + enteredRank);*/
 
     }
     @Override
