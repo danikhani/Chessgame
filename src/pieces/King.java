@@ -1,7 +1,9 @@
 package pieces;
 
+import board.Board;
 import board.Square;
 import util.Move;
+import util.MoveValidator;
 
 public class King extends Piece {
 
@@ -44,46 +46,26 @@ public class King extends Piece {
         return false;
     }
     @Override
+    //This stops the king to move into check position
     public boolean specialMove(Move move) {
         if (Math.abs(move.getDestinationRank() - move.getOriginRank()) == 1) {
-            refreshCoordinates(move);
-            return true;
+            return willCheck(move);
         }
         if (Math.abs(move.getDestinationFile() - move.getOriginFile()) == 1) {
-            refreshCoordinates(move);
-            return true;
-
+            return willCheck(move);
         }
 
         return false;
     }
-    //to refresh the kings coordinate.
-    private void refreshCoordinates(Move move){
-        if(move.getPiece().getColor() == Color.BLACK){
-            PieceSet.initializeBlackKingCoordinates(move.getDestinationRank(),move.getDestinationFile());
-        }
-        else{
-            PieceSet.initializeWhiteKingCoordinates(move.getDestinationRank(),move.getDestinationFile());
-        }
-    }
-   /* public boolean possibleCheck(Move move){
-        int rankDif = move.getDestinationRank() - move.getOriginRank();
-        int j = 1;
-        while (j < rankDif) {
-            Square currentSquare = board.Board.getSquare(move.getOriginFile(), move.getOriginRank() + j);
-            if (currentSquare.getCurrentPiece().getType() == Piece.Type.BISHOP &&
-                    move.getPiece().getColor().equals(currentSquare.getCurrentPiece().getColor()) ) {
+    //looks if the king is moveing into check
+    private boolean willCheck(Move move){
+        Square futureKingsSquare = Board.getSquare(move.getDestinationFile(), move.getDestinationRank());
+        for(Piece futureSetting : PieceSet.getAvailablePieces(MoveValidator.notCurrentMoveColor)){
+            if(futureSetting.hasDangered(futureKingsSquare)){
                 return false;
             }
-            j++;
         }
-
-
-
-
         return true;
     }
-
-    */
 
 }
