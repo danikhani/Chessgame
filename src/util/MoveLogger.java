@@ -2,10 +2,11 @@ package util;
 
 import pieces.Piece;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MoveLogger {
+public class MoveLogger implements Serializable {
 
     /**
      * Wrapper class for a pair of moves.

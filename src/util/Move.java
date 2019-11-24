@@ -3,7 +3,9 @@ package util;
 import board.Board;
 import pieces.Piece;
 
-public class Move {
+import java.io.Serializable;
+
+public class Move implements Serializable {
 
     private Piece piece;
     private Piece capturedPiece;

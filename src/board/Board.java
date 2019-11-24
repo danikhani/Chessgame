@@ -4,9 +4,10 @@ import pieces.*;
 import util.Core;
 import util.Move;
 
+import java.io.Serializable;
 import java.util.Iterator;
 
-public class Board {
+public class Board implements Serializable {
 
     public static final int DIMENSION = 8;
 

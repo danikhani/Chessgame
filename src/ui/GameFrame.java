@@ -2,17 +2,19 @@ package ui;
 
 import util.Core;
 import util.GameModel;
+import util.SaveingAndLoading;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 
 import static java.lang.System.exit;
 
-public class GameFrame extends JFrame implements Observer{
+public class GameFrame extends JFrame implements Observer, Serializable {
 
     private GameModel gameModel;
 
@@ -85,7 +87,13 @@ public class GameFrame extends JFrame implements Observer{
         newGameMenuItem.setEnabled(false);
 
         saveGameMenuItem = new JMenuItem("Save Game");
-        saveGameMenuItem.setEnabled(false);
+        saveGameMenuItem.setEnabled(true);
+        saveGameMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SaveingAndLoading().save();
+            }
+        });
 
         preferencesMenuItem = new JMenuItem("Preferences");
         preferencesMenuItem.setEnabled(false);

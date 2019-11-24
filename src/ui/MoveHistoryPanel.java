@@ -5,10 +5,11 @@ import util.Move;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 
-public class MoveHistoryPanel extends JPanel implements Observer {
+public class MoveHistoryPanel extends JPanel implements Observer , Serializable {
 
     private GameModel gameModel;
     private JScrollPane moveHistoryScrollPane;

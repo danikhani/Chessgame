@@ -33,6 +33,7 @@ package ui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 
 /**
  * A 1.4 file that provides utility methods for
@@ -40,7 +41,7 @@ import java.awt.*;
  * These utilities are used by several programs, such as
  * SpringBox and SpringCompactGrid.
  */
-public class SpringUtilities {
+public class SpringUtilities implements Serializable {
     /**
      * A debugging utility that prints to stdout the component's
      * minimum, preferred, and maximum sizes.

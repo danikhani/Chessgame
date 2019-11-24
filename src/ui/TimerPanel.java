@@ -4,11 +4,12 @@ import util.GameModel;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.sql.Time;
 import java.util.Observable;
 import java.util.Observer;
 
-public class TimerPanel extends JPanel implements Observer {
+public class TimerPanel extends JPanel implements Observer, Serializable {
 
     private GameModel gameModel;
     private Time whiteTime;

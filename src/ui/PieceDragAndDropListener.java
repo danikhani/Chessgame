@@ -5,8 +5,9 @@ import board.Board;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.Serializable;
 
-public class PieceDragAndDropListener implements MouseListener, MouseMotionListener {
+public class PieceDragAndDropListener implements MouseListener, MouseMotionListener, Serializable {
 
     private BoardPanel boardPanel;
 

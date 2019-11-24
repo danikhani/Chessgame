@@ -5,12 +5,13 @@ import board.Square;
 import pieces.*;
 import ui.BoardPanel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import static pieces.PieceSet.getAvailablePieces;
 
-public class MoveValidator {
+public class MoveValidator implements Serializable {
 
     private static MoveValidator ourInstance = new MoveValidator();
 
@@ -77,6 +78,9 @@ public class MoveValidator {
         }
         currentMoveColor = currentMoveColor.equals(Piece.Color.WHITE) ? Piece.Color.BLACK : Piece.Color.WHITE;
         notCurrentMoveColor = move.getPiece().getColor() == Piece.Color.WHITE? Piece.Color.WHITE: Piece.Color.BLACK;
+        for (Piece piece : getAvailablePieces(currentMoveColor, Piece.Type.KING)) {
+            kingPiece = piece;
+        }
 
 
         return true;
@@ -129,13 +133,8 @@ public class MoveValidator {
         }
         return false;
     }
-
-
-    public static boolean isCheckMate(Move move) {
-        for (Piece piece : getAvailablePieces(currentMoveColor, Piece.Type.KING)) {
-            kingPiece = piece;
-        }
-        //if king can move.(WORKS)
+    //if king can move after the ccheck.
+    private static boolean kingCanMove(Move move){
         for (Square kingsAccessibleSquare : kingPiece.getDangered()) {
             boolean squareIsFine = true;
             //System.out.println("new square" + kingsAccessibleSquare);
@@ -158,14 +157,30 @@ public class MoveValidator {
 
             }
         }
+        return true;
+    }
+    private static boolean attackerCanGetCaptured(Move move){
         //if dangerous piece can get captured (WORKS!!!)
         Square dangerousSquare = Board.getSquare(dangerousPiece.getFile(), dangerousPiece.getRank());
         for (Piece piece : getAvailablePieces(currentMoveColor)) {
-            if (piece.hasDangered(dangerousSquare)) {
-                System.out.println("attacker can get captured");
-                return false;
+            if(piece.getType() != Piece.Type.KING){
+                if (piece.hasDangered(dangerousSquare)) {
+                    System.out.println("attacker can get captured");
+                    return false;
+                }
+                else {
+                    if (piece.hasDangered(dangerousSquare)) {
+                        if(!kingCanMove(move)){
+                        System.out.println("king can attack the attacker");
+                            return false;}
+                    }
+                }
+
             }
         }
+        return true;
+    }
+    private static boolean attackerCanGetBlocked(Move move){
         //checking if the way can get blocked (WORKS!)
         //here you get to save the path between the attacking piece and king.
         if (dangerousPiece.getType() == Piece.Type.QUEEN) {
@@ -199,6 +214,12 @@ public class MoveValidator {
                     }
                 }
             }
+        }
+        return true;
+    }
+    public static boolean isCheckMate(Move move) {
+        if(!kingCanMove(move) || !attackerCanGetBlocked(move) || !attackerCanGetCaptured(move)){
+            return false;
         }
         return true;
     }

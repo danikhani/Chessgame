@@ -4,7 +4,9 @@ import pieces.Piece;
 import ui.BoardPanel;
 import util.Move;
 
-public class Square {
+import java.io.Serializable;
+
+public class Square implements Serializable {
     private int rank;
     private char file;
 

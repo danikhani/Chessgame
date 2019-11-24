@@ -3,10 +3,11 @@ package util;
 import ui.LaunchFrame;
 import ui.PreferencesFrame;
 
+import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public class Core {
+public class Core implements Serializable {
 
     private static Core coreInstance = new Core();
     private static boolean inGame;

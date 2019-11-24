@@ -9,11 +9,12 @@ import util.MoveValidator;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
-public class BoardPanel extends JPanel implements Observer {
+public class BoardPanel extends JPanel implements Observer, Serializable {
 
     public static final int SQUARE_DIMENSION = 100;
 

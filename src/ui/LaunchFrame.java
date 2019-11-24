@@ -1,13 +1,15 @@
 package ui;
 
 import util.Core;
+import util.SaveingAndLoading;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 
-public class LaunchFrame extends JFrame {
+public class LaunchFrame extends JFrame implements Serializable {
 
     private JPanel bannerPanel;
     private JLabel bannerLabel;
@@ -62,10 +64,16 @@ public class LaunchFrame extends JFrame {
         newGameButtonPanel.setBorder(BorderFactory.createEmptyBorder(40, 50, 40, 25));
         newGameButtonPanel.add(newGameButton);
         loadGameButton = new JButton("Load Game");
-        loadGameButton.setEnabled(false);
+        loadGameButton.setEnabled(true);
         loadGameButtonPanel = new JPanel(new GridLayout(1, 1));
         loadGameButtonPanel.setBorder(BorderFactory.createEmptyBorder(40, 25, 40, 50));
         loadGameButtonPanel.add(loadGameButton);
+        loadGameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new SaveingAndLoading().load();
+            }
+        });
 
 
         buttonsPanel = new JPanel(new GridLayout(1, 2));
