@@ -1,11 +1,11 @@
 package ui;
 
 import board.Square;
-import pieces.Piece;
-import pieces.PieceSet;
+import pieces.*;
 import util.Core;
 import util.GameModel;
 import util.Move;
+import util.MoveValidator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,6 +23,7 @@ public class BoardPanel extends JPanel implements Observer {
     private JLayeredPane boardLayeredPane;
     private JPanel boardPanel;
     private JPanel[][] squarePanels;
+    private boolean showHelper = true;
 
     public BoardPanel(GameModel gameModel) {
         super(new BorderLayout());
@@ -43,7 +44,7 @@ public class BoardPanel extends JPanel implements Observer {
             }
         }
         catch(ArrayIndexOutOfBoundsException e){
-            System.out.println("Empty Field");
+            System.out.println("submitMoveRequest Exception, Empty Field");
         }
     }
 
@@ -55,6 +56,9 @@ public class BoardPanel extends JPanel implements Observer {
         destinationSquarePanel.repaint();
         originSquarePanel.removeAll();
         originSquarePanel.repaint();
+        /*if (MoveValidator.notCurrentMoveColor == move.getPiece().getColor()) {
+            showHelper = true;
+        }*/
     }
 
     public void preDrag(char originFile, int originRank, int dragX, int dragY) {
@@ -66,6 +70,11 @@ public class BoardPanel extends JPanel implements Observer {
             draggedPieceImageLabel.setSize(SQUARE_DIMENSION, SQUARE_DIMENSION);
             boardLayeredPane.add(draggedPieceImageLabel, JLayeredPane.DRAG_LAYER);
             putHelperColor(originPiece);
+            //TODO:Make a toggle so helper only shows for the color which is in turn to move
+            /*if(showHelper){
+                putHelperColor(originPiece);
+                showHelper = false;
+            }*/
         }
     }
 
@@ -74,10 +83,9 @@ public class BoardPanel extends JPanel implements Observer {
         JLabel draggedPieceImageLabel = (JLabel) boardLayeredPane.getComponentsInLayer(JLayeredPane.DRAG_LAYER)[0];
         if (draggedPieceImageLabel != null) {
             draggedPieceImageLabel.setLocation(dragX, dragY);
-            //System.out.println(draggedPieceImageLabel.getLabelFor());
         }
         }catch(ArrayIndexOutOfBoundsException e){
-            System.out.println("Empty Drag");
+            System.out.println("executeDrag Exception, Empty Drag");
         }
     }
 
@@ -88,7 +96,7 @@ public class BoardPanel extends JPanel implements Observer {
             boardLayeredPane.repaint();
             removeHelperColor();
         }catch(ArrayIndexOutOfBoundsException e){
-            System.out.println("Empty Drag");
+            System.out.println("postDrag Exception, Empty Drag");
         }
     }
 
@@ -126,6 +134,7 @@ public class BoardPanel extends JPanel implements Observer {
         boardPanel.add(squarePanels[f][r]);
     }
 
+//this will set the reachable and attackable squares to another color.
     public void putHelperColor(Piece piece) {
         for (Square dangered : piece.getDangered()) {
             if (dangered.getCurrentPiece() == null) {
@@ -134,6 +143,7 @@ public class BoardPanel extends JPanel implements Observer {
                 getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.RED);
             }
         }
+        //because pawns have an different attack and movement they need this extra.
         if (piece.getType() == Piece.Type.PAWN) {
             for (Square reachable : piece.getReachable()) {
                 if (reachable.getCurrentPiece() == null) {
@@ -143,6 +153,7 @@ public class BoardPanel extends JPanel implements Observer {
         }
     }
 
+//this will remove the set color by the putHelperColor.
     public void removeHelperColor(){
         if (boardReversed) {
             for (int r = 0; r < 8; r ++) {
@@ -157,6 +168,38 @@ public class BoardPanel extends JPanel implements Observer {
                 }
             }
         }
+    }
+    //This method is for promoting the pawn after the choice from jpanel got made.
+    public void initializePromotePieces(Move move , int chosenPiece) {
+        Piece originPiece = move.getPiece();
+        Piece.Color color = move.getPiece().getColor();
+        Square currentSquare = board.Board.getSquare(move.getDestinationFile(), move.getDestinationRank());
+        JPanel originSquarePanel = getSquarePanel(move.getDestinationFile(), move.getDestinationRank());
+        //to remove the current Piece and panel
+        originPiece.setCapture(true);
+        currentSquare.setCurrentPiece(null);
+        originSquarePanel.removeAll();
+        originSquarePanel.repaint();
+        //Its for changing the piece to the one that got chosen:
+        switch(chosenPiece){
+            case 0:
+                currentSquare.setCurrentPiece(new Queen(color));
+                originSquarePanel.add(getPieceImageLabel(new Queen(color)));
+                break;
+            case 1:
+                currentSquare.setCurrentPiece(new Knight(color));
+                originSquarePanel.add(getPieceImageLabel(new Knight(color)));
+                break;
+            case 2:
+                currentSquare.setCurrentPiece(new Rook(color));
+                originSquarePanel.add(getPieceImageLabel(new Rook(color)));
+                break;
+            case 3:
+                currentSquare.setCurrentPiece(new Bishop(color));
+                originSquarePanel.add(getPieceImageLabel(new Bishop(color)));
+                break;
+        }
+        originSquarePanel.repaint();
     }
 
     private void initializePieces() {

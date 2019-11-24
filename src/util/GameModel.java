@@ -8,6 +8,7 @@ import ui.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Array;
 import java.util.Iterator;
 import java.util.Observable;
 
@@ -21,6 +22,7 @@ public class GameModel extends Observable {
     private TimerPanel timerPanel;
     private ControlPanel controlPanel;
     private MoveHistoryPanel moveHistoryPanel;
+
 
     private Timer whiteTimer;
     private Timer blackTimer;
@@ -64,7 +66,10 @@ public class GameModel extends Observable {
         //this sets all dangered paths.
         DangerPaths.setDangeredSquares();
         //check for promotions
-        blackPawnPromotionable();
+        if (MoveValidator.notCurrentMoveColor == move.getPiece().getColor()) {
+            blackPawnPromote(move);
+            whitePawnPromote(move);
+        }
         if (MoveValidator.isCheckMove(move)) {
             if (MoveValidator.isCheckMate(move)) {
                 stopTimer();
@@ -134,45 +139,32 @@ public class GameModel extends Observable {
     public MoveHistoryPanel getMoveHistoryPanel() {
         return moveHistoryPanel;
     }
-
-    public void blackPawnPromotionable() {
-        for (Piece blackPawn : PieceSet.getAvailablePieces(Piece.Color.BLACK, Piece.Type.PAWN)) {
-            if (blackPawn.getRank() == 6) {
-                GameFrame.showPromotionDialog();
-                changePawn(blackPawn);
-            }
+    //promotion for pawns
+//it shows the promotion message if pawn moves to the location
+    public void blackPawnPromote(Move move) {
+        if (move.getDestinationRank() == 1 && move.getPiece().getColor() == Piece.Color.BLACK
+                && move.getPiece().getType() == Piece.Type.PAWN) {
+            //This shows the promotion if black pawn reaches the rank 1
+            GameFrame.showPromotionDialog();
+            //This sends the needed info to the board to change the Pawn to the chosen piece
+            boardPanel.initializePromotePieces(move, GameFrame.selectedPromotionValue);
+            //This method returns an array of all available pieces and sets all ranks and files of pieces.
+            PieceSet.getAvailablePieces();
+            //this sets all dangered paths.
+            DangerPaths.setDangeredSquares();
         }
     }
-    private void changePawn(Piece piece){
-        //Queen", "Knight", "Rook", "Bishop"
-//TODO: Promotion graphic should get passed
-        piece.getColor();
-        Square currentSquare = board.Board.getSquare( piece.getFile(), piece.getRank());
-
-        switch(GameFrame.selectedPromotionValue){
-            case 0:
-                System.out.println("we want a queen");
-                PieceSet.addCapturedPiece(currentSquare.getCurrentPiece());
-                BoardPanel board = new BoardPanel(this);
-                JPanel destinationSquarePanel = board.getSquarePanel(piece.getFile(), piece.getRank());
-                //destinationSquarePanel.getComponent(0).setVisible(false);
-                piece.setCapture(true);
-                currentSquare.setCurrentPiece(null);
-                destinationSquarePanel.removeAll();
-                System.out.println(currentSquare.getCurrentPiece());
-                currentSquare.setCurrentPiece(new Rook(Piece.Color.BLACK));
-                System.out.println(currentSquare.getCurrentPiece());
-
-                //JPanel originSquarePanel = board.getSquarePanel(piece.getFile(), piece.getRank());
-
-                //destinationSquarePanel.add(getPieceImageLabel(bl()));
-
-                //destinationSquarePanel.add();
-                destinationSquarePanel.repaint();
-                /*Iterator<Piece> whiteRooksIterator = PieceSet.getPieces(Piece.Color.BLACK, Piece.Type.ROOK).iterator();
-                currentSquare.setCurrentPiece(whiteRooksIterator.next());*/
-
+    public void whitePawnPromote(Move move) {
+        if (move.getDestinationRank() == 8 && move.getPiece().getColor() == Piece.Color.WHITE
+                && move.getPiece().getType() == Piece.Type.PAWN) {
+            //This shows the promotion if black pawn reaches the rank 1
+            GameFrame.showPromotionDialog();
+            //This sends the needed info to the board to change the Pawn to the chosen piece
+            boardPanel.initializePromotePieces(move, GameFrame.selectedPromotionValue);
+            //This method returns an array of all available pieces and sets all ranks and files of pieces.
+            PieceSet.getAvailablePieces();
+            //this sets all dangered paths.
+            DangerPaths.setDangeredSquares();
         }
     }
-
 }

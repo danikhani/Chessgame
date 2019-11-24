@@ -204,6 +204,7 @@ public class DangerPaths {
         //first pawn move white
         if (piece.getColor() == Piece.Color.WHITE) {
             currentRank++;
+            if (isInBarriers(currentRank, currentFile)) {
             currentSquare = Board.getSquare(currentFile, currentRank);
             if (currentSquare.getCurrentPiece() == null) {
                 piece.setReachable(currentSquare);
@@ -214,11 +215,13 @@ public class DangerPaths {
                         piece.setReachable(currentSquare);
                     }
                 }
+                }
             }
         }
         //first pawn move black
         if (piece.getColor() == Piece.Color.BLACK) {
             currentRank--;
+            if (isInBarriers(currentRank, currentFile)) {
             currentSquare = Board.getSquare(currentFile, currentRank);
             if (currentSquare.getCurrentPiece() == null) {
                 piece.setReachable(currentSquare);
@@ -228,6 +231,7 @@ public class DangerPaths {
                     if (currentSquare.getCurrentPiece() == null) {
                         piece.setReachable(currentSquare);
                     }
+                }
                 }
             }
         }
