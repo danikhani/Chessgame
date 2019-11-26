@@ -1,6 +1,7 @@
 package util;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Timer;
 
 import board.*;
@@ -8,66 +9,147 @@ import pieces.*;
 import ui.*;
 import util.*;
 
+import javax.swing.*;
+
 
 public class SaveingAndLoading {
-    String filename = "file.ser";
-    GameModel gamemodel = new GameModel();
-    BoardPanel board = new BoardPanel(gamemodel);
-    TimerPanel timer = new TimerPanel(gamemodel);
-    public void save() {
-        // Serialization
+
+    private static ArrayList<Piece> loadedPieces = new ArrayList<Piece>();
+// This will save the position of each piece and adds it to a file.
+    public static void savePiecePosition() {
         try {
-            //Saving of object in a file
-            FileOutputStream file = new FileOutputStream(filename);
-            ObjectOutputStream out = new ObjectOutputStream(file);
-
-            // Method for serialization of object
-            out.writeObject(gamemodel);
-            //out.writeObject(board);
-            //out.writeObject(timer);
-
-            out.close();
-            file.close();
-
-            System.out.println("Object has been serialized");
-
-        } catch (
-                IOException ex) {
-            System.out.println("IOException is caught");
+            File file = new File("PiecePosition.txt");
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            for (Piece piece : PieceSet.getAvailablePieces()) {
+                writer.write(piece.getType() + "/");
+                writer.write(piece.getColor() + "/");
+                writer.write(piece.getRank() + "/");
+                writer.write(piece.getFile() + "\n");
+            }
+            writer.close();
+        } catch (IOException ex) {
+            System.out.println("couldn’t write the String out");
+            //ex.printStackTrace();
         }
-        //object1 = null;
-
-
-
     }
-    public void load(){
-        // Deserialization
-        try
-        {
-            // Reading the object from a file
-            FileInputStream file = new FileInputStream(filename);
-            ObjectInputStream in = new ObjectInputStream(file);
+//THis will load the position from the text file and makes a long string out of it.
+    public static void loadPiecePosition() {
+        try {
+            File myFile = new File("PiecePosition.txt");
+            FileReader fileReader = new FileReader(myFile);
+            BufferedReader reader = new BufferedReader(fileReader);
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+                makePieceObjects(line);
+            }
+            reader.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+//This splits the loaded string
+    private static void makePieceObjects(String lineToParse) {
+        String[] result = lineToParse.split("/");
+        Piece.Type type = null;
+        Piece.Color color = null;
+        Piece piece = null;
+        int rank = Integer.parseInt(result[2]);
+        char file = result[3].charAt(0);
 
-            // Method for deserialization of object
-            gamemodel = (GameModel)in.readObject();
-            //board = (BoardPanel)in.readObject();
-            //timer = (TimerPanel)in.readObject();
-
-            in.close();
-            file.close();
-
-            System.out.println("Object has been deserialized ");
+        if (result[1].equals("WHITE")) {
+            color = Piece.Color.WHITE;
+        } else {
+            color = Piece.Color.BLACK;
         }
 
-        catch(IOException ex)
-        {
-            System.out.println("IOException is caught");
+        switch (result[0]) {
+            case "PAWN":
+                type = Piece.Type.PAWN;
+                piece = new Pawn(color);
+                break;
+            case "ROOK":
+                type = Piece.Type.ROOK;
+                piece = new Rook(color);
+                break;
+            case "KNIGHT":
+                type = Piece.Type.KNIGHT;
+                piece = new Knight(color);
+                break;
+            case "BISHOP":
+                type = Piece.Type.BISHOP;
+                piece = new Bishop(color);
+                break;
+            case "KING":
+                type = Piece.Type.KING;
+                piece = new King(color);
+                break;
+            case "QUEEN":
+                type = Piece.Type.QUEEN;
+                piece = new Queen(color);
+                break;
         }
-
-        catch(ClassNotFoundException ex)
-        {
-            System.out.println("ClassNotFoundException is caught");
-        }
-
+        //System.out.println(type);
+        //System.out.println(color);
+        //System.out.println(rank);
+        //System.out.println(file);
+        //System.out.println(piece);
+        piece.setRank(rank);
+        piece.setFile(file);
+        loadedPieces.add(piece);
+    }
+    public static ArrayList<Piece> getLoadedPieces(){
+        return loadedPieces;
+    }
+    public static void removeLoadedPieces(){
+        loadedPieces.clear();
     }
 }
+
+
+
+
+
+
+
+
+
+            /*Class.forName(nameString).newInstance();
+
+
+
+            originPiece.setCapture(true);
+            currentSquare.setCurrentPiece(null);
+            originSquarePanel.removeAll();
+            originSquarePanel.repaint();
+
+
+
+
+
+            Square currentSquare = board.Board.getSquare(result[2], result[3]);
+            currentSquare.setCurrentPiece(new type(result[1]));
+            currentSquare.setCurrentPiece(new Queen(color));
+            originSquarePanel.repaint();*/
+
+
+    /*Piece originPiece = move.getPiece();
+    Piece.Color color = move.getPiece().getColor();
+    Square currentSquare = board.Board.getSquare(move.getDestinationFile(), move.getDestinationRank());
+    JPanel originSquarePanel = getSquarePanel(move.getDestinationFile(), move.getDestinationRank());
+    //to remove the current Piece and panel
+        originPiece.setCapture(true);
+        currentSquare.setCurrentPiece(null);
+        originSquarePanel.removeAll();
+        originSquarePanel.repaint();
+    //Its for changing the piece to the one that got chosen:
+        switch(chosenPiece){
+        case 0:
+            currentSquare.setCurrentPiece(new Queen(color));
+            originSquarePanel.add(getPieceImageLabel(new Queen(color)));
+            break;
+
+
+
+    }
+*/

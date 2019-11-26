@@ -85,13 +85,19 @@ public class GameFrame extends JFrame implements Observer, Serializable {
         // game menu
         newGameMenuItem = new JMenuItem("New Game");
         newGameMenuItem.setEnabled(false);
+        newGameMenuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Core.startGame();
+            }
+        });
 
         saveGameMenuItem = new JMenuItem("Save Game");
         saveGameMenuItem.setEnabled(true);
         saveGameMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new SaveingAndLoading().save();
+                SaveingAndLoading.savePiecePosition();
             }
         });
 

@@ -1,6 +1,9 @@
 package ui;
 
+import util.Core;
 import util.GameModel;
+import util.MoveLogger;
+import util.SaveingAndLoading;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +12,7 @@ import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
+
 
 public class ControlPanel extends JPanel implements Observer, Serializable {
 
@@ -31,9 +35,22 @@ public class ControlPanel extends JPanel implements Observer, Serializable {
         undoButton = new JButton("Request Undo");
         undoButton.setEnabled(false);
         saveButton = new JButton("Save Game");
-        saveButton.setEnabled(false);
+        saveButton.setEnabled(true);
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SaveingAndLoading.savePiecePosition();
+            }
+        });
         loadButton = new JButton("Load Game");
-        loadButton.setEnabled(false);
+        loadButton.setEnabled(true);
+        loadButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                SaveingAndLoading.loadPiecePosition();
+                gameModel.loadGame();
+            }
+        });
 
         this.add(undoButton);
         this.add(saveButton);

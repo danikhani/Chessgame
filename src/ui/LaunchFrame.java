@@ -1,6 +1,7 @@
 package ui;
 
 import util.Core;
+import util.GameModel;
 import util.SaveingAndLoading;
 
 import javax.swing.*;
@@ -20,6 +21,7 @@ public class LaunchFrame extends JFrame implements Serializable {
     private JButton newGameButton;
     private JButton loadGameButton;
     private JFileChooser loadGameFileChooser;
+    private GameModel gameModel;
 
     public LaunchFrame() {
         super("CSI2102 at YSU | Main");
@@ -63,6 +65,8 @@ public class LaunchFrame extends JFrame implements Serializable {
         newGameButtonPanel = new JPanel(new GridLayout(1, 1));
         newGameButtonPanel.setBorder(BorderFactory.createEmptyBorder(40, 50, 40, 25));
         newGameButtonPanel.add(newGameButton);
+        //This is not working properly.
+        //TODO: Find a way to start the game and load a saved file.
         loadGameButton = new JButton("Load Game");
         loadGameButton.setEnabled(true);
         loadGameButtonPanel = new JPanel(new GridLayout(1, 1));
@@ -71,7 +75,12 @@ public class LaunchFrame extends JFrame implements Serializable {
         loadGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new SaveingAndLoading().load();
+                if (!Core.isInGame()) {
+                    Core.startGame();
+                    dispose();
+                }
+                SaveingAndLoading.loadPiecePosition();
+                gameModel.loadGame();
             }
         });
 

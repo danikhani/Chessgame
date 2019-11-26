@@ -85,6 +85,7 @@ public class GameModel extends Observable implements Serializable {
         return Board.getSquare(file, rank).getCurrentPiece();
     }
 
+
     private void initializeUIComponents() {
         boardPanel = new BoardPanel(this);
         timerPanel = new TimerPanel(this);
@@ -167,5 +168,13 @@ public class GameModel extends Observable implements Serializable {
             //this sets all dangered paths.
             DangerPaths.setDangeredSquares();
         }
+    }
+    //
+    public void loadGame(){
+        boardPanel.initializeLoadedPieces();
+        //This method returns an array of all available pieces and sets all ranks and files of pieces.
+        PieceSet.getAvailablePieces();
+        //this sets all dangered paths.
+        DangerPaths.setDangeredSquares();
     }
 }

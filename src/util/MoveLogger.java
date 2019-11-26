@@ -26,6 +26,11 @@ public class MoveLogger implements Serializable {
     private static List<Move> moveRoundBuffer;
 
     private static MoveLogger moveLoggerInstance = new MoveLogger();
+    /*public static void load(){
+        //
+        SaveingAndLoading.load(1);
+        System.out.println("we load movelogger");
+    }*/
 
     public static MoveLogger getInstance() {
         return moveLoggerInstance;

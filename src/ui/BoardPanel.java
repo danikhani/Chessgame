@@ -2,10 +2,7 @@ package ui;
 
 import board.Square;
 import pieces.*;
-import util.Core;
-import util.GameModel;
-import util.Move;
-import util.MoveValidator;
+import util.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -201,6 +198,26 @@ public class BoardPanel extends JPanel implements Observer, Serializable {
                 break;
         }
         originSquarePanel.repaint();
+    }
+
+
+    public void initializeLoadedPieces() {
+        for(Piece removingPiece: PieceSet.getAvailablePieces()){
+            Square currentSquare = board.Board.getSquare(removingPiece.getFile(), removingPiece.getRank());
+            JPanel currentSquarePannel = getSquarePanel(removingPiece.getFile(), removingPiece.getRank());
+            //to remove the current Piece and panel
+            currentSquare.setCurrentPiece(null);
+            currentSquarePannel.removeAll();
+            currentSquarePannel.repaint();
+        }
+        for(Piece loadingPiece: SaveingAndLoading.getLoadedPieces()){
+            Square currentSquare = board.Board.getSquare(loadingPiece.getFile(), loadingPiece.getRank());
+            JPanel currentSquarePannel = getSquarePanel(loadingPiece.getFile(), loadingPiece.getRank());
+            currentSquare.setCurrentPiece(loadingPiece);
+            currentSquarePannel.add(getPieceImageLabel(loadingPiece));
+            currentSquarePannel.repaint();
+        }
+        SaveingAndLoading.removeLoadedPieces();
     }
 
     private void initializePieces() {

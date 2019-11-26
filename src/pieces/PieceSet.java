@@ -4,9 +4,10 @@ import board.Square;
 import ui.GameFrame;
 import util.GameModel;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class PieceSet {
+public class PieceSet implements Serializable {
 
     private static Map<Piece.Color, Map<Piece.Type, List<Piece>>> pieceSet = null;
     private static Map<Piece.Color, Stack<Piece>> capturedPieceSet;
