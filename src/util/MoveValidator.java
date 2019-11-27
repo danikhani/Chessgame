@@ -128,7 +128,6 @@ public class MoveValidator implements Serializable {
             //this will bring the piece position to the way before the dragging.
             futureOccupiedSquare.setCurrentPiece(futureOccupiedSquarePiece);
             futureFreeSquare.setCurrentPiece(move.getPiece());
-            System.out.println(kingSquare.getCurrentPiece().getColor() +" is not DANGERED by (notnull) "+ notCurrentMoveColor);
             DangerPaths.setDangeredSquares();
             return true;
         }
@@ -138,19 +137,15 @@ public class MoveValidator implements Serializable {
             futureFreeSquare.setCurrentPiece(null);
             DangerPaths.setDangeredSquares();
             for (Piece futureSetting : PieceSet.getAvailablePieces(MoveValidator.notCurrentMoveColor)) {
-                System.out.println("checking if " + futureSetting.getColor() + futureSetting.getType() + " on rank "
-                        + futureSetting.getRank() +  " is dangering " +kingSquare.getCurrentPiece().getColor() + kingSquare.getCurrentPiece().getType());
                 if (futureSetting.hasDangered(kingSquare)) {
                     futureOccupiedSquare.setCurrentPiece(null);
                     futureFreeSquare.setCurrentPiece(move.getPiece());
-                    System.out.println(kingSquare.getCurrentPiece().getColor() +" is DANGERED by "+ notCurrentMoveColor);
                     DangerPaths.setDangeredSquares();
                     return false;
                 }
             }
             futureOccupiedSquare.setCurrentPiece(null);
             futureFreeSquare.setCurrentPiece(move.getPiece());
-            System.out.println(kingSquare.getCurrentPiece().getColor() +" is not DANGERED by "+ notCurrentMoveColor);
             DangerPaths.setDangeredSquares();
             return true;
         }
@@ -240,7 +235,6 @@ public class MoveValidator implements Serializable {
                 if(ourColorPieces.getType() != Piece.Type.KING) {
                     if (ourColorPieces.hasDangered(mustGetBlockedSquares)) {
                         System.out.println("path can get blocked");
-                        System.out.println(kingPiece.getReachable());
                         return false;
                     }
                 }
@@ -248,7 +242,6 @@ public class MoveValidator implements Serializable {
                 if(ourColorPieces.getType() == Piece.Type.PAWN) {
                     if (ourColorPieces.hasReachable(mustGetBlockedSquares)) {
                         System.out.println("path can get blocked");
-                        System.out.println(kingPiece.getReachable());
                         return false;
                     }
                 }

@@ -127,23 +127,39 @@ public class BoardPanel extends JPanel implements Observer, Serializable {
     }
 
 //this will set the reachable and attackable squares to another color.
+    private  boolean otherPiecesKingSquare(Square kingSquare) {
+        for (Piece otherPieces : PieceSet.getAvailablePieces(MoveValidator.notCurrentMoveColor)) {
+            if (otherPieces.hasDangered(kingSquare)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private  boolean pawnHasKingSquare(Square kingSquare) {
+        for (Piece otherPieces : PieceSet.getAvailablePieces(MoveValidator.notCurrentMoveColor, Piece.Type.PAWN )) {
+            if (otherPieces.hasDangerousForKingSquares(kingSquare)) {
+                return true;
+            }
+        }
+        return false;
+    }
     public void putHelperColor(Piece piece) {
         //TODO: if the piece is king then the dangered locations shouldnt get marked. Should get fixed
         if (piece.getType() == Piece.Type.KING) {
+            System.out.println(piece.getColor());
+            System.out.println(MoveValidator.notCurrentMoveColor);
+            System.out.println("----------------------------------------------");
             //get all dangered pieces of the king.
             for (Square dangered : piece.getDangered()) {
-                for (Piece otherPieces : PieceSet.getAvailablePieces(MoveValidator.currentMoveColor)) {
-                    if (!otherPieces.hasDangered(dangered)) {
-                        if (dangered.getCurrentPiece() == null) {
-                            getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.GREEN);
-                        } else if (dangered.getCurrentPiece().getColor() != piece.getColor()) {
-                            getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.RED);
-                        }
+                if (!otherPiecesKingSquare(dangered) && !pawnHasKingSquare(dangered)) {
+                    if (dangered.getCurrentPiece() == null) {
+                        getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.GREEN);
+                    } else if (dangered.getCurrentPiece().getColor() != piece.getColor()) {
+                        getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.RED);
                     }
-
                 }
             }
-        } else if (piece.getType() == Piece.Type.PAWN) {
+        }else if (piece.getType() == Piece.Type.PAWN) {
             for (Square dangered : piece.getDangered()) {
                 if (dangered.getCurrentPiece() == null) {
                     getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.GREEN);
