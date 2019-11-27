@@ -68,10 +68,6 @@ public class GameModel extends Observable implements Serializable {
         //this sets all dangered paths.
         DangerPaths.setDangeredSquares();
 
-        /*if (MoveValidator.notCurrentMoveColor == move.getPiece().getColor()) {
-            boardPanel.setShowHelper(true);
-        }*/
-        //check for promotions
         if (MoveValidator.notCurrentMoveColor == move.getPiece().getColor()) {
             blackPawnPromote(move);
             whitePawnPromote(move);

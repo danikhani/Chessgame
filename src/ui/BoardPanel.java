@@ -146,9 +146,6 @@ public class BoardPanel extends JPanel implements Observer, Serializable {
     public void putHelperColor(Piece piece) {
         //TODO: if the piece is king then the dangered locations shouldnt get marked. Should get fixed
         if (piece.getType() == Piece.Type.KING) {
-            System.out.println(piece.getColor());
-            System.out.println(MoveValidator.notCurrentMoveColor);
-            System.out.println("----------------------------------------------");
             //get all dangered pieces of the king.
             for (Square dangered : piece.getDangered()) {
                 if (!otherPiecesKingSquare(dangered) && !pawnHasKingSquare(dangered)) {

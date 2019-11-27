@@ -90,6 +90,7 @@ public class MoveValidator implements Serializable {
             }
         }
 
+
         currentMoveColor = currentMoveColor.equals(Piece.Color.WHITE) ? Piece.Color.BLACK : Piece.Color.WHITE;
         notCurrentMoveColor = move.getPiece().getColor() == Piece.Color.WHITE? Piece.Color.WHITE: Piece.Color.BLACK;
         getKingSquare();
@@ -102,7 +103,22 @@ public class MoveValidator implements Serializable {
         }
     }
     public static boolean isStillChecked(Move move){
-        //TODO: Check if the king is still checked after a move and if yes dont allow that move to happen.
+        if(isCheckMove(move)) {
+            if (move.getPiece().getType() == Piece.Type.KING) {
+                Square futureKingsSquare = Board.getSquare(move.getDestinationFile(), move.getDestinationRank());
+                for (Piece futureSetting : PieceSet.getAvailablePieces(MoveValidator.notCurrentMoveColor)) {
+                    if (futureSetting.hasDangered(futureKingsSquare)) {
+                        return false;
+                    }
+                    if (futureSetting.getType() == Piece.Type.PAWN && futureSetting.hasDangerousForKingSquares(futureKingsSquare)) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+        }else{
+            return willBeChecked(move);
+        }
         return true;
     }
     public static boolean willBeChecked(Move move){
