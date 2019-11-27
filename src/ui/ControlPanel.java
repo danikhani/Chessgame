@@ -39,7 +39,7 @@ public class ControlPanel extends JPanel implements Observer, Serializable {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SaveingAndLoading.savePiecePosition();
+                SaveingAndLoading.saveGame();
             }
         });
         loadButton = new JButton("Load Game");
@@ -47,7 +47,6 @@ public class ControlPanel extends JPanel implements Observer, Serializable {
         loadButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                SaveingAndLoading.loadPiecePosition();
                 gameModel.loadGame();
             }
         });

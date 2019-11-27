@@ -39,6 +39,11 @@ public class Core implements Serializable {
         inGame = true;
         gameModel = new GameModel();
     }
+    public static void loadGame() {
+        inGame = true;
+        preferences = getPreferences();
+        gameModel = new GameModel();
+    }
 
     public static String getLocalIPAddress() {
         try {

@@ -21,20 +21,30 @@ public class MoveValidator implements Serializable {
 
     private MoveValidator() {
         currentMoveColor = Piece.Color.WHITE;
+        notCurrentMoveColor = Piece.Color.BLACK;
+        getKingSquare();
     }
 
     public static Piece.Color currentMoveColor;
     public static Piece.Color notCurrentMoveColor;
     public static Piece dangerousPiece;
     public static Square kingSquare;
-    public static Square otherKingSquare;
+    //public static Square otherKingSquare;
     public static Piece kingPiece;
+    private static Piece.Color draggedColor;
+
+    public static void setCurrentMoveColor(Piece.Color color ){
+        currentMoveColor = color ;
+    }
+    public static Piece.Color getDraggedColor(){
+        return draggedColor;
+    }
+    public static void setDraggedColor(Piece.Color color ){
+        draggedColor = color ;
+    }
 
     public static boolean validateMove(Move move) {
         return validateMove(move, false);
-    }
-    public void gethelperon(Move move){
-
     }
 
     public static boolean validateMove(Move move, boolean ignoreColorCheck) {
@@ -73,63 +83,92 @@ public class MoveValidator implements Serializable {
         if (!isStillChecked(move)){
             return false;
         }
-        if(!willBeChecked(move)) {
-            return false;
+        //checks if a piece get moved the king will be get checked.
+        if(move.getPiece().getType() != Piece.Type.KING){
+            if(!willBeChecked(move)) {
+                return false;
+            }
         }
+
         currentMoveColor = currentMoveColor.equals(Piece.Color.WHITE) ? Piece.Color.BLACK : Piece.Color.WHITE;
         notCurrentMoveColor = move.getPiece().getColor() == Piece.Color.WHITE? Piece.Color.WHITE: Piece.Color.BLACK;
+        getKingSquare();
+        return true;
+    }
+    private static void getKingSquare(){
         for (Piece piece : getAvailablePieces(currentMoveColor, Piece.Type.KING)) {
             kingPiece = piece;
+            kingSquare = Board.getSquare(piece.getFile(), piece.getRank());
         }
-
-
-        return true;
     }
     public static boolean isStillChecked(Move move){
         //TODO: Check if the king is still checked after a move and if yes dont allow that move to happen.
         return true;
     }
     public static boolean willBeChecked(Move move){
-        //TODO: Check if by moving the piece the king will be in danger.
-        /*
-        try {
-            for (Piece piece : getAvailablePieces(notCurrentMoveColor)) {
-                if (piece.getType() == Piece.Type.KING) {
-                    otherKingSquare = Board.getSquare(piece.getFile(), piece.getRank());
-                }
-            }
-        move.getPiece().setRank(move.getDestinationRank());
-        move.getPiece().setFile(move.getDestinationFile());
-        System.out.println("KIng color which shouldnt get dangered "+ otherKingSquare.getCurrentPiece().getColor());
-        System.out.println("Current color is "+ currentMoveColor);
-            for (Piece enemyPieces : PieceSet.getAvailablePieces(currentMoveColor)) {
-                if (enemyPieces.hasDangered(otherKingSquare)) {
-                    move.getPiece().setFile(move.getOriginFile());
-                    move.getPiece().setRank(move.getOriginRank());
+        //Check if by moving the piece the king will be in danger.
+        Square futureOccupiedSquare = Board.getSquare(move.getDestinationFile(), move.getDestinationRank());
+        Square futureFreeSquare = Board.getSquare(move.getOriginFile(),move.getOriginRank());
+        Piece futureOccupiedSquarePiece = futureOccupiedSquare.getCurrentPiece();
+        //if the destination square is not null:
+        if(futureOccupiedSquarePiece!=null) {
+            futureOccupiedSquare.setCurrentPiece(null);
+            futureOccupiedSquare.setCurrentPiece(move.getPiece());
+            futureFreeSquare.setCurrentPiece(null);
+            DangerPaths.setDangeredSquares();
+            //it gets alle the pieces of other color and checks if they can attack the king
+            for (Piece futureSetting : PieceSet.getAvailablePieces(MoveValidator.notCurrentMoveColor)) {
+                 if (futureSetting.hasDangered(kingSquare)) {
+                    futureOccupiedSquare.setCurrentPiece(futureOccupiedSquarePiece);
+                    futureFreeSquare.setCurrentPiece(move.getPiece());
+                    DangerPaths.setDangeredSquares();
                     return false;
                 }
             }
+            //this will bring the piece position to the way before the dragging.
+            futureOccupiedSquare.setCurrentPiece(futureOccupiedSquarePiece);
+            futureFreeSquare.setCurrentPiece(move.getPiece());
+            System.out.println(kingSquare.getCurrentPiece().getColor() +" is not DANGERED by (notnull) "+ notCurrentMoveColor);
+            DangerPaths.setDangeredSquares();
+            return true;
         }
-        catch (NullPointerException e){
-            System.out.println("ops nichts da");
+        else{
+            //if the destination square is null.
+            futureOccupiedSquare.setCurrentPiece(move.getPiece());
+            futureFreeSquare.setCurrentPiece(null);
+            DangerPaths.setDangeredSquares();
+            for (Piece futureSetting : PieceSet.getAvailablePieces(MoveValidator.notCurrentMoveColor)) {
+                System.out.println("checking if " + futureSetting.getColor() + futureSetting.getType() + " on rank "
+                        + futureSetting.getRank() +  " is dangering " +kingSquare.getCurrentPiece().getColor() + kingSquare.getCurrentPiece().getType());
+                if (futureSetting.hasDangered(kingSquare)) {
+                    futureOccupiedSquare.setCurrentPiece(null);
+                    futureFreeSquare.setCurrentPiece(move.getPiece());
+                    System.out.println(kingSquare.getCurrentPiece().getColor() +" is DANGERED by "+ notCurrentMoveColor);
+                    DangerPaths.setDangeredSquares();
+                    return false;
+                }
+            }
+            futureOccupiedSquare.setCurrentPiece(null);
+            futureFreeSquare.setCurrentPiece(move.getPiece());
+            System.out.println(kingSquare.getCurrentPiece().getColor() +" is not DANGERED by "+ notCurrentMoveColor);
+            DangerPaths.setDangeredSquares();
+            return true;
         }
-*/
-        return true;
     }
 
 
     public static boolean isCheckMove(Move move) {
-        for (Piece piece : getAvailablePieces(currentMoveColor)) {
-            if (piece.getType() == Piece.Type.KING) {
-                kingSquare = Board.getSquare(piece.getFile(), piece.getRank());
                 //System.out.println("king square of other color is " + kingSquare);
                 for (Piece ourPiece : getAvailablePieces(move.getPiece().getColor())) {
                     if (ourPiece.hasDangered(kingSquare)) {
                         dangerousPiece = ourPiece;
                         return true;
                     }
-                }
-            }
+                    /*//Because Pawn has another attack form. It should be checked extra.
+                    if(ourPiece.getType() == Piece.Type.PAWN && ourPiece.hasDangerousForKingSquares(kingSquare)){
+                        dangerousPiece = ourPiece;
+                        return true;
+                    }*/
         }
         return false;
     }

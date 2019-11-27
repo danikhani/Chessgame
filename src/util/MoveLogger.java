@@ -22,7 +22,7 @@ public class MoveLogger implements Serializable {
 
     }
 
-    private static List<MoveRound> moveHistory;
+    public static List<MoveRound> moveHistory;
     private static List<Move> moveRoundBuffer;
 
     private static MoveLogger moveLoggerInstance = new MoveLogger();

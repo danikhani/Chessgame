@@ -40,6 +40,31 @@ public class TimerPanel extends JPanel implements Observer, Serializable {
 
     }
 
+    public Time getWhiteTime() {
+        return whiteTime;
+    }
+    public Time getBlackTime() {
+        return blackTime;
+    }
+    public void setWhiteTime(Time time){
+        whiteTime = time;
+    }
+    public void setBlackTime(Time time){
+        blackTime = time;
+    }
+    public boolean wasWhiteTimerOn(){
+        if(whiteTimerStatusPanel.isVisible()){
+            return true;
+        }
+        return false;
+    }
+    public void setWhiteTimerStatusPanel(boolean visibility){
+        whiteTimerStatusPanel.setVisible(visibility);
+    }
+    public void setBlackTimerStatusPanel(boolean visibility){
+        blackTimerStatusPanel.setVisible(visibility);
+    }
+
     public void whiteTimerTikTok() {
         whiteTimerStatusPanel.setVisible(true);
         blackTimerStatusPanel.setVisible(false);

@@ -15,6 +15,7 @@ public class DangerPaths {
         for (Piece piece : getAvailablePieces()) {
             piece.clearDangered();
             piece.clearReachable();
+            piece.clearDangerousForKingSquares();
             switch (piece.getType()) {
                 case KING:
                     setKingPath(piece);
@@ -241,6 +242,7 @@ public class DangerPaths {
             currentFile = (char) (piece.getFile() + 1);
             if (isInBarriers(currentRank, currentFile)) {
                 currentSquare = Board.getSquare(currentFile, currentRank);
+                piece.setDangerousForKingSquares(currentSquare);
                 if(currentSquare.getCurrentPiece() != null) {
                     piece.setDangered(currentSquare);
                 }
@@ -249,6 +251,7 @@ public class DangerPaths {
             currentFile = (char) (piece.getFile() - 1);
             if (isInBarriers(currentRank, currentFile)) {
                 currentSquare = Board.getSquare(currentFile, currentRank);
+                piece.setDangerousForKingSquares(currentSquare);
                 if(currentSquare.getCurrentPiece() != null) {
                     piece.setDangered(currentSquare);
                 }
@@ -261,6 +264,7 @@ public class DangerPaths {
             currentFile = (char) (piece.getFile() + 1);
             if (isInBarriers(currentRank, currentFile)) {
                 currentSquare = Board.getSquare(currentFile, currentRank);
+                piece.setDangerousForKingSquares(currentSquare);
                 if(currentSquare.getCurrentPiece() != null) {
                     piece.setDangered(currentSquare);
                 }
@@ -268,6 +272,7 @@ public class DangerPaths {
             currentFile = (char) (piece.getFile() - 1);
             if (isInBarriers(currentRank, currentFile)) {
                 currentSquare = Board.getSquare(currentFile, currentRank);
+                piece.setDangerousForKingSquares(currentSquare);
                 if(currentSquare.getCurrentPiece() != null) {
                     piece.setDangered(currentSquare);
                 }

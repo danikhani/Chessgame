@@ -13,10 +13,24 @@ import javax.swing.*;
 
 
 public class SaveingAndLoading {
-
     private static ArrayList<Piece> loadedPieces = new ArrayList<Piece>();
+    private static Piece.Color loadedCurrentColor;
+    public static Piece.Color getLoadedCurrentColor(){
+        return loadedCurrentColor;
+    }
 // This will save the position of each piece and adds it to a file.
-    public static void savePiecePosition() {
+
+    //THis will load the position from the text file and makes a long string out of it.
+    public static void loadGame(){
+        loadSettings();
+        loadPiecePosition();
+    }
+    public static void saveGame(){
+        saveSetting();
+        savePiecePosition();
+    }
+
+    private static void savePiecePosition() {
         try {
             File file = new File("PiecePosition.txt");
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
@@ -32,15 +46,49 @@ public class SaveingAndLoading {
             //ex.printStackTrace();
         }
     }
-//THis will load the position from the text file and makes a long string out of it.
-    public static void loadPiecePosition() {
+    public static void saveSetting() {
+        try {
+            File file = new File("Setting.txt");
+
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write(MoveValidator.currentMoveColor + "/");
+            writer.write(MoveLogger.moveHistory + "/");
+            //writer.write(piece.getRank() + "/");
+            writer.close();
+        } catch (IOException ex) {
+            System.out.println("couldn’t write the String out");
+            //ex.printStackTrace();
+        }
+    }
+
+    public static void loadSettings() {
+        try {
+            File myFile = new File("Setting.txt");
+            FileReader fileReader = new FileReader(myFile);
+            BufferedReader reader = new BufferedReader(fileReader);
+            String line = reader.readLine();
+            //System.out.println(line);
+            String[] result = line.split("/");
+            //System.out.println("Current color was" +result[0]);
+
+            if (result[0].equals("WHITE")) {
+                loadedCurrentColor = Piece.Color.WHITE;
+            } else {
+                loadedCurrentColor = Piece.Color.BLACK;
+            }
+            reader.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+    private static void loadPiecePosition() {
         try {
             File myFile = new File("PiecePosition.txt");
             FileReader fileReader = new FileReader(myFile);
             BufferedReader reader = new BufferedReader(fileReader);
             String line = null;
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                //System.out.println(line);
                 makePieceObjects(line);
             }
             reader.close();
@@ -89,11 +137,11 @@ public class SaveingAndLoading {
                 piece = new Queen(color);
                 break;
         }
-        //System.out.println(type);
-        //System.out.println(color);
-        //System.out.println(rank);
-        //System.out.println(file);
-        //System.out.println(piece);
+        /*System.out.println(type);
+        System.out.println(color);
+        System.out.println(rank);
+        System.out.println(file);
+        System.out.println(piece);*/
         piece.setRank(rank);
         piece.setFile(file);
         loadedPieces.add(piece);

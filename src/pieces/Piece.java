@@ -30,6 +30,7 @@ public abstract class Piece implements Serializable {
     protected Square square;
     protected ArrayList<Square> dangeredSquares = new ArrayList<Square>();
     protected ArrayList<Square> reachableSquares = new ArrayList<Square>();
+    protected ArrayList<Square> dangerousForKingSquares = new ArrayList<Square>();
 
 
     public Piece(Color color) {
@@ -132,6 +133,23 @@ public abstract class Piece implements Serializable {
     public boolean hasReachable(Square square){
         boolean itHas = false;
         if(reachableSquares.contains(square)){
+            itHas = true;
+        }
+        return itHas;
+    }
+    public void clearDangerousForKingSquares(){
+        dangerousForKingSquares.clear();
+    }
+    public void setDangerousForKingSquares(Square square){
+        dangerousForKingSquares.add(square);
+    }
+    public ArrayList<Square> getDangerousForKingSquares(){
+        //System.out.println(dangeredSquares);
+        return dangerousForKingSquares;
+    }
+    public boolean hasDangerousForKingSquares(Square square){
+        boolean itHas = false;
+        if(dangerousForKingSquares.contains(square)){
             itHas = true;
         }
         return itHas;

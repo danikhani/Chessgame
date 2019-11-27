@@ -2,6 +2,7 @@ package ui;
 
 import util.Core;
 import util.GameModel;
+import util.Preferences;
 import util.SaveingAndLoading;
 
 import javax.swing.*;
@@ -75,12 +76,17 @@ public class LaunchFrame extends JFrame implements Serializable {
         loadGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (!Core.isInGame()) {
-                    Core.startGame();
-                    dispose();
-                }
-                SaveingAndLoading.loadPiecePosition();
-                gameModel.loadGame();
+                Core.loadGame();
+
+                Timer timer = new Timer(1000, new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        gameModel.loadGame();
+                        System.out.println("i ran");
+                    }
+                });
+                timer.setRepeats(false); // Only execute once
+                timer.start(); // Go go go!
             }
         });
 

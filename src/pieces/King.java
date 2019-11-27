@@ -21,8 +21,8 @@ public class King extends Piece {
             // diagonal movement
             if (move.getDestinationFile() != move.getOriginFile()
                     && move.getDestinationRank() != move.getOriginRank()) {
-                if (Math.abs( move.getDestinationFile() -  move.getOriginFile()) ==
-                        Math.abs( move.getDestinationRank() - move.getOriginRank())) {
+                if (Math.abs(move.getDestinationFile() - move.getOriginFile()) ==
+                        Math.abs(move.getDestinationRank() - move.getOriginRank())) {
                     if (specialMove(move)) {
                         return true;
                     }
@@ -45,6 +45,7 @@ public class King extends Piece {
         // all other cases
         return false;
     }
+
     @Override
     //This stops the king to move into check position
     public boolean specialMove(Move move) {
@@ -57,15 +58,18 @@ public class King extends Piece {
 
         return false;
     }
-    //looks if the king is moveing into check
-    private boolean willCheck(Move move){
+
+    //looks if the king is moveing into check. for Pawn we need an extra rule.
+    private boolean willCheck(Move move) {
         Square futureKingsSquare = Board.getSquare(move.getDestinationFile(), move.getDestinationRank());
-        for(Piece futureSetting : PieceSet.getAvailablePieces(MoveValidator.notCurrentMoveColor)){
-            if(futureSetting.hasDangered(futureKingsSquare)){
+        for (Piece futureSetting : PieceSet.getAvailablePieces(MoveValidator.notCurrentMoveColor)) {
+            if (futureSetting.hasDangered(futureKingsSquare)) {
+                return false;
+            }
+            if (futureSetting.getType() == Piece.Type.PAWN && futureSetting.hasDangerousForKingSquares(futureKingsSquare)) {
                 return false;
             }
         }
         return true;
     }
-
 }

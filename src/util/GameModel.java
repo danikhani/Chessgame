@@ -6,6 +6,7 @@ import pieces.*;
 import ui.*;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
@@ -66,6 +67,10 @@ public class GameModel extends Observable implements Serializable {
         //  PieceSet.setRankAndFile();
         //this sets all dangered paths.
         DangerPaths.setDangeredSquares();
+
+        /*if (MoveValidator.notCurrentMoveColor == move.getPiece().getColor()) {
+            boardPanel.setShowHelper(true);
+        }*/
         //check for promotions
         if (MoveValidator.notCurrentMoveColor == move.getPiece().getColor()) {
             blackPawnPromote(move);
@@ -110,7 +115,7 @@ public class GameModel extends Observable implements Serializable {
     }
 
     private void switchTimer(Move move) {
-        Piece.Color currentColor = move.getPiece().getColor();
+        //Piece.Color currentColor = move.getPiece().getColor();
         if (move.getPiece().getColor() == Piece.Color.WHITE) {
             whiteTimer.stop();
             blackTimer.start();
@@ -171,10 +176,19 @@ public class GameModel extends Observable implements Serializable {
     }
     //
     public void loadGame(){
+        SaveingAndLoading.loadSettings();
+        MoveValidator.setCurrentMoveColor(SaveingAndLoading.getLoadedCurrentColor());
+        //System.out.println("method gives : "+ SaveingAndLoading.getLoadedCurrentColor());
+        PieceSet.getAvailablePieces();
+        //this sets all dangered paths.
+        //System.out.println(timerPanel.getWhiteTime());
+
+        SaveingAndLoading.loadGame();
         boardPanel.initializeLoadedPieces();
         //This method returns an array of all available pieces and sets all ranks and files of pieces.
         PieceSet.getAvailablePieces();
         //this sets all dangered paths.
         DangerPaths.setDangeredSquares();
+        SaveingAndLoading.removeLoadedPieces();
     }
 }

@@ -21,7 +21,6 @@ public class BoardPanel extends JPanel implements Observer, Serializable {
     private JLayeredPane boardLayeredPane;
     private JPanel boardPanel;
     private JPanel[][] squarePanels;
-    private boolean showHelper = true;
 
     public BoardPanel(GameModel gameModel) {
         super(new BorderLayout());
@@ -54,25 +53,20 @@ public class BoardPanel extends JPanel implements Observer, Serializable {
         destinationSquarePanel.repaint();
         originSquarePanel.removeAll();
         originSquarePanel.repaint();
-        /*if (MoveValidator.notCurrentMoveColor == move.getPiece().getColor()) {
-            showHelper = true;
-        }*/
     }
 
     public void preDrag(char originFile, int originRank, int dragX, int dragY) {
         Piece originPiece = gameModel.queryPiece(originFile, originRank);
+        MoveValidator.setDraggedColor(originPiece.getColor());
         if (originPiece != null) {
             getSquarePanel(originFile, originRank).getComponent(0).setVisible(false);
             JLabel draggedPieceImageLabel = getPieceImageLabel(originPiece);
             draggedPieceImageLabel.setLocation(dragX, dragY);
             draggedPieceImageLabel.setSize(SQUARE_DIMENSION, SQUARE_DIMENSION);
             boardLayeredPane.add(draggedPieceImageLabel, JLayeredPane.DRAG_LAYER);
-            putHelperColor(originPiece);
-            //TODO:Make a toggle so helper only shows for the color which is in turn to move
-            /*if(showHelper){
+            if(MoveValidator.currentMoveColor == MoveValidator.getDraggedColor()){
                 putHelperColor(originPiece);
-                showHelper = false;
-            }*/
+            }
         }
     }
 
@@ -134,22 +128,99 @@ public class BoardPanel extends JPanel implements Observer, Serializable {
 
 //this will set the reachable and attackable squares to another color.
     public void putHelperColor(Piece piece) {
-        for (Square dangered : piece.getDangered()) {
-            if (dangered.getCurrentPiece() == null) {
-                getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.GREEN);
-            } else if (dangered.getCurrentPiece().getColor() != piece.getColor()) {
-                getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.RED);
+        //TODO: if the piece is king then the dangered locations shouldnt get marked. Should get fixed
+        if (piece.getType() == Piece.Type.KING) {
+            //get all dangered pieces of the king.
+            for (Square dangered : piece.getDangered()) {
+                for (Piece otherPieces : PieceSet.getAvailablePieces(MoveValidator.currentMoveColor)) {
+                    if (!otherPieces.hasDangered(dangered)) {
+                        if (dangered.getCurrentPiece() == null) {
+                            getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.GREEN);
+                        } else if (dangered.getCurrentPiece().getColor() != piece.getColor()) {
+                            getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.RED);
+                        }
+                    }
+
+                }
             }
-        }
-        //because pawns have an different attack and movement they need this extra.
-        if (piece.getType() == Piece.Type.PAWN) {
+        } else if (piece.getType() == Piece.Type.PAWN) {
+            for (Square dangered : piece.getDangered()) {
+                if (dangered.getCurrentPiece() == null) {
+                    getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.GREEN);
+                } else if (dangered.getCurrentPiece().getColor() != piece.getColor()) {
+                    getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.RED);
+                }
+            }
             for (Square reachable : piece.getReachable()) {
                 if (reachable.getCurrentPiece() == null) {
                     getSquarePanel(reachable.getFile(), reachable.getRank()).setBackground(Color.GREEN);
                 }
             }
+        } else {
+            for (Square dangered : piece.getDangered()) {
+                if (dangered.getCurrentPiece() == null) {
+                    getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.GREEN);
+                } else if (dangered.getCurrentPiece().getColor() != piece.getColor()) {
+                    getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.RED);
+                }
+            }
         }
-    }
+
+        /*     *//*Piece.Color currentColor = piece.getColor();
+        MoveValidator.currentMoveColor
+        MoveValidator.notCurrentMoveColor*//*
+        for (Square dangered : piece.getDangered()) {
+            if (piece.getType() == Piece.Type.KING) {
+                for (Piece otherPieces : PieceSet.getAvailablePieces(MoveValidator.notCurrentMoveColor)) {
+                    if (!otherPieces.hasDangered(dangered)) {
+                        if (dangered.getCurrentPiece() == null) {
+                            getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.GREEN);
+                        } else if (dangered.getCurrentPiece().getColor() != piece.getColor()) {
+                            getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.RED);
+                        }
+                    }
+
+                }
+
+            }
+            if (piece.getType() != Piece.Type.KING) {
+                if (dangered.getCurrentPiece() == null) {
+                    getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.GREEN);
+                } else if (dangered.getCurrentPiece().getColor() != piece.getColor()) {
+                    getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.RED);
+                }
+            }
+            //because pawns have an different attack and movement they need this extra.
+            if (piece.getType() == Piece.Type.PAWN) {
+                for (Square reachable : piece.getReachable()) {
+                    if (reachable.getCurrentPiece() == null) {
+                        getSquarePanel(reachable.getFile(), reachable.getRank()).setBackground(Color.GREEN);
+                    }
+                }
+            }
+*/
+            //because pawns have an different attack and movement they need this extra.
+
+
+
+            /*if (piece.getType() != Piece.Type.KING) {
+                if (dangered.getCurrentPiece() == null) {
+                    getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.GREEN);
+                } else if (dangered.getCurrentPiece().getColor() != piece.getColor()) {
+                    getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.RED);
+                }
+            }
+            //because pawns have an different attack and movement they need this extra.
+            if (piece.getType() == Piece.Type.PAWN) {
+                for (Square reachable : piece.getReachable()) {
+                    if (reachable.getCurrentPiece() == null) {
+                        getSquarePanel(reachable.getFile(), reachable.getRank()).setBackground(Color.GREEN);
+                    }
+                }
+            }*/
+
+
+        }
 
 //this will remove the set color by the putHelperColor.
     public void removeHelperColor(){
@@ -217,7 +288,6 @@ public class BoardPanel extends JPanel implements Observer, Serializable {
             currentSquarePannel.add(getPieceImageLabel(loadingPiece));
             currentSquarePannel.repaint();
         }
-        SaveingAndLoading.removeLoadedPieces();
     }
 
     private void initializePieces() {
