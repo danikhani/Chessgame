@@ -39,9 +39,17 @@ public class Core implements Serializable {
         inGame = true;
         gameModel = new GameModel();
     }
+    //only for the loadgame button at the launch
     public static void loadGame() {
         inGame = true;
-        preferences = getPreferences();
+        preferences = new Preferences();
+        gameModel = new GameModel();
+        gameModel.loadGame();
+    }
+    //only for newgame button at the gameframe.
+    public static void newGame() {
+        inGame = true;
+        preferences = new Preferences();
         gameModel = new GameModel();
     }
 

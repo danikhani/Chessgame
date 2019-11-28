@@ -36,6 +36,9 @@ public class MoveValidator implements Serializable {
     public static void setCurrentMoveColor(Piece.Color color ){
         currentMoveColor = color ;
     }
+    public static void setNotCurrentMoveColor(Piece.Color color ){
+        notCurrentMoveColor = color ;
+    }
     public static Piece.Color getDraggedColor(){
         return draggedColor;
     }

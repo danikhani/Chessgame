@@ -172,13 +172,17 @@ public class GameModel extends Observable implements Serializable {
     }
     //
     public void loadGame(){
+        //Read the text files for settings:
         SaveingAndLoading.loadSettings();
+        //set current colors:
         MoveValidator.setCurrentMoveColor(SaveingAndLoading.getLoadedCurrentColor());
-        //System.out.println("method gives : "+ SaveingAndLoading.getLoadedCurrentColor());
-        PieceSet.getAvailablePieces();
-        //this sets all dangered paths.
-        //System.out.println(timerPanel.getWhiteTime());
+        MoveValidator.setNotCurrentMoveColor(SaveingAndLoading.getLoadedNotCurrentColor());
+        //TODO: load the current time:
 
+
+        //get all current available pieces
+        PieceSet.getAvailablePieces();
+        //Read the text file for the piece locations
         SaveingAndLoading.loadGame();
         boardPanel.initializeLoadedPieces();
         //This method returns an array of all available pieces and sets all ranks and files of pieces.
@@ -186,5 +190,10 @@ public class GameModel extends Observable implements Serializable {
         //this sets all dangered paths.
         DangerPaths.setDangeredSquares();
         SaveingAndLoading.removeLoadedPieces();
+    }
+    public void saveGame() {
+
+        System.out.println(timerPanel.getBlackTime());
+        System.out.println(timerPanel.getWhiteTime());
     }
 }

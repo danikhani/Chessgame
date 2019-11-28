@@ -58,8 +58,7 @@ public class LaunchFrame extends JFrame implements Serializable {
         newGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                PreferencesFrame preferencesFrame = Core.getPreferencesFrame();
-                preferencesFrame = new PreferencesFrame();
+                Core.startGame();
                 setVisible(false);
             }
         });
@@ -77,18 +76,10 @@ public class LaunchFrame extends JFrame implements Serializable {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Core.loadGame();
-
-                Timer timer = new Timer(1000, new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        gameModel.loadGame();
-                        System.out.println("i ran");
-                    }
-                });
-                timer.setRepeats(false); // Only execute once
-                timer.start(); // Go go go!
             }
         });
+
+
 
 
         buttonsPanel = new JPanel(new GridLayout(1, 2));

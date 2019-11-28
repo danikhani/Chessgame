@@ -156,7 +156,7 @@ public class BoardPanel extends JPanel implements Observer, Serializable {
                     }
                 }
             }
-        }else if (piece.getType() == Piece.Type.PAWN) {
+        } else if (piece.getType() == Piece.Type.PAWN) {
             for (Square dangered : piece.getDangered()) {
                 if (dangered.getCurrentPiece() == null) {
                     getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.GREEN);
@@ -178,62 +178,7 @@ public class BoardPanel extends JPanel implements Observer, Serializable {
                 }
             }
         }
-
-        /*     *//*Piece.Color currentColor = piece.getColor();
-        MoveValidator.currentMoveColor
-        MoveValidator.notCurrentMoveColor*//*
-        for (Square dangered : piece.getDangered()) {
-            if (piece.getType() == Piece.Type.KING) {
-                for (Piece otherPieces : PieceSet.getAvailablePieces(MoveValidator.notCurrentMoveColor)) {
-                    if (!otherPieces.hasDangered(dangered)) {
-                        if (dangered.getCurrentPiece() == null) {
-                            getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.GREEN);
-                        } else if (dangered.getCurrentPiece().getColor() != piece.getColor()) {
-                            getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.RED);
-                        }
-                    }
-
-                }
-
-            }
-            if (piece.getType() != Piece.Type.KING) {
-                if (dangered.getCurrentPiece() == null) {
-                    getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.GREEN);
-                } else if (dangered.getCurrentPiece().getColor() != piece.getColor()) {
-                    getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.RED);
-                }
-            }
-            //because pawns have an different attack and movement they need this extra.
-            if (piece.getType() == Piece.Type.PAWN) {
-                for (Square reachable : piece.getReachable()) {
-                    if (reachable.getCurrentPiece() == null) {
-                        getSquarePanel(reachable.getFile(), reachable.getRank()).setBackground(Color.GREEN);
-                    }
-                }
-            }
-*/
-            //because pawns have an different attack and movement they need this extra.
-
-
-
-            /*if (piece.getType() != Piece.Type.KING) {
-                if (dangered.getCurrentPiece() == null) {
-                    getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.GREEN);
-                } else if (dangered.getCurrentPiece().getColor() != piece.getColor()) {
-                    getSquarePanel(dangered.getFile(), dangered.getRank()).setBackground(Color.RED);
-                }
-            }
-            //because pawns have an different attack and movement they need this extra.
-            if (piece.getType() == Piece.Type.PAWN) {
-                for (Square reachable : piece.getReachable()) {
-                    if (reachable.getCurrentPiece() == null) {
-                        getSquarePanel(reachable.getFile(), reachable.getRank()).setBackground(Color.GREEN);
-                    }
-                }
-            }*/
-
-
-        }
+    }
 
 //this will remove the set color by the putHelperColor.
     public void removeHelperColor(){

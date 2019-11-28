@@ -15,9 +15,21 @@ import javax.swing.*;
 public class SaveingAndLoading {
     private static ArrayList<Piece> loadedPieces = new ArrayList<Piece>();
     private static Piece.Color loadedCurrentColor;
+    private static Piece.Color loadedNotCurrentColor;
+    private static String blackTime;
+    private static String whiteTime;
+
+
     public static Piece.Color getLoadedCurrentColor(){
         return loadedCurrentColor;
     }
+    public static Piece.Color getLoadedNotCurrentColor(){
+        return loadedNotCurrentColor;
+    }
+    public static void setBlackTime(String time){
+        blackTime = time;
+    }
+
 // This will save the position of each piece and adds it to a file.
 
     //THis will load the position from the text file and makes a long string out of it.
@@ -52,6 +64,7 @@ public class SaveingAndLoading {
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             writer.write(MoveValidator.currentMoveColor + "/");
+            writer.write(MoveValidator.notCurrentMoveColor + "/");
             writer.write(MoveLogger.moveHistory + "/");
             //writer.write(piece.getRank() + "/");
             writer.close();
@@ -75,6 +88,12 @@ public class SaveingAndLoading {
                 loadedCurrentColor = Piece.Color.WHITE;
             } else {
                 loadedCurrentColor = Piece.Color.BLACK;
+            }
+            reader.close();
+            if (result[1].equals("WHITE")) {
+                loadedNotCurrentColor = Piece.Color.WHITE;
+            } else {
+                loadedNotCurrentColor = Piece.Color.BLACK;
             }
             reader.close();
         } catch (Exception ex) {
