@@ -18,6 +18,10 @@ public class SaveingAndLoading {
     private static Piece.Color loadedNotCurrentColor;
     private static String blackTime;
     private static String whiteTime;
+    private static String loadedBlackTime;
+    private static String loadedWhiteTime;
+    private static String whichTimerIsOn;
+    private static String loadedOnTimerColor;
 
 
     public static Piece.Color getLoadedCurrentColor(){
@@ -28,6 +32,21 @@ public class SaveingAndLoading {
     }
     public static void setBlackTime(String time){
         blackTime = time;
+    }
+    public static void setWhiteTime(String time){
+        whiteTime = time;
+    }
+    public static String getLoadedBlackTime(){
+        return loadedBlackTime;
+    }
+    public static String getLoadedWhiteTime(){
+        return loadedWhiteTime;
+    }
+    public static void setWhichTimerIsOn(String color){
+        whichTimerIsOn = color;
+    }
+    public static String getLoadedOnTimerColor(){
+        return loadedOnTimerColor;
     }
 
 // This will save the position of each piece and adds it to a file.
@@ -65,6 +84,9 @@ public class SaveingAndLoading {
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             writer.write(MoveValidator.currentMoveColor + "/");
             writer.write(MoveValidator.notCurrentMoveColor + "/");
+            writer.write(whiteTime + "/");
+            writer.write(blackTime + "/");
+            writer.write(whichTimerIsOn + "/");
             writer.write(MoveLogger.moveHistory + "/");
             //writer.write(piece.getRank() + "/");
             writer.close();
@@ -95,6 +117,9 @@ public class SaveingAndLoading {
             } else {
                 loadedNotCurrentColor = Piece.Color.BLACK;
             }
+            loadedWhiteTime = result[2];
+            loadedBlackTime = result[3];
+            loadedOnTimerColor = result[4];
             reader.close();
         } catch (Exception ex) {
             ex.printStackTrace();

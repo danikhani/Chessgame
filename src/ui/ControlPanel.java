@@ -39,6 +39,7 @@ public class ControlPanel extends JPanel implements Observer, Serializable {
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                gameModel.giveTimerValuesToSaver();
                 SaveingAndLoading.saveGame();
             }
         });

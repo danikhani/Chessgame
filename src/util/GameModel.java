@@ -112,7 +112,7 @@ public class GameModel extends Observable implements Serializable {
 
     private void switchTimer(Move move) {
         //Piece.Color currentColor = move.getPiece().getColor();
-        if (move.getPiece().getColor() == Piece.Color.WHITE) {
+        if (MoveValidator.currentMoveColor == Piece.Color.BLACK) {
             whiteTimer.stop();
             blackTimer.start();
         } else {
@@ -178,6 +178,23 @@ public class GameModel extends Observable implements Serializable {
         MoveValidator.setCurrentMoveColor(SaveingAndLoading.getLoadedCurrentColor());
         MoveValidator.setNotCurrentMoveColor(SaveingAndLoading.getLoadedNotCurrentColor());
         //TODO: load the current time:
+        stopTimer();
+        initializeTimers();
+        timerPanel.setWhiteTime(SaveingAndLoading.getLoadedWhiteTime());
+        timerPanel.setBlackTime(SaveingAndLoading.getLoadedBlackTime());
+        System.out.println(SaveingAndLoading.getLoadedCurrentColor());
+        if (SaveingAndLoading.getLoadedCurrentColor().equals("BLACK")) {
+        timerPanel.setBlackTimerStatusPanel(true);
+        timerPanel.setWhiteTimerStatusPanel(false);
+            whiteTimer.stop();
+            blackTimer.start();
+        } else {
+            timerPanel.setBlackTimerStatusPanel(false);
+            timerPanel.setWhiteTimerStatusPanel(true);
+            whiteTimer.start();
+            blackTimer.stop();
+
+        }
 
 
         //get all current available pieces
@@ -191,9 +208,10 @@ public class GameModel extends Observable implements Serializable {
         DangerPaths.setDangeredSquares();
         SaveingAndLoading.removeLoadedPieces();
     }
-    public void saveGame() {
-
-        System.out.println(timerPanel.getBlackTime());
-        System.out.println(timerPanel.getWhiteTime());
+    public void giveTimerValuesToSaver() {
+        SaveingAndLoading.setBlackTime(timerPanel.getBlackTime().toString());
+        SaveingAndLoading.setWhiteTime(timerPanel.getWhiteTime().toString());
+        //This saves the timer is currently running.
+        SaveingAndLoading.setWhichTimerIsOn(timerPanel.whichTimerIsOn());
     }
 }
