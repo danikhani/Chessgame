@@ -176,26 +176,19 @@ public class GameModel extends Observable implements Serializable {
         SaveingAndLoading.loadSettings();
         //set current colors:
         MoveValidator.setCurrentMoveColor(SaveingAndLoading.getLoadedCurrentColor());
-        MoveValidator.setNotCurrentMoveColor(SaveingAndLoading.getLoadedNotCurrentColor());
+        //MoveValidator.setNotCurrentMoveColor(SaveingAndLoading.getLoadedNotCurrentColor());
         //TODO: load the current time:
         stopTimer();
-        initializeTimers();
         timerPanel.setWhiteTime(SaveingAndLoading.getLoadedWhiteTime());
         timerPanel.setBlackTime(SaveingAndLoading.getLoadedBlackTime());
-        System.out.println(SaveingAndLoading.getLoadedCurrentColor());
-        if (SaveingAndLoading.getLoadedCurrentColor().equals("BLACK")) {
-        timerPanel.setBlackTimerStatusPanel(true);
-        timerPanel.setWhiteTimerStatusPanel(false);
+        if (SaveingAndLoading.getLoadedCurrentColor() == Piece.Color.BLACK) {
             whiteTimer.stop();
             blackTimer.start();
+
         } else {
-            timerPanel.setBlackTimerStatusPanel(false);
-            timerPanel.setWhiteTimerStatusPanel(true);
-            whiteTimer.start();
             blackTimer.stop();
-
+            whiteTimer.start();
         }
-
 
         //get all current available pieces
         PieceSet.getAvailablePieces();
@@ -211,7 +204,5 @@ public class GameModel extends Observable implements Serializable {
     public void giveTimerValuesToSaver() {
         SaveingAndLoading.setBlackTime(timerPanel.getBlackTime().toString());
         SaveingAndLoading.setWhiteTime(timerPanel.getWhiteTime().toString());
-        //This saves the timer is currently running.
-        SaveingAndLoading.setWhichTimerIsOn(timerPanel.whichTimerIsOn());
     }
 }

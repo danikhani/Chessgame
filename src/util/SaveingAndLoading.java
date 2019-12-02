@@ -20,8 +20,6 @@ public class SaveingAndLoading {
     private static String whiteTime;
     private static String loadedBlackTime;
     private static String loadedWhiteTime;
-    private static String whichTimerIsOn;
-    private static String loadedOnTimerColor;
 
 
     public static Piece.Color getLoadedCurrentColor(){
@@ -42,13 +40,6 @@ public class SaveingAndLoading {
     public static String getLoadedWhiteTime(){
         return loadedWhiteTime;
     }
-    public static void setWhichTimerIsOn(String color){
-        whichTimerIsOn = color;
-    }
-    public static String getLoadedOnTimerColor(){
-        return loadedOnTimerColor;
-    }
-
 // This will save the position of each piece and adds it to a file.
 
     //THis will load the position from the text file and makes a long string out of it.
@@ -86,7 +77,6 @@ public class SaveingAndLoading {
             writer.write(MoveValidator.notCurrentMoveColor + "/");
             writer.write(whiteTime + "/");
             writer.write(blackTime + "/");
-            writer.write(whichTimerIsOn + "/");
             writer.write(MoveLogger.moveHistory + "/");
             //writer.write(piece.getRank() + "/");
             writer.close();
@@ -119,7 +109,6 @@ public class SaveingAndLoading {
             }
             loadedWhiteTime = result[2];
             loadedBlackTime = result[3];
-            loadedOnTimerColor = result[4];
             reader.close();
         } catch (Exception ex) {
             ex.printStackTrace();
