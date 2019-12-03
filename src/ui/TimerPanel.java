@@ -9,7 +9,7 @@ import java.sql.Time;
 import java.util.Observable;
 import java.util.Observer;
 
-public class TimerPanel extends JPanel implements Observer, Serializable {
+public class TimerPanel extends JPanel implements Observer {
 
     private GameModel gameModel;
     private Time whiteTime;

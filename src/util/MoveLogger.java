@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MoveLogger implements Serializable {
+public class MoveLogger {
 
     /**
      * Wrapper class for a pair of moves.

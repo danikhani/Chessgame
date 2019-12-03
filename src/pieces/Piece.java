@@ -10,7 +10,7 @@ import java.util.ArrayList;
  *
  * Abstract class for chess piece.
  */
-public abstract class Piece implements Serializable {
+public abstract class Piece {
 
     public enum Color {
         WHITE, BLACK

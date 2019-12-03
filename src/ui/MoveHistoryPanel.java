@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 
-public class MoveHistoryPanel extends JPanel implements Observer , Serializable {
+public class MoveHistoryPanel extends JPanel implements Observer {
 
     private GameModel gameModel;
     private JScrollPane moveHistoryScrollPane;

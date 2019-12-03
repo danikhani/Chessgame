@@ -14,7 +14,7 @@ import java.util.Observer;
 
 import static java.lang.System.exit;
 
-public class GameFrame extends JFrame implements Observer, Serializable {
+public class GameFrame extends JFrame implements Observer {
 
     private GameModel gameModel;
 

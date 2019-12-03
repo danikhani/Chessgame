@@ -7,7 +7,7 @@ import util.Move;
 import java.io.Serializable;
 import java.util.Iterator;
 
-public class Board implements Serializable {
+public class Board {
 
     public static final int DIMENSION = 8;
 

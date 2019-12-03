@@ -2,7 +2,7 @@ package util;
 
 import java.io.Serializable;
 
-public class Preferences implements Serializable {
+public class Preferences {
 
     public enum GameMode {
         ONLINE, OFFLINE

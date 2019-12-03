@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 
-public class LaunchFrame extends JFrame implements Serializable {
+public class LaunchFrame extends JFrame {
 
     private JPanel bannerPanel;
     private JLabel bannerLabel;

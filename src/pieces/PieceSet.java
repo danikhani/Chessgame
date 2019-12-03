@@ -7,7 +7,7 @@ import util.GameModel;
 import java.io.Serializable;
 import java.util.*;
 
-public class PieceSet implements Serializable {
+public class PieceSet {
 
     private static Map<Piece.Color, Map<Piece.Type, List<Piece>>> pieceSet = null;
     private static Map<Piece.Color, Stack<Piece>> capturedPieceSet;

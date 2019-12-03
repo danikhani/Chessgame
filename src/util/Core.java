@@ -11,7 +11,7 @@ import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-public class Core implements Serializable {
+public class Core {
 
     private static Core coreInstance = new Core();
     private static boolean inGame;

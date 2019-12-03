@@ -10,7 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 
-public class PreferencesFrame extends JFrame implements Serializable {
+public class PreferencesFrame extends JFrame {
 
     private JPanel preferencesPanel;
 

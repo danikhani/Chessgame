@@ -54,7 +54,7 @@ public class SaveingAndLoading {
 
     private static void savePiecePosition() {
         try {
-            File file = new File("PiecePosition.txt");
+            File file = new File("Savings/PiecePosition.txt");
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             for (Piece piece : PieceSet.getAvailablePieces()) {
                 writer.write(piece.getType() + "/");
@@ -70,7 +70,7 @@ public class SaveingAndLoading {
     }
     public static void saveSetting() {
         try {
-            File file = new File("Setting.txt");
+            File file = new File("Savings/Setting.txt");
 
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             writer.write(MoveValidator.currentMoveColor + "/");
@@ -88,7 +88,7 @@ public class SaveingAndLoading {
 
     public static void loadSettings() {
         try {
-            File myFile = new File("Setting.txt");
+            File myFile = new File("Savings/Setting.txt");
             FileReader fileReader = new FileReader(myFile);
             BufferedReader reader = new BufferedReader(fileReader);
             String line = reader.readLine();
@@ -116,7 +116,7 @@ public class SaveingAndLoading {
     }
     private static void loadPiecePosition() {
         try {
-            File myFile = new File("PiecePosition.txt");
+            File myFile = new File("Savings/PiecePosition.txt");
             FileReader fileReader = new FileReader(myFile);
             BufferedReader reader = new BufferedReader(fileReader);
             String line = null;

@@ -11,7 +11,7 @@ import java.util.Iterator;
 import java.util.Observable;
 import java.util.Observer;
 
-public class BoardPanel extends JPanel implements Observer, Serializable {
+public class BoardPanel extends JPanel implements Observer {
 
     public static final int SQUARE_DIMENSION = 100;
 

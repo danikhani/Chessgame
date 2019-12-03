@@ -11,7 +11,7 @@ import java.util.List;
 
 import static pieces.PieceSet.getAvailablePieces;
 
-public class MoveValidator implements Serializable {
+public class MoveValidator{
 
     private static MoveValidator ourInstance = new MoveValidator();
 

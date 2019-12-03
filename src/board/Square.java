@@ -6,7 +6,7 @@ import util.Move;
 
 import java.io.Serializable;
 
-public class Square implements Serializable {
+public class Square {
     private int rank;
     private char file;
 

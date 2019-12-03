@@ -17,7 +17,7 @@ import java.util.Observable;
 //import static board.Board.initializePromotion;
 
 
-public class GameModel extends Observable implements Serializable {
+public class GameModel extends Observable  {
 
     private GameFrame gameFrame;
     private BoardPanel boardPanel;

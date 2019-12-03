@@ -5,7 +5,7 @@ import pieces.Piece;
 
 import java.io.Serializable;
 
-public class Move implements Serializable {
+public class Move {
 
     private Piece piece;
     private Piece capturedPiece;
