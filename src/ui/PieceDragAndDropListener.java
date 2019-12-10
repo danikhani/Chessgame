@@ -48,11 +48,15 @@ public class PieceDragAndDropListener implements MouseListener, MouseMotionListe
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        if (dragging) {
-            boardPanel.executeDrag(e.getPoint().x - dragOffsetX, e.getPoint().y - dragOffsetY);
-        } else {
-            boardPanel.preDrag(originFile, originRank, e.getPoint().x - dragOffsetX, e.getPoint().y - dragOffsetY);
-            dragging = true;
+        try {
+            if (dragging) {
+                boardPanel.executeDrag(e.getPoint().x - dragOffsetX, e.getPoint().y - dragOffsetY);
+            } else {
+                boardPanel.preDrag(originFile, originRank, e.getPoint().x - dragOffsetX, e.getPoint().y - dragOffsetY);
+                dragging = true;
+            }
+        } catch (NullPointerException b) {
+            System.out.println("There is no Piece");
         }
     }
 
@@ -68,6 +72,7 @@ public class PieceDragAndDropListener implements MouseListener, MouseMotionListe
         System.out.println("file is "+enteredFile + " rank is " + enteredRank);*/
 
     }
+
     @Override
     public void mouseExited(MouseEvent e) {
         // nothing

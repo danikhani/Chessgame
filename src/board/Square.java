@@ -20,7 +20,7 @@ public class Square {
         this.currentPiece = piece;
     }
     public Piece getCurrentPiece() {
-        return this.currentPiece;
+            return this.currentPiece;
     }
     public int getRank(){
         return this.rank;
@@ -34,10 +34,5 @@ public class Square {
     public void setFile(char file){
         this.file = file;
     }
-    /*public void switchIndicator(Move move){
-        for (Square dangered : move.getPiece().getDangered()){
-            if(dangered.getFile(). )
-        }
-    }*/
 
     }
