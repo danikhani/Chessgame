@@ -29,8 +29,9 @@ public class MoveValidator{
     public static Piece.Color notCurrentMoveColor;
     public static Piece dangerousPiece;
     public static Square kingSquare;
-    //public static Square otherKingSquare;
+    public static Square otherKingSquare;
     public static Piece kingPiece;
+    public static Piece otherKingPiece;
     private static Piece.Color draggedColor;
 
     public static void setCurrentMoveColor(Piece.Color color ){
@@ -92,17 +93,19 @@ public class MoveValidator{
                 return false;
             }
         }
-
-
         currentMoveColor = currentMoveColor.equals(Piece.Color.WHITE) ? Piece.Color.BLACK : Piece.Color.WHITE;
         notCurrentMoveColor = move.getPiece().getColor() == Piece.Color.WHITE? Piece.Color.WHITE: Piece.Color.BLACK;
         getKingSquare();
         return true;
     }
-    private static void getKingSquare(){
+    public static void getKingSquare(){
         for (Piece piece : getAvailablePieces(currentMoveColor, Piece.Type.KING)) {
             kingPiece = piece;
             kingSquare = Board.getSquare(piece.getFile(), piece.getRank());
+        }
+        for (Piece piece : getAvailablePieces(notCurrentMoveColor, Piece.Type.KING)) {
+            otherKingPiece = piece;
+            otherKingSquare = Board.getSquare(piece.getFile(), piece.getRank());
         }
     }
     //This avoids the move which wont help to bring the king out of check.
@@ -119,9 +122,9 @@ public class MoveValidator{
                     }
                 }
                 return true;
+            } else {
+                return willBeChecked(move);
             }
-        }else{
-            return willBeChecked(move);
         }
         return true;
     }
@@ -138,7 +141,7 @@ public class MoveValidator{
             DangerPaths.setDangeredSquares();
             //it gets alle the pieces of other color and checks if they can attack the king
             for (Piece futureSetting : PieceSet.getAvailablePieces(MoveValidator.notCurrentMoveColor)) {
-                 if (futureSetting.hasDangered(kingSquare)) {
+                if (futureSetting.hasDangered(kingSquare)) {
                     futureOccupiedSquare.setCurrentPiece(futureOccupiedSquarePiece);
                     futureFreeSquare.setCurrentPiece(move.getPiece());
                     DangerPaths.setDangeredSquares();
@@ -172,21 +175,16 @@ public class MoveValidator{
     }
 
     public static boolean isCheckMove(Move move) {
-                //System.out.println("king square of other color is " + kingSquare);
-                for (Piece ourPiece : getAvailablePieces(move.getPiece().getColor())) {
-                    if (ourPiece.hasDangered(kingSquare)) {
-                        dangerousPiece = ourPiece;
-                        return true;
-                    }
-                    /*//Because Pawn has another attack form. It should be checked extra.
-                    if(ourPiece.getType() == Piece.Type.PAWN && ourPiece.hasDangerousForKingSquares(kingSquare)){
-                        dangerousPiece = ourPiece;
-                        return true;
-                    }*/
+        //System.out.println("king square of other color is " + kingSquare);
+        for (Piece ourPiece : getAvailablePieces(move.getPiece().getColor())) {
+            if (ourPiece.hasDangered(kingSquare)) {
+                dangerousPiece = ourPiece;
+                return true;
+            }
         }
         return false;
     }
-    //if king can move after the ccheck.
+    //if king can move after the check.
     private static boolean kingCanMove(Move move){
         for (Square kingsAccessibleSquare : kingPiece.getDangered()) {
             boolean squareIsFine = true;
@@ -224,7 +222,7 @@ public class MoveValidator{
                 else {
                     if (piece.hasDangered(dangerousSquare)) {
                         if(!kingCanMove(move)){
-                        System.out.println("king can attack the attacker");
+                            System.out.println("king can attack the attacker");
                             return false;}
                     }
                 }

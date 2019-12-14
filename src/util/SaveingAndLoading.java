@@ -15,14 +15,23 @@ import javax.swing.*;
 public class SaveingAndLoading {
     private static ArrayList<Piece> loadedPieces = new ArrayList<Piece>();
     private static Piece.Color loadedCurrentColor;
+    private static Piece.Color loadedNotCurrentColor;
     private static String blackTime;
     private static String whiteTime;
     private static String loadedBlackTime;
     private static String loadedWhiteTime;
 
-
+    public static ArrayList<Piece> getLoadedPieces(){
+        return loadedPieces;
+    }
+    public static void removeLoadedPieces(){
+        loadedPieces.clear();
+    }
     public static Piece.Color getLoadedCurrentColor(){
         return loadedCurrentColor;
+    }
+    public static Piece.Color getLoadedNotCurrentColor(){
+        return loadedNotCurrentColor;
     }
     public static void setBlackTime(String time){
         blackTime = time;
@@ -71,6 +80,8 @@ public class SaveingAndLoading {
             writer.write(MoveValidator.currentMoveColor + "/");
             writer.write(whiteTime + "/");
             writer.write(blackTime + "/");
+            writer.write(MoveValidator.notCurrentMoveColor + "/");
+
             writer.close();
         } catch (IOException ex) {
             System.out.println("couldn’t write the String out");
@@ -92,6 +103,11 @@ public class SaveingAndLoading {
             }
             loadedWhiteTime = result[1];
             loadedBlackTime = result[2];
+            if (result[3].equals("WHITE")) {
+                loadedNotCurrentColor = Piece.Color.WHITE;
+            } else {
+                loadedNotCurrentColor = Piece.Color.BLACK;
+            }
             reader.close();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -111,7 +127,7 @@ public class SaveingAndLoading {
             ex.printStackTrace();
         }
     }
-//This splits the loaded string
+    //This splits the loaded string
     private static void makePieceObjects(String lineToParse) {
         String[] result = lineToParse.split("/");
         Piece.Type type = null;
@@ -156,58 +172,5 @@ public class SaveingAndLoading {
         piece.setFile(file);
         loadedPieces.add(piece);
     }
-    public static ArrayList<Piece> getLoadedPieces(){
-        return loadedPieces;
-    }
-    public static void removeLoadedPieces(){
-        loadedPieces.clear();
-    }
+
 }
-
-
-
-
-
-
-
-
-
-            /*Class.forName(nameString).newInstance();
-
-
-
-            originPiece.setCapture(true);
-            currentSquare.setCurrentPiece(null);
-            originSquarePanel.removeAll();
-            originSquarePanel.repaint();
-
-
-
-
-
-            Square currentSquare = board.Board.getSquare(result[2], result[3]);
-            currentSquare.setCurrentPiece(new type(result[1]));
-            currentSquare.setCurrentPiece(new Queen(color));
-            originSquarePanel.repaint();*/
-
-
-    /*Piece originPiece = move.getPiece();
-    Piece.Color color = move.getPiece().getColor();
-    Square currentSquare = board.Board.getSquare(move.getDestinationFile(), move.getDestinationRank());
-    JPanel originSquarePanel = getSquarePanel(move.getDestinationFile(), move.getDestinationRank());
-    //to remove the current Piece and panel
-        originPiece.setCapture(true);
-        currentSquare.setCurrentPiece(null);
-        originSquarePanel.removeAll();
-        originSquarePanel.repaint();
-    //Its for changing the piece to the one that got chosen:
-        switch(chosenPiece){
-        case 0:
-            currentSquare.setCurrentPiece(new Queen(color));
-            originSquarePanel.add(getPieceImageLabel(new Queen(color)));
-            break;
-
-
-
-    }
-*/

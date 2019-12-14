@@ -96,7 +96,7 @@ public class GameFrame extends JFrame implements Observer {
         });
 
         saveGameMenuItem = new JMenuItem("Save Game");
-        saveGameMenuItem.setEnabled(true);
+        saveGameMenuItem.setEnabled(false);
         saveGameMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

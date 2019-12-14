@@ -167,8 +167,11 @@ public class GameModel extends Observable  {
         SaveingAndLoading.loadSettings();
         //set current colors:
         MoveValidator.setCurrentMoveColor(SaveingAndLoading.getLoadedCurrentColor());
-        //MoveValidator.setNotCurrentMoveColor(SaveingAndLoading.getLoadedNotCurrentColor());
-        //TODO: load the current time:
+        MoveValidator.setNotCurrentMoveColor(SaveingAndLoading.getLoadedNotCurrentColor());
+        System.out.println("current move " +  MoveValidator.currentMoveColor);
+        System.out.println("not current move "+ MoveValidator.notCurrentMoveColor);
+        MoveValidator.getKingSquare();
+       //load time
         stopTimer();
         timerPanel.setWhiteTime(SaveingAndLoading.getLoadedWhiteTime());
         timerPanel.setBlackTime(SaveingAndLoading.getLoadedBlackTime());
@@ -186,8 +189,6 @@ public class GameModel extends Observable  {
         //Read the text file for the piece locations
         SaveingAndLoading.loadGame();
         boardPanel.initializeLoadedPieces();
-        //This method returns an array of all available pieces and sets all ranks and files of pieces.
-        PieceSet.getAvailablePieces();
         //this sets all dangered paths.
         DangerPaths.setDangeredSquares();
         SaveingAndLoading.removeLoadedPieces();
