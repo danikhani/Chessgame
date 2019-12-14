@@ -1,1 +1,1 @@
-WHITE/BLACK/00:00:00/00:00:01/[util.MoveLogger$MoveRound@12901788]/
+WHITE/00:00:00/00:00:01/

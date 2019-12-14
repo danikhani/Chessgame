@@ -15,7 +15,6 @@ import javax.swing.*;
 public class SaveingAndLoading {
     private static ArrayList<Piece> loadedPieces = new ArrayList<Piece>();
     private static Piece.Color loadedCurrentColor;
-    private static Piece.Color loadedNotCurrentColor;
     private static String blackTime;
     private static String whiteTime;
     private static String loadedBlackTime;
@@ -24,9 +23,6 @@ public class SaveingAndLoading {
 
     public static Piece.Color getLoadedCurrentColor(){
         return loadedCurrentColor;
-    }
-    public static Piece.Color getLoadedNotCurrentColor(){
-        return loadedNotCurrentColor;
     }
     public static void setBlackTime(String time){
         blackTime = time;
@@ -71,18 +67,13 @@ public class SaveingAndLoading {
     public static void saveSetting() {
         try {
             File file = new File("Savings/Setting.txt");
-
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             writer.write(MoveValidator.currentMoveColor + "/");
-            writer.write(MoveValidator.notCurrentMoveColor + "/");
             writer.write(whiteTime + "/");
             writer.write(blackTime + "/");
-            writer.write(MoveLogger.moveHistory + "/");
-            //writer.write(piece.getRank() + "/");
             writer.close();
         } catch (IOException ex) {
             System.out.println("couldn’t write the String out");
-            //ex.printStackTrace();
         }
     }
 
@@ -92,23 +83,15 @@ public class SaveingAndLoading {
             FileReader fileReader = new FileReader(myFile);
             BufferedReader reader = new BufferedReader(fileReader);
             String line = reader.readLine();
-            //System.out.println(line);
             String[] result = line.split("/");
-            //System.out.println("Current color was" +result[0]);
 
             if (result[0].equals("WHITE")) {
                 loadedCurrentColor = Piece.Color.WHITE;
             } else {
                 loadedCurrentColor = Piece.Color.BLACK;
             }
-            reader.close();
-            if (result[1].equals("WHITE")) {
-                loadedNotCurrentColor = Piece.Color.WHITE;
-            } else {
-                loadedNotCurrentColor = Piece.Color.BLACK;
-            }
-            loadedWhiteTime = result[2];
-            loadedBlackTime = result[3];
+            loadedWhiteTime = result[1];
+            loadedBlackTime = result[2];
             reader.close();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -121,7 +104,6 @@ public class SaveingAndLoading {
             BufferedReader reader = new BufferedReader(fileReader);
             String line = null;
             while ((line = reader.readLine()) != null) {
-                //System.out.println(line);
                 makePieceObjects(line);
             }
             reader.close();
@@ -170,11 +152,6 @@ public class SaveingAndLoading {
                 piece = new Queen(color);
                 break;
         }
-        /*System.out.println(type);
-        System.out.println(color);
-        System.out.println(rank);
-        System.out.println(file);
-        System.out.println(piece);*/
         piece.setRank(rank);
         piece.setFile(file);
         loadedPieces.add(piece);

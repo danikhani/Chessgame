@@ -136,14 +136,12 @@ public class MoveValidator{
             futureOccupiedSquare.setCurrentPiece(move.getPiece());
             futureFreeSquare.setCurrentPiece(null);
             DangerPaths.setDangeredSquares();
-            getKingSquare();
             //it gets alle the pieces of other color and checks if they can attack the king
             for (Piece futureSetting : PieceSet.getAvailablePieces(MoveValidator.notCurrentMoveColor)) {
                  if (futureSetting.hasDangered(kingSquare)) {
                     futureOccupiedSquare.setCurrentPiece(futureOccupiedSquarePiece);
                     futureFreeSquare.setCurrentPiece(move.getPiece());
                     DangerPaths.setDangeredSquares();
-                    getKingSquare();
                     return false;
                 }
             }
@@ -151,7 +149,6 @@ public class MoveValidator{
             futureOccupiedSquare.setCurrentPiece(futureOccupiedSquarePiece);
             futureFreeSquare.setCurrentPiece(move.getPiece());
             DangerPaths.setDangeredSquares();
-            getKingSquare();
             return true;
         }
         else{
@@ -164,16 +161,12 @@ public class MoveValidator{
                     futureOccupiedSquare.setCurrentPiece(null);
                     futureFreeSquare.setCurrentPiece(move.getPiece());
                     DangerPaths.setDangeredSquares();
-                    getKingSquare();
-                    System.out.println(kingSquare.getCurrentPiece().getColor() +" "+ kingSquare.getRank());
                     return false;
                 }
             }
             futureOccupiedSquare.setCurrentPiece(null);
             futureFreeSquare.setCurrentPiece(move.getPiece());
             DangerPaths.setDangeredSquares();
-            getKingSquare();
-            System.out.println(kingSquare.getCurrentPiece().getColor() +" "+ kingSquare.getRank());
             return true;
         }
     }
