@@ -58,15 +58,16 @@ public class LaunchFrame extends JFrame {
         newGameButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Core.startGame();
+                /*Core.startGame();
+                setVisible(false);*/
+                PreferencesFrame preferencesFrame = Core.getPreferencesFrame();
+                preferencesFrame = new PreferencesFrame();
                 setVisible(false);
             }
         });
         newGameButtonPanel = new JPanel(new GridLayout(1, 1));
         newGameButtonPanel.setBorder(BorderFactory.createEmptyBorder(40, 50, 40, 25));
         newGameButtonPanel.add(newGameButton);
-        //This is not working properly.
-        //TODO: Find a way to start the game and load a saved file.
         loadGameButton = new JButton("Load Game");
         loadGameButton.setEnabled(true);
         loadGameButtonPanel = new JPanel(new GridLayout(1, 1));

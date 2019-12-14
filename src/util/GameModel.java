@@ -1,21 +1,13 @@
 package util;
 
 import board.Board;
-import board.Square;
 import pieces.*;
 import ui.*;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.Serializable;
-import java.lang.reflect.Array;
-import java.util.Iterator;
 import java.util.Observable;
-
-//import static board.Board.initializePromotion;
-
 
 public class GameModel extends Observable  {
 
@@ -124,7 +116,6 @@ public class GameModel extends Observable  {
     private void stopTimer() {
         whiteTimer.stop();
         blackTimer.stop();
-        // TODO-timer: stop timers
     }
 
     public BoardPanel getBoardPanel() {

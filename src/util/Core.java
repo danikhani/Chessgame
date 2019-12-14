@@ -1,13 +1,8 @@
 package util;
 
-import ui.GameFrame;
 import ui.LaunchFrame;
 import ui.PreferencesFrame;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -76,8 +71,4 @@ public class Core {
     public static boolean isInGame() {
         return inGame;
     }
-
-    /*public static void setGameModel(){
-        new SaveingAndLoading().load(gameModel);
-    }*/
 }

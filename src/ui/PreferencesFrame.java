@@ -71,8 +71,8 @@ public class PreferencesFrame extends JFrame {
         }
         switch (preferences.getGameMode()) {
             case ONLINE:
-                onlineRadioButton.setSelected(true);
-                setNetworkSettingsEnabled(true);
+                onlineRadioButton.setSelected(false);
+                setNetworkSettingsEnabled(false);
 
                 /*customPiecesCheckBox.setEnabled(true);
                 customPiecesPanel.setEnabled(true);
@@ -143,11 +143,11 @@ public class PreferencesFrame extends JFrame {
         //disableAndSelectForLecture();
     }
 
-    private void disableAndSelectForLecture() {
+    /*private void disableAndSelectForLecture() {
         // Network
         offlineRadioButton.setSelected(true);
         offlineRadioButton.setEnabled(true);
-        onlineRadioButton.setEnabled(true);
+        onlineRadioButton.setEnabled(false);
         setNetworkSettingsEnabled(false);
         // Timer
         stopwatchRadioButton.setSelected(true);
@@ -155,7 +155,7 @@ public class PreferencesFrame extends JFrame {
         customPiecesCheckBox.setEnabled(false);
         customPiecesPanel.setEnabled(false);
         aboutCustomPiecesButton.setEnabled(false);
-    }
+    }*/
 
     private void initializeBannerPanel() {
         onlineRadioButton = new JRadioButton("Online");
@@ -163,7 +163,7 @@ public class PreferencesFrame extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setGameSettingsEnabled(!joinGameRadioButton.isSelected());
-                setNetworkSettingsEnabled(true);
+                setNetworkSettingsEnabled(false);
                 settingsMyGameDoesntHave();
             }
         });
@@ -284,8 +284,8 @@ public class PreferencesFrame extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 //reverseBoardCheckBox.setSelected(true);
                 setGameSettingsEnabled(false);
-                hostIPTextField.setEnabled(true);
-                onlineRadioButton.setSelected(true);
+                hostIPTextField.setEnabled(false);
+                onlineRadioButton.setSelected(false);
 
             }
         });
@@ -381,6 +381,9 @@ public class PreferencesFrame extends JFrame {
         customPiecesCheckBox.setEnabled(false);
         customPiecesPanel.setEnabled(false);
         aboutCustomPiecesButton.setEnabled(false);
+        //online
+        onlineRadioButton.setEnabled(false);
+        setNetworkSettingsEnabled(false);
     }
 
     private void setGameSettingsEnabled(boolean b) {

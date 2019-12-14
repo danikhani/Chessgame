@@ -87,7 +87,7 @@ public class GameFrame extends JFrame implements Observer {
     private void initializeMenuBar() {
         // game menu
         newGameMenuItem = new JMenuItem("New Game");
-        newGameMenuItem.setEnabled(true);
+        newGameMenuItem.setEnabled(false);
         newGameMenuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
