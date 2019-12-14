@@ -80,6 +80,9 @@ public class GameModel extends Observable  {
                 gameFrame.showCheckDialog();
             }
         }
+        /*if(MoveValidator.isStalemate(move)){
+            gameFrame.showIsStalemateDialog();
+        }*/
     }
 
     public Piece queryPiece(char file, int rank) {

@@ -105,6 +105,7 @@ public class MoveValidator{
             kingSquare = Board.getSquare(piece.getFile(), piece.getRank());
         }
     }
+    //This avoids the move which wont help to bring the king out of check.
     public static boolean isStillChecked(Move move){
         if(isCheckMove(move)) {
             if (move.getPiece().getType() == Piece.Type.KING) {
@@ -125,7 +126,7 @@ public class MoveValidator{
         return true;
     }
     public static boolean willBeChecked(Move move){
-        //Check if by moving the piece the king will be in danger.
+        //Check if by moving the piece the king will be in danger and avoids it
         Square futureOccupiedSquare = Board.getSquare(move.getDestinationFile(), move.getDestinationRank());
         Square futureFreeSquare = Board.getSquare(move.getOriginFile(),move.getOriginRank());
         Piece futureOccupiedSquarePiece = futureOccupiedSquare.getCurrentPiece();
@@ -135,12 +136,14 @@ public class MoveValidator{
             futureOccupiedSquare.setCurrentPiece(move.getPiece());
             futureFreeSquare.setCurrentPiece(null);
             DangerPaths.setDangeredSquares();
+            getKingSquare();
             //it gets alle the pieces of other color and checks if they can attack the king
             for (Piece futureSetting : PieceSet.getAvailablePieces(MoveValidator.notCurrentMoveColor)) {
                  if (futureSetting.hasDangered(kingSquare)) {
                     futureOccupiedSquare.setCurrentPiece(futureOccupiedSquarePiece);
                     futureFreeSquare.setCurrentPiece(move.getPiece());
                     DangerPaths.setDangeredSquares();
+                    getKingSquare();
                     return false;
                 }
             }
@@ -148,6 +151,7 @@ public class MoveValidator{
             futureOccupiedSquare.setCurrentPiece(futureOccupiedSquarePiece);
             futureFreeSquare.setCurrentPiece(move.getPiece());
             DangerPaths.setDangeredSquares();
+            getKingSquare();
             return true;
         }
         else{
@@ -160,16 +164,19 @@ public class MoveValidator{
                     futureOccupiedSquare.setCurrentPiece(null);
                     futureFreeSquare.setCurrentPiece(move.getPiece());
                     DangerPaths.setDangeredSquares();
+                    getKingSquare();
+                    System.out.println(kingSquare.getCurrentPiece().getColor() +" "+ kingSquare.getRank());
                     return false;
                 }
             }
             futureOccupiedSquare.setCurrentPiece(null);
             futureFreeSquare.setCurrentPiece(move.getPiece());
             DangerPaths.setDangeredSquares();
+            getKingSquare();
+            System.out.println(kingSquare.getCurrentPiece().getColor() +" "+ kingSquare.getRank());
             return true;
         }
     }
-
 
     public static boolean isCheckMove(Move move) {
                 //System.out.println("king square of other color is " + kingSquare);

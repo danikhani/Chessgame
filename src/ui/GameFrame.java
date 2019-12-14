@@ -58,6 +58,9 @@ public class GameFrame extends JFrame implements Observer {
     public void showCheckmateDialog() {
         JOptionPane.showMessageDialog(this, "That's a Checkmate!", "Checkmate", JOptionPane.WARNING_MESSAGE);
     }
+    public void showIsStalemateDialog(){
+        JOptionPane.showMessageDialog(this, "That's a Stalemate!", "Stalemate", JOptionPane.WARNING_MESSAGE);
+    }
     //these two pop up a promotion panel and shows following options:
     private static String[] promotionOptions = { "Queen", "Knight", "Rook", "Bishop" };
     public static void showPromotionDialog() {
