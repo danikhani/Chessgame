@@ -77,7 +77,7 @@ public class BoardPanel extends JPanel implements Observer {
             draggedPieceImageLabel.setLocation(dragX, dragY);
         }
         }catch(ArrayIndexOutOfBoundsException e){
-            System.out.println("executeDrag Exception, Empty Drag");
+            System.out.println("ExecuteDrag Exception, Empty Drag");
         }
     }
 
@@ -143,8 +143,8 @@ public class BoardPanel extends JPanel implements Observer {
         }
         return false;
     }
+    //This method will put colors of red and green for indicating the possible moves.
     public void putHelperColor(Piece piece) {
-        //TODO: if the piece is king then the dangered locations shouldnt get marked. Should get fixed
         if (piece.getType() == Piece.Type.KING) {
             //get all dangered pieces of the king.
             for (Square dangered : piece.getDangered()) {
@@ -249,12 +249,6 @@ public class BoardPanel extends JPanel implements Observer {
     }
 
     private void initializePieces() {
-        /*
-        TODO-piece
-            Initialize pieces on board
-            Check following code to implement other pieces
-            Highly recommended to use same template!
-         */
         // rooks
         Iterator<Piece> whiteRooksIterator = PieceSet.getPieces(Piece.Color.WHITE, Piece.Type.ROOK).iterator();
         Iterator<Piece> blackRooksIterator = PieceSet.getPieces(Piece.Color.BLACK, Piece.Type.ROOK).iterator();

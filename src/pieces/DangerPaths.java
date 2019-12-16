@@ -10,7 +10,7 @@ import static pieces.PieceSet.getAvailablePieces;
 
 public class DangerPaths {
     private boolean inBarriers;
-
+// This removes the contents of arraylists of every piece which is still available on the board and then gives them new squares.
     public static void setDangeredSquares() {
         for (Piece piece : getAvailablePieces()) {
             piece.clearDangered();
@@ -39,7 +39,7 @@ public class DangerPaths {
             }
         }
     }
-
+    //checks everytime if the square which is going to get set in the arraylist of each piece has
     private static boolean isInBarriers(int rank, char file) {
         if (rank >= 1 && rank <= 8) {
             if (file >= 'a' && file <= 'h') {
@@ -146,7 +146,7 @@ public class DangerPaths {
             currentFile++;
         }
     }
-
+//Knight has its own special set of positions it can go.
     private static void setKnightPath(Piece piece) {
         //direction north big:
         int currentRank = piece.getRank() + 2;

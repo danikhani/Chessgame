@@ -72,7 +72,6 @@ public class GameFrame extends JFrame implements Observer {
                 null,
                 promotionOptions,
                 promotionOptions[3]);
-        System.out.println(selectedPromotionValue);
     }
 
     private void loadInterface() {

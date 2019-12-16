@@ -3,6 +3,7 @@ package util;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Timer;
+import java.lang.Object;
 
 import board.*;
 import pieces.*;
@@ -20,7 +21,12 @@ public class SaveingAndLoading {
     private static String whiteTime;
     private static String loadedBlackTime;
     private static String loadedWhiteTime;
+   /* InputStream in = this.getClass().getClassLoader()
+            .getResourceAsStream("your package path/data.txt");
+    OutputStream out = this.getClass().getClassLoader()
 
+            .getResourceAsStream("your package path/data.txt");
+*/
     public static ArrayList<Piece> getLoadedPieces(){
         return loadedPieces;
     }
@@ -59,8 +65,9 @@ public class SaveingAndLoading {
 
     private static void savePiecePosition() {
         try {
-            File file = new File("Savings/PiecePosition.txt");
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            //File jarDir = new File(SaveingAndLoading.getClassLoader().getSystemClassLoader().getResource(".").getPath());
+            //File file = new File(jarDir.toString()+"/PiecePosition.txt");
+            BufferedWriter writer = new BufferedWriter(new FileWriter("PiecePosition.txt"));
             for (Piece piece : PieceSet.getAvailablePieces()) {
                 writer.write(piece.getType() + "/");
                 writer.write(piece.getColor() + "/");
@@ -75,7 +82,10 @@ public class SaveingAndLoading {
     }
     public static void saveSetting() {
         try {
-            File file = new File("Savings/Setting.txt");
+            /*String path = SaveingAndLoading.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            System.out.println(path);
+            File jarDir = new File(ClassLoader.getSystemClassLoader().getResource(".").getPath());*/
+            File file = new File("Setting.txt");
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             writer.write(MoveValidator.currentMoveColor + "/");
             writer.write(whiteTime + "/");
@@ -90,7 +100,9 @@ public class SaveingAndLoading {
 
     public static void loadSettings() {
         try {
-            File myFile = new File("Savings/Setting.txt");
+            String path = SaveingAndLoading.class.getProtectionDomain().getCodeSource().getLocation().getPath();
+            System.out.println(path);
+            File myFile = new File("Setting.txt");
             FileReader fileReader = new FileReader(myFile);
             BufferedReader reader = new BufferedReader(fileReader);
             String line = reader.readLine();
@@ -115,7 +127,8 @@ public class SaveingAndLoading {
     }
     private static void loadPiecePosition() {
         try {
-            File myFile = new File("Savings/PiecePosition.txt");
+            File jarDir = new File(ClassLoader.getSystemClassLoader().getResource(".").getPath());
+            File myFile = new File("PiecePosition.txt");
             FileReader fileReader = new FileReader(myFile);
             BufferedReader reader = new BufferedReader(fileReader);
             String line = null;
