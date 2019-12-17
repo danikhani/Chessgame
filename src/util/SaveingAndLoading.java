@@ -2,15 +2,10 @@ package util;
 
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.lang.Object;
+import java.util.Scanner;
 
-import board.*;
 import pieces.*;
-import ui.*;
-import util.*;
 
-import javax.swing.*;
 
 
 public class SaveingAndLoading {
@@ -59,7 +54,7 @@ public class SaveingAndLoading {
 
     private static void savePiecePosition() {
         try {
-            BufferedWriter writer = new BufferedWriter(new FileWriter("./PiecePosition.txt"));
+            PrintWriter writer = new PrintWriter(new FileOutputStream("./PiecePosition.txt"));
             for (Piece piece : PieceSet.getAvailablePieces()) {
                 writer.write(piece.getType() + "/");
                 writer.write(piece.getColor() + "/");
@@ -74,7 +69,7 @@ public class SaveingAndLoading {
     public static void saveSetting() {
         try {
             File file = new File("./Setting.txt");
-            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            PrintWriter writer = new PrintWriter(new FileOutputStream(file));
             writer.write(MoveValidator.currentMoveColor + "/");
             writer.write(whiteTime + "/");
             writer.write(blackTime + "/");
@@ -87,10 +82,9 @@ public class SaveingAndLoading {
 
     public static void loadSettings() {
         try {
-            File myFile = new File("./Setting.txt");
-            FileReader fileReader = new FileReader(myFile);
-            BufferedReader reader = new BufferedReader(fileReader);
-            String line = reader.readLine();
+            Scanner reader = new Scanner(
+                    new FileInputStream("./Setting.txt"));
+            String line = reader.nextLine();
             String[] result = line.split("/");
 
             if (result[0].equals("WHITE")) {
@@ -112,19 +106,17 @@ public class SaveingAndLoading {
     }
     private static void loadPiecePosition() {
         try {
-            File myFile = new File("./PiecePosition.txt");
-            FileReader fileReader = new FileReader(myFile);
-            BufferedReader reader = new BufferedReader(fileReader);
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                makePieceObjects(line);
+            Scanner reader = new Scanner(
+                    new FileInputStream("./PiecePosition.txt"));
+            while (reader.hasNext()) {
+                makePieceObjects(reader.next());
             }
             reader.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-    //This splits the loaded string
+    //This makes objects out of read lines.
     private static void makePieceObjects(String lineToParse) {
         String[] result = lineToParse.split("/");
         Piece.Type type = null;
