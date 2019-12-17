@@ -168,8 +168,6 @@ public class GameModel extends Observable  {
         //set current colors:
         MoveValidator.setCurrentMoveColor(SaveingAndLoading.getLoadedCurrentColor());
         MoveValidator.setNotCurrentMoveColor(SaveingAndLoading.getLoadedNotCurrentColor());
-        System.out.println("current move " +  MoveValidator.currentMoveColor);
-        System.out.println("not current move "+ MoveValidator.notCurrentMoveColor);
         MoveValidator.getKingSquare();
        //load time
         stopTimer();
