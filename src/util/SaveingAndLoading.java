@@ -21,12 +21,7 @@ public class SaveingAndLoading {
     private static String whiteTime;
     private static String loadedBlackTime;
     private static String loadedWhiteTime;
-   /* InputStream in = this.getClass().getClassLoader()
-            .getResourceAsStream("your package path/data.txt");
-    OutputStream out = this.getClass().getClassLoader()
 
-            .getResourceAsStream("your package path/data.txt");
-*/
     public static ArrayList<Piece> getLoadedPieces(){
         return loadedPieces;
     }
@@ -51,7 +46,6 @@ public class SaveingAndLoading {
     public static String getLoadedWhiteTime(){
         return loadedWhiteTime;
     }
-// This will save the position of each piece and adds it to a file.
 
     //THis will load the position from the text file and makes a long string out of it.
     public static void loadGame(){
@@ -65,9 +59,7 @@ public class SaveingAndLoading {
 
     private static void savePiecePosition() {
         try {
-            //File jarDir = new File(SaveingAndLoading.getClassLoader().getSystemClassLoader().getResource(".").getPath());
-            //File file = new File(jarDir.toString()+"/PiecePosition.txt");
-            BufferedWriter writer = new BufferedWriter(new FileWriter("PiecePosition.txt"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("./PiecePosition.txt"));
             for (Piece piece : PieceSet.getAvailablePieces()) {
                 writer.write(piece.getType() + "/");
                 writer.write(piece.getColor() + "/");
@@ -77,21 +69,16 @@ public class SaveingAndLoading {
             writer.close();
         } catch (IOException ex) {
             System.out.println("couldn’t write the String out");
-            //ex.printStackTrace();
         }
     }
     public static void saveSetting() {
         try {
-            /*String path = SaveingAndLoading.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-            System.out.println(path);
-            File jarDir = new File(ClassLoader.getSystemClassLoader().getResource(".").getPath());*/
-            File file = new File("Setting.txt");
+            File file = new File("./Setting.txt");
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             writer.write(MoveValidator.currentMoveColor + "/");
             writer.write(whiteTime + "/");
             writer.write(blackTime + "/");
             writer.write(MoveValidator.notCurrentMoveColor + "/");
-
             writer.close();
         } catch (IOException ex) {
             System.out.println("couldn’t write the String out");
@@ -100,9 +87,7 @@ public class SaveingAndLoading {
 
     public static void loadSettings() {
         try {
-            String path = SaveingAndLoading.class.getProtectionDomain().getCodeSource().getLocation().getPath();
-            System.out.println(path);
-            File myFile = new File("Setting.txt");
+            File myFile = new File("./Setting.txt");
             FileReader fileReader = new FileReader(myFile);
             BufferedReader reader = new BufferedReader(fileReader);
             String line = reader.readLine();
@@ -127,8 +112,7 @@ public class SaveingAndLoading {
     }
     private static void loadPiecePosition() {
         try {
-            File jarDir = new File(ClassLoader.getSystemClassLoader().getResource(".").getPath());
-            File myFile = new File("PiecePosition.txt");
+            File myFile = new File("./PiecePosition.txt");
             FileReader fileReader = new FileReader(myFile);
             BufferedReader reader = new BufferedReader(fileReader);
             String line = null;
