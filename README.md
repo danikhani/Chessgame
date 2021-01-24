@@ -2,7 +2,7 @@
 
 ## Summary
 This is term project of Computer science (2019 Fall) of Yonsei University(YSU). 
-It have been tested and can be compiled and runes JDK 11.
+It has been tested and can be compiled by JDK 11.
 
 ![checkmate](pictures/checkmate.gif)
 
@@ -26,7 +26,7 @@ But since I have added the compiled folder. You can run /out/production/Chessgam
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 Please make sure to update tests as appropriate.
 ## Authors:
-* **Danial Hezarkhani**
+* **Dani**
 ## License
 "THE BEER-WARE LICENSE"
 
